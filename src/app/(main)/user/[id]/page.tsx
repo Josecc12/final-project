@@ -1,11 +1,10 @@
-
-import { FormNewUser } from "./form-new-user";
+import UserDetail from "../[id]/user-detail";
 
 
 export default function Page(){
     return(
         <div className="w-full">
-            <FormNewUser/>
+            <UserDetail/>
         </div>
     )
 }
