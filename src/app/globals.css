@@ -61,3 +61,15 @@
     --chart-5: 340 75% 55%;
   }
 }
+
+
+.table-fixed {
+  table-layout: fixed;
+  width: 100%;
+}
+.table-fixed td,
+.table-fixed th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

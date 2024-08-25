@@ -12,7 +12,7 @@ export default function MainNav() {
           className="items-center gap-2 font-bold hidden lg:flex"
           prefetch={false}
         >
-          <span className="text-lg">Centro de Salud</span>
+          <span className="text-lg">Centro de Salud Gutemala</span>
         </Link>
         <nav className="space-y-1">
           <Link
@@ -24,7 +24,7 @@ export default function MainNav() {
             Home
           </Link>
           <Link
-            href="#"
+            href="/inventory"
             className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-50"
             prefetch={false}
           >
@@ -32,12 +32,12 @@ export default function MainNav() {
             Products
           </Link>
           <Link
-            href="#"
+            href="users"
             className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-50"
             prefetch={false}
           >
             <UsersIcon className="h-5 w-5" />
-            Customers
+            Usuarios
           </Link>
           <Link
             href="#"

@@ -13,9 +13,9 @@ type Props = {
 export default function Dashboard({ children }: Props) {
   return (
     <div className="flex min-h-screen w-full">
-      <div className="hidden lg:block lg:w-64 lg:shrink-0 lg:border-r lg:bg-gray-50/40 dark:lg:bg-gray-800">
+      <div className="hidden lg:block lg:w-64 lg:shrink-0 lg:border-r lg:bg-gray-50/40 dark:lg:bg-gray-800 max-h-screen sticky top-0">
         <div className="flex h-full flex-col justify-between py-6 px-4">
-          <div className="space-y-6 h-full flex flex-col justify-between">
+          <div className="space-y-6 h-full flex flex-col justify-between ">
             <MainNav />
           </div>
         </div>
@@ -28,16 +28,15 @@ export default function Dashboard({ children }: Props) {
               className="flex items-center gap-2 font-bold"
               prefetch={false}
             >
-             
               <span className="text-lg">Centro de Salud</span>
             </Link>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
-                  <AlignJustify  className="h-6 w-6" />
+                  <AlignJustify className="h-6 w-6" />
                   <span className="sr-only">Toggle navigation</span>
                 </Button>
-              </SheetTrigger> 
+              </SheetTrigger>
               <SheetContent side="left" className="w-64">
                 <div className="flex h-full flex-col justify-between pt-5">
                   <MainNav />
@@ -46,10 +45,8 @@ export default function Dashboard({ children }: Props) {
             </Sheet>
           </div>
         </header>
-        <main className="overflow-y-scroll max-h-screen">{children}</main>
+        <main className="min-h-screen">{children}</main>
       </div>
     </div>
   );
 }
-
-
