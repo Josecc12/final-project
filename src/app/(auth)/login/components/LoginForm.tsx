@@ -1,63 +1,133 @@
+"use client";
+
+import { Login } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Link from "next/link";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Activity } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useRouter } from "next/navigation";
+
+const loginSchema = z.object({
+  username: z.string().min(4, "El email debe tener al menos 4 caracteres"),
+  password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+});
+
+type LoginFormInputs = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
+  const form = useForm<LoginFormInputs>({
+    mode: "onChange",
+    resolver: zodResolver(loginSchema),
+  });
+
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    control,
+  } = form;
+
+  const onSubmit = async (data: LoginFormInputs) => {
+    console.log(data);
+    const response = await Login(data);
+    if (response.status !== 201) {
+      setError("username", {
+        type: "manual",
+        message: "Credenciales inválidas",
+      });
+    }
+    if (response.status === 201) {
+      router.push("/");
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800 items-center">
       <div className="w-full max-w-[400px] mx-auto space-y-4">
         <header className="flex flex-col items-center space-y-2 p-10">
           <div className="flex items-center space-x-2">
-            <ActivityIcon className="w-8 h-8" />
+            <Activity className="w-8 h-8" />
             <span className="text-2xl font-bold">Centro de Salud</span>
           </div>
-          <h1 className="text-3xl font-bold">Login</h1>
+
           <p className="text-gray-500 dark:text-gray-400">
             Ingresa tus credenciales
           </p>
         </header>
-        <div className="grid gap-4 px-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" placeholder="Enter your email" required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              required
+        <Form {...form}>
+          <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 px-4">
+            <FormField
+              control={control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="username">Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="username"
+                      placeholder="Enter your email"
+                      {...field}
+                      aria-invalid={errors.username ? "true" : "false"}
+                    />
+                  </FormControl>
+                  <FormMessage>
+                    {errors.username && (
+                      <p className="text-red-500 text-sm">
+                        {errors.username.message}
+                      </p>
+                    )}
+                  </FormMessage>
+                </FormItem>
+              )}
             />
-          </div>
-
-          <Link href="#" className="w-full" prefetch={false}>
-            <Button variant="default" className="justify-center w-full">
+            <FormField
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Enter your password"
+                      {...field}
+                      aria-invalid={errors.password ? "true" : "false"}
+                    />
+                  </FormControl>
+                  <FormMessage>
+                    {errors.password && (
+                      <p className="text-red-500 text-sm">
+                        {errors.password.message}
+                      </p>
+                    )}
+                  </FormMessage>
+                </FormItem>
+              )}
+            />
+            <Button
+              type="submit"
+              variant="default"
+              className="justify-center w-full"
+            >
               Login
             </Button>
-          </Link>
-        </div>
+          </form>
+        </Form>
       </div>
     </div>
-  );
-}
-
-function ActivityIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
-    </svg>
   );
 }

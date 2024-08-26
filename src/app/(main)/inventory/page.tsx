@@ -25,7 +25,7 @@ import {
 import clsx from "clsx";
 import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const medicalSupplies = [
   {
@@ -102,7 +102,7 @@ const medicalSupplies = [
 
 export default function Page() {
   const router = useRouter();
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
   const onPageChange = (page: number) => {
     router.push("inventory/?page=" + page);
