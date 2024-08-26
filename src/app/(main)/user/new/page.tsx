@@ -1,4 +1,6 @@
+
 import LayoutSection from "@/components/LayoutSection";
+
 import { FormNewUser } from "./form-new-user";
 
 export default function Page() {
