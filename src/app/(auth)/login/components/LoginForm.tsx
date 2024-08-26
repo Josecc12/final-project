@@ -10,7 +10,7 @@ import axios from "axios";
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -19,14 +19,16 @@ export function LoginForm() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    
+
     try {
-      console.log("email",email, "userma,e",username,"password", password);
+      console.log("email", email, "username", "Juanito", "password", password);
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-        username,
+        username: "Admin",
         password,
       });
       if (response.status === 201) {
+        const token = response.data.access_token;       ;
+        localStorage.setItem("token", token);
         router.push("/");
       } else {
         setError("Invalid credentials, please try again.");
@@ -65,17 +67,23 @@ export function LoginForm() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value)
-                setUsername("Admin");
-              }}
-              placeholder="Enter your password"
-              required
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 px-3 py-2"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <Button
@@ -110,5 +118,3 @@ function ActivityIcon(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
-
