@@ -1,9 +1,43 @@
+'use client';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
+import { parsedEnv } from "@/app/env";
+import axios from "axios";
 
 export function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    
+    try {
+      console.log("email",email, "userma,e",username,"password", password);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+        username,
+        password,
+      });
+      if (response.status === 201) {
+        router.push("/");
+      } else {
+        setError("Invalid credentials, please try again.");
+      }
+    } catch (err) {
+      setError("An error occurred, please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800 items-center">
       <div className="w-full max-w-[400px] mx-auto space-y-4">
@@ -17,33 +51,48 @@ export function LoginForm() {
             Ingresa tus credenciales
           </p>
         </header>
-        <div className="grid gap-4 px-4">
+        <form onSubmit={handleSubmit} className="grid gap-4 px-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" placeholder="Enter your email" required />
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <Input
               id="password"
               type="password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value)
+                setUsername("Admin");
+              }}
               placeholder="Enter your password"
               required
             />
           </div>
-
-          <Link href="#" className="w-full" prefetch={false}>
-            <Button variant="default" className="justify-center w-full">
-              Login
-            </Button>
-          </Link>
-        </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <Button
+            type="submit"
+            variant="default"
+            className="justify-center w-full"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </Button>
+        </form>
       </div>
     </div>
   );
 }
 
-function ActivityIcon(props) {
+function ActivityIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -61,3 +110,5 @@ function ActivityIcon(props) {
     </svg>
   );
 }
+
+
