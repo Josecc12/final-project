@@ -1,4 +1,3 @@
-import { MenuIcon } from "@/components/icons";
 import MainNav from "@/components/navigation/MainNav";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -11,6 +10,8 @@ type Props = {
 };
 
 export default function Dashboard({ children }: Props) {
+
+  
   return (
     <div className="flex min-h-screen w-full">
       <div className="hidden lg:block lg:w-64 lg:shrink-0 lg:border-r lg:bg-gray-50/40 dark:lg:bg-gray-800 max-h-screen sticky top-0">
