@@ -2,7 +2,7 @@
 
 import LayoutSection from "@/components/LayoutSection";
 import SearchBar from "./components/SearchBar";
-
+import {DeleteModal} from './components/Delete'
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -23,9 +23,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import clsx from "clsx";
-import { EllipsisVertical } from "lucide-react";
+import {EllipsisVertical } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 const medicalSupplies = [
   {
@@ -100,13 +101,29 @@ const medicalSupplies = [
   },
 ];
 
+type MedicalSupply = {
+  id: number;
+  quantity: number;
+  description: string;
+  category: string;
+  inStock: boolean;
+}
+
 export default function Page() {
-  const router = useRouter();
+  const router       = useRouter();
   const searchParams = useSearchParams()
-  const currentPage = Number(searchParams.get("page")) || 1;
+  const currentPage  = Number(searchParams.get("page")) || 1;
   const onPageChange = (page: number) => {
     router.push("inventory/?page=" + page);
   };
+
+  const [selectedSupply, setSelectedSupply] = useState<MedicalSupply | null>(null);
+
+  function handleEditClick(supply: MedicalSupply){
+    setSelectedSupply(supply)
+    router.push(`inventory/edit/${supply.id}`)
+  }
+
 
   return (
     <LayoutSection
@@ -132,7 +149,7 @@ export default function Page() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {medicalSupplies.map((supply) => (
+              {medicalSupplies.map((supply: MedicalSupply) => (
                 <TableRow key={supply.id}>
                   <TableCell className="w-[100px] hidden md:table-cell">
                     {supply.quantity}
@@ -167,10 +184,10 @@ export default function Page() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                        <DropdownMenuItem>
-                          <Link href="/">Editar</Link>
+                        <DropdownMenuItem onClick={()=> handleEditClick(supply)}>
+                          Editar
                         </DropdownMenuItem>
-                        <DropdownMenuItem>Eliminar</DropdownMenuItem>
+                        <DeleteModal {... supply}/>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
