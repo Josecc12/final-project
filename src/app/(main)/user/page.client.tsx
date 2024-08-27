@@ -2,16 +2,15 @@
 
 import LayoutSection from "@/components/LayoutSection";
 
-
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { PaginationComponent } from "@/components/ui/pagination";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { useRouter, useSearchParams } from "next/navigation";
 import SearchBar from "../inventory/components/SearchBar";
@@ -42,18 +41,18 @@ const users = [
     createdAt: "2024-08-26T06:02:49.489Z",
     updatedAt: "2024-08-26T06:02:49.489Z",
     is_Active: true,
-    password: "$2b$10$abc123456789X9NNVIbaSfWSKiOFcunltCiPUfEyyv1hNpqx/tc.CDCfqi",
+    password:
+      "$2b$10$abc123456789X9NNVIbaSfWSKiOFcunltCiPUfEyyv1hNpqx/tc.CDCfqi",
     role: {
       id: 2,
       name: "Enfermero",
     },
   },
-
 ];
 
 type Props = {
-    users: User[];
-}
+  users: User[];
+};
 
 export default function PageClient({ users }: Props) {
   const router = useRouter();
@@ -63,10 +62,9 @@ export default function PageClient({ users }: Props) {
     router.push("users/?page=" + page);
   };
 
-  const onRow = (id:number)=>{
-    console.log('ud')
-    router.push(`user/${id}`)
-  }
+  const onRow = (id: number) => {
+    router.push(`user/${id}`);
+  };
 
   return (
     <LayoutSection
@@ -74,7 +72,7 @@ export default function PageClient({ users }: Props) {
       description="Lista de usuarios, mostrando solo el correo y el rol asignado."
     >
       <SearchBar />
-  
+
       <Card>
         <CardContent className="px-0">
           <Table className="overflow-hidden">
@@ -83,16 +81,14 @@ export default function PageClient({ users }: Props) {
                 <TableHead className="cursor-pointer">Email</TableHead>
                 <TableHead className="cursor-pointer">UserName</TableHead>
                 <TableHead className="cursor-pointer">Rol</TableHead>
-               
               </TableRow>
             </TableHeader>
             <TableBody>
               {users.map((user) => (
-                <TableRow key={user.id} onClick={()=>onRow(user.id)}>
+                <TableRow key={user.id} onClick={() => onRow(user.id)}>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.role.name}</TableCell>
-            
                 </TableRow>
               ))}
             </TableBody>

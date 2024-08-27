@@ -21,7 +21,6 @@ export default async function update({
     const url = `${parsedEnv.API_URL}/users/${id}`;
     const session = cookies().get("session")?.value;
 
-    console.log('password',password)
     const body = {
       name,
       lastname,
@@ -30,6 +29,7 @@ export default async function update({
       password: password || undefined,
       roleId,
     };
+
 
     const response = await axios.patch<User>(url, body, {
       headers: {
