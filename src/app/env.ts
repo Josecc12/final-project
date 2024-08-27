@@ -1,8 +1,8 @@
-
-import { z } from 'zod';
+import { z } from "zod";
 
 const envSchema = z.object({
-    NEXT_PUBLIC_API_URL: z.string(),
+  NEXT_PUBLIC_API_URL: z.string(),
+  API_URL: z.string(),
 });
 
 export const parsedEnv = envSchema.parse(process.env);

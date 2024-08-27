@@ -4,6 +4,7 @@ import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../types/api";
 import { LoginDto } from "../types/dto/auth";
 import { cookies } from "next/headers";
+import { parsedEnv } from "@/app/env";
 
 type LoginResponse = {
   access_token: string;
@@ -14,18 +15,15 @@ export default async function Login({
   password,
 }: LoginDto): Promise<SuccessReponse<string> | ErrorResponse> {
   try {
-    const response = await axios.post<LoginResponse>(
-      "https://hospital-backend-production.up.railway.app/auth/login",
-      {
-        username,
-        password,
-      }
-    );
+    const url = parsedEnv.API_URL + "/auth/login";
+    const response = await axios.post<LoginResponse>(url, {
+      username,
+      password,
+    });
 
     const token = response.data.access_token;
 
-    // Establecer la cookie
-    cookies().set("auth_token", token, {
+    cookies().set("session", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24 * 7,
@@ -34,7 +32,7 @@ export default async function Login({
 
     return {
       data: "Logged in",
-      status: response.status,
+      status: 200,
       statusText: response.statusText,
     };
   } catch (error) {

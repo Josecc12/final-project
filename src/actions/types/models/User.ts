@@ -1,3 +1,4 @@
+import Role from "./Role"
 
 
 type User = {
@@ -8,6 +9,7 @@ type User = {
     email: string
     createdAt: string
     updatedAt:string
+    role : Role
 }
 
 export default User

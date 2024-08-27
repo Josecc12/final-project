@@ -4,13 +4,22 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { AlignJustify } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
+import { getSession } from "../../actions/auth";
+import { redirect } from "next/navigation";
 
 type Props = {
   children: ReactNode;
 };
 
-export default function Dashboard({ children }: Props) {
+export default async function Dashboard({ children }: Props) {
 
+
+  const session =  await getSession()
+  if(!session) {
+    return redirect('/login')
+  }
+
+  console.log(session, "session")
   
   return (
     <div className="flex min-h-screen w-full">
