@@ -13,6 +13,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useRef } from "react";
+import DialogVisits from "./components/DialogVisits";
+import DrawerVisits from "./components/DrawerVisits";
 
 const patients = [
   {
@@ -53,6 +56,21 @@ const patients = [
 ];
 
 export default function Page() {
+  const ref = useRef<HTMLElement>(null);
+  const dialogRef = useRef<HTMLElement>(null);
+
+  const handleClick = () => {
+    if (window.innerWidth < 768) {
+      if (ref.current) {
+        ref.current.click();
+      }
+    }else{
+      if (dialogRef.current) {
+        dialogRef.current.click();
+      }
+    }
+  };
+
   return (
     <LayoutSection
       title="Pacientes"
@@ -74,7 +92,7 @@ export default function Page() {
             </TableHeader>
             <TableBody>
               {patients.map((patient) => (
-                <TableRow key={patient.id}>
+                <TableRow key={patient.id} onClick={handleClick}>
                   <TableCell>{patient.dpi}</TableCell>
                   <TableCell>{patient.name}</TableCell>
 
@@ -98,6 +116,10 @@ export default function Page() {
           <PaginationComponent page={1} totalPages={10} />
         </CardFooter>
       </Card>
+      <div className="hidden">
+        <DrawerVisits ref={ref} />
+        <DialogVisits ref={dialogRef} />
+      </div>
     </LayoutSection>
   );
 }

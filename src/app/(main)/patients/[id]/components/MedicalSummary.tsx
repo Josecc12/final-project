@@ -8,8 +8,8 @@ import { Typography } from "@/components/ui/Typography";
 
 export function MedicalSummary() {
   return (
-    <div className="w-full flex flex-col gap-3 xl:gap-4 px-3">
-      <Typography variant="h5" className="px-6">
+    <div className="w-full flex flex-col gap-3 xl:gap-4 ">
+      <Typography variant="h5" className="">
         17/12/3 - Doctor Sample
       </Typography>
       <Accordion
@@ -18,8 +18,8 @@ export function MedicalSummary() {
         defaultValue="sicknes"
         className="w-full"
       >
-        <AccordionItem value="sicknes">
-          <AccordionTrigger className="flex items-center justify-between px-6 py-4">
+        <AccordionItem value="sicknes" className="px-0">
+          <AccordionTrigger className="flex items-center justify-between  py-4">
             <Typography variant="h4" className="text-balance text-left">
               Padecimintos{" "}
               <span className="text-sm text-muted-foreground">
@@ -28,7 +28,7 @@ export function MedicalSummary() {
             </Typography>
             <div className="h-5 w-5 transition-transform duration-300 [&[data-state=open]]:rotate-180" />
           </AccordionTrigger>
-          <AccordionContent className=" px-6 pb-4 flex flex-col gap-y-4">
+          <AccordionContent className=" pb-4 flex flex-col gap-y-4">
             <ul className="list-inside list-disc">
               <li className="font-mediumtext-sm">COVID-19</li>
               <li className="font-medium text-sm">Gripe</li>
@@ -36,11 +36,11 @@ export function MedicalSummary() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="symptoms">
-          <AccordionTrigger className="flex items-center justify-between px-6 py-4">
+          <AccordionTrigger className="flex items-center justify-between  py-4">
             <h3 className="text-lg font-semibold">Síntomas</h3>
             <div className="h-5 w-5 transition-transform duration-300 [&[data-state=open]]:rotate-180" />
           </AccordionTrigger>
-          <AccordionContent className="space-y-4 px-6 pb-4">
+          <AccordionContent className="space-y-4 pb-4">
             <div>
               <h4 className="text-sm font-medium">Fiebre</h4>
               <p className="text-muted-foreground">
@@ -64,11 +64,11 @@ export function MedicalSummary() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="treatment">
-          <AccordionTrigger className="flex items-center justify-between px-6 py-4">
+          <AccordionTrigger className="flex items-center justify-between py-4">
             <h3 className="text-lg font-semibold">Tratamiento</h3>
             <div className="h-5 w-5 transition-transform duration-300 [&[data-state=open]]:rotate-180" />
           </AccordionTrigger>
-          <AccordionContent className="space-y-4 px-6 pb-4">
+          <AccordionContent className="space-y-4  pb-4">
             <div>
               <h4 className="text-sm font-medium">Medicación</h4>
               <p className="text-muted-foreground">
@@ -86,11 +86,11 @@ export function MedicalSummary() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="medications">
-          <AccordionTrigger className="flex items-center justify-between px-6 py-4">
+          <AccordionTrigger className="flex items-center justify-between py-4">
             <h3 className="text-lg font-semibold">Medicamentos y dosis</h3>
             <div className="h-5 w-5 transition-transform duration-300 [&[data-state=open]]:rotate-180" />
           </AccordionTrigger>
-          <AccordionContent className="space-y-4 px-6 pb-4">
+          <AccordionContent className="space-y-4  pb-4">
             <div>
               <h4 className="text-sm font-medium">Paracetamol</h4>
               <p className="text-muted-foreground">
@@ -106,11 +106,11 @@ export function MedicalSummary() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="notes">
-          <AccordionTrigger className="flex items-center justify-between px-6 py-4">
+          <AccordionTrigger className="flex items-center justify-between  py-4">
             <h3 className="text-lg font-semibold">Anotaciones</h3>
             <div className="h-5 w-5 transition-transform duration-300 [&[data-state=open]]:rotate-180" />
           </AccordionTrigger>
-          <AccordionContent className="space-y-4 px-6 pb-4">
+          <AccordionContent className="space-y-4  pb-4">
             <div>
               <h4 className="text-sm font-medium">Evolución</h4>
               <p className="text-muted-foreground">
