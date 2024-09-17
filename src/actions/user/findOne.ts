@@ -1,10 +1,11 @@
 "use server";
 
 import axios, { isAxiosError } from "axios";
-import { ErrorResponse, SuccessReponse } from "../types/api";
-import { User } from "../types/models";
+import { ErrorResponse, SuccessReponse } from "../../app/types/api";
+
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
+import { User } from "@/app/types/models";
 
 export default async function findOne(
   id: number

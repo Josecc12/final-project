@@ -1,20 +1,17 @@
-import React, { forwardRef, useRef } from "react";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
+  DrawerTrigger
 } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
+import { forwardRef } from "react";
 import VisitsOption from "./VisitisOption";
 
-const DrawerVisits = forwardRef((props, ref) => (
+const DrawerVisits = forwardRef<HTMLElement>((props, ref) => (
   <Drawer>
-    <DrawerTrigger ref={ref}>Open</DrawerTrigger>
+    <DrawerTrigger ref={ref as React.LegacyRef<HTMLButtonElement>}>Open</DrawerTrigger>
     <DrawerContent>
       <DrawerHeader>
         <DrawerTitle>Historial de visitas medicas</DrawerTitle>

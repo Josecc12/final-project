@@ -13,8 +13,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useRouter, useSearchParams } from "next/navigation";
-import SearchBar from "../inventory/components/SearchBar";
-import { User } from "@/actions/types/models";
+import SearchBar from "../../../components/navigation/SearchBar";
+import { User } from "@/app/types/models";
+import { Pagination } from "@/app/types/api";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const users = [
   {
@@ -52,17 +55,37 @@ const users = [
 
 type Props = {
   users: User[];
+  pagination?: Pagination;
 };
 
-export default function PageClient({ users }: Props) {
+export default function PageClient({
+  users,
+  pagination = {
+    totalItems: 1,
+    totalPages: 1,
+    page: 1,
+  },
+}: Props) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get("page")) || 1;
+
   const onPageChange = (page: number) => {
-    router.push("users/?page=" + page);
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    params.set("page", page.toString());
+    router.push(`${url.pathname}?${params.toString()}`);
   };
 
-  const onRow = (id: number) => {
+  const onSearch = (value: string) => {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    params.set("query", value);
+    router.push(`${url.pathname}?${params.toString()}`);
+    if (value === "") {
+      router.push(`${url.pathname}`);
+    }
+  };
+
+  const onRow = (id: string) => {
     router.push(`user/${id}`);
   };
 
@@ -70,8 +93,13 @@ export default function PageClient({ users }: Props) {
     <LayoutSection
       title="Usuarios"
       description="Lista de usuarios, mostrando solo el correo y el rol asignado."
+      actions={
+        <Button variant="default" asChild className="self-end">
+          <Link href={`/user/new`}>Agregar Uusario</Link>
+        </Button>
+      }
     >
-      <SearchBar />
+      <SearchBar onSearch={onSearch} />
 
       <Card>
         <CardContent className="px-0">
@@ -96,8 +124,8 @@ export default function PageClient({ users }: Props) {
         </CardContent>
         <CardFooter>
           <PaginationComponent
-            page={currentPage}
-            totalPages={10}
+            page={pagination.page}
+            totalPages={pagination.totalPages}
             onPageChange={onPageChange}
           />
         </CardFooter>

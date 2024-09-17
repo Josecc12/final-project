@@ -1,7 +1,7 @@
 "use client";
 
 import LayoutSection from "@/components/LayoutSection";
-import SearchBar from "./components/SearchBar";
+import SearchBar from "../../../components/navigation/SearchBar";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

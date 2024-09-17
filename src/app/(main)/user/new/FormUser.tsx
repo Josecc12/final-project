@@ -20,7 +20,8 @@ import {
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 import schema from "./schema";
-import Role from "@/actions/types/models/Role";
+import Role from "@/app/types/models/Role";
+
 
 type UserFormInputs = z.infer<typeof schema>;
 

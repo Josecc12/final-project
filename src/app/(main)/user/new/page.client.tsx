@@ -7,13 +7,14 @@ import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
 
-import Role from "@/actions/types/models/Role";
+
 import FormUser from "./FormUser";
 import create from "@/actions/user/create";
-import { UserDto } from "@/actions/types/dto/user";
+import { UserDto } from "@/app/types/dto/user";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { ErrorResponse } from "@/actions/types/api";
+import { ErrorResponse } from "@/app/types/api";
+import Role from "@/app/types/models/Role";
 
 const schema = z.object({
   firstName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
@@ -56,7 +57,7 @@ export default function PageClient({ roles }: Props) {
       username: data.username,
       email: data.email,
       password: data.password,
-      roleId: parseInt(data.role),
+      roleId: data.role,
     };
 
     const response = await create(userDto);

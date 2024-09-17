@@ -3,10 +3,11 @@
 import { parsedEnv } from "@/app/env";
 import axios, { isAxiosError } from "axios";
 import { cookies } from "next/headers";
-import { ErrorResponse, SuccessReponse } from "../types/api";
-import { UserDto } from "../types/dto/user";
-import { User } from "../types/models";
+import { ErrorResponse, SuccessReponse } from "../../app/types/api";
+import { UserDto } from "../../app/types/dto/user";
+
 import { revalidatePath } from "next/cache";
+import { User } from "@/app/types/models";
 
 export default async function create({
   name,

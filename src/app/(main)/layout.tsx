@@ -19,7 +19,6 @@ export default async function Dashboard({ children }: Props) {
     return redirect('/login')
   }
 
-  console.log(session, "session")
   
   return (
     <div className="flex min-h-screen w-full">

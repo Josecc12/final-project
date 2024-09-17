@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import { ErrorResponse } from "@/actions/types/api";
+import { ErrorResponse } from "@/app/types/api";
 
 const loginSchema = z.object({
   username: z.string().min(4, "El email debe tener al menos 4 caracteres"),
@@ -47,7 +47,7 @@ export function LoginForm() {
     const response = await Login(data);
     console.log(response);
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       router.push("/");
       toast({
         duration: 3000,
@@ -91,11 +91,11 @@ export function LoginForm() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="username">Email</FormLabel>
+                  <FormLabel htmlFor="username">Usuario</FormLabel>
                   <FormControl>
                     <Input
                       id="username"
-                      placeholder="Enter your email"
+                      placeholder="Ingresa tu usuario"
                       {...field}
                       aria-invalid={errors.username ? "true" : "false"}
                     />
@@ -115,12 +115,12 @@ export function LoginForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <FormLabel htmlFor="password">Contraseña</FormLabel>
                   <FormControl>
                     <Input
                       id="password"
                       type="password"
-                      placeholder="Enter your password"
+                      placeholder="Ingresa tu contraseña"
                       {...field}
                       aria-invalid={errors.password ? "true" : "false"}
                     />

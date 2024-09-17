@@ -2,7 +2,7 @@ import Role from "./Role"
 
 
 type User = {
-    id: number
+    id: string
     name: string
     lastname: string
     username: string

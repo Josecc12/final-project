@@ -4,16 +4,12 @@ import { decodeJwt } from "jose";
 import { cookies } from "next/headers";
 
 type Payload = {
-  cusId: string;
-  exp: number;
-  firstname: string;
-  groups: string[];
+  sub: string;
+  name: string;
+
   iat: number;
-  iss: string;
-  jti: string;
-  lastname: string;
-  upn: string;
-  usr: number;
+  role: string;
+  exp: number;
 };
 
 function decrypt(input: string) {

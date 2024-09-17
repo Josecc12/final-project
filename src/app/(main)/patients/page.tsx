@@ -1,7 +1,7 @@
 "use client";
 
 import LayoutSection from "@/components/LayoutSection";
-import SearchBar from "./components/SearchBar";
+
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { PaginationComponent } from "@/components/ui/pagination";
@@ -16,6 +16,7 @@ import {
 import { useRef } from "react";
 import DialogVisits from "./components/DialogVisits";
 import DrawerVisits from "./components/DrawerVisits";
+import SearchBar from "@/components/navigation/SearchBar";
 
 const patients = [
   {

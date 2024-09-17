@@ -5,13 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { User } from "@/actions/types/models";
-import Role from "@/actions/types/models/Role";
+
 import update from "@/actions/user/update";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
-import FormUser from "../../new/FormUser";
 import { useRouter } from "next/navigation";
+import FormUser from "../../new/FormUser";
+import Role from "@/app/types/models/Role";
+import { User } from "@/app/types/models";
 
 const schema = z.object({
   firstName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
@@ -50,7 +51,7 @@ export default function PageClient({ roles, user }: Props) {
   const onSubmit = async (data: UserFormInputs) => {
     const response = await update({
       ...data,
-      roleId: parseInt(data.role, 10),
+      roleId: data.role,
       id: user.id,
       name: data.firstName,
       lastname: data.lastName,

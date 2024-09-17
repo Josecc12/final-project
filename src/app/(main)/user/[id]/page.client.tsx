@@ -1,4 +1,5 @@
-import { User } from "@/actions/types/models";
+
+import { User } from "@/app/types/models";
 import LayoutSection from "@/components/LayoutSection";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

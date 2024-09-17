@@ -65,7 +65,7 @@ const PaginationPrevious = ({
     {...props}
   >
     <ChevronLeft className="h-4 w-4" />
-    <span>Previous</span>
+    <span>Anterior</span>
   </PaginationButton>
 );
 
@@ -79,7 +79,7 @@ const PaginationNext = ({
     className={cn("gap-1 pr-2.5", className)}
     {...props}
   >
-    <span>Next</span>
+    <span>Siguiente</span>
     <ChevronRight className="h-4 w-4" />
   </PaginationButton>
 );
@@ -109,6 +109,21 @@ export function PaginationComponent({
   totalPages,
   onPageChange,
 }: PaginationComponentProps) {
+  
+  if (totalPages === 1 || totalPages === 0) {
+    return (
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationButton isActive>
+              1
+            </PaginationButton>
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    );
+  }
+
   return (
     <Pagination>
       <PaginationContent>
@@ -126,7 +141,7 @@ export function PaginationComponent({
             1
           </PaginationButton>
         </PaginationItem>
-        {page > 3 && <PaginationEllipsis />}
+        
         {page > 2 && (
           <PaginationItem>
             <PaginationButton onClick={() => onPageChange?.(page - 1)}>

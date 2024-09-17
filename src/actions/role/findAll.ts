@@ -1,11 +1,11 @@
 "use server";
 
 import axios, { isAxiosError } from "axios";
-import { ErrorResponse, SuccessReponse } from "../types/api";
-import { User } from "../types/models";
+import { ErrorResponse, SuccessReponse } from "../../app/types/api";
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import Role from "../types/models/Role";
+import Role from "@/app/types/models/Role";
+
 
 export default async function findAll(): Promise<
   SuccessReponse<Role[]> | ErrorResponse

@@ -5,8 +5,8 @@ type UserDto = {
     username: string
     email:string
     password?:string
-    roleId: number
-    id?: number
+    roleId: string
+    id?: string
 }
 
 export default UserDto
