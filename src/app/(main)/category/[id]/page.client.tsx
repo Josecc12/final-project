@@ -12,9 +12,9 @@ type Props = {
 
 export default function PageClient({ category }: Props) {
   return (
-    <LayoutSection title={`Detalle de categoria`} description="" 
+    <LayoutSection title={`Detalle de categoria`} description="Aqui puedes ver los detalles de la categoria" 
     actions= {
-      <div className="flex gap-2 md:self-end self-end">
+      <div className="flex gap-2 self-end">
       <Button variant="default" asChild>
         <Link href={`/category/${category.id}/edit`}>
         Editar</Link>
