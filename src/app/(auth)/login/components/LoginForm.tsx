@@ -43,7 +43,6 @@ export function LoginForm() {
   } = form;
 
   const onSubmit = async (data: LoginFormInputs) => {
-    console.log(data);
     const response = await Login(data);
     console.log(response);
 
