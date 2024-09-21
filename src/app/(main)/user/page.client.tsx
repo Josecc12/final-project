@@ -2,6 +2,9 @@
 
 import LayoutSection from "@/components/LayoutSection";
 
+import { Pagination } from "@/app/types/api";
+import { User } from "@/app/types/models";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { PaginationComponent } from "@/components/ui/pagination";
 import {
@@ -12,12 +15,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useRouter, useSearchParams } from "next/navigation";
-import SearchBar from "../../../components/navigation/SearchBar";
-import { User } from "@/app/types/models";
-import { Pagination } from "@/app/types/api";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import SearchBar from "../../../components/navigation/SearchBar";
 
 const users = [
   {
