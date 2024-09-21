@@ -11,7 +11,7 @@ export default async function findOne(
   id: number
 ): Promise<SuccessReponse<Category> | ErrorResponse> {
   try {
-    const url = `${parsedEnv.API_URL}/users/${id}`;
+    const url = `${parsedEnv.API_URL}/categorias/${id}`;
     const session = cookies().get("session")?.value;
     const response = await axios.get<Category>(url, {
       headers: {
