@@ -3,10 +3,13 @@ import { Button } from "../ui/button";
 
 import {
   ActivityIcon,
+  ChartBarStacked,
   ClipboardPlusIcon,
   HomeIcon,
   House,
   LayoutGridIcon,
+  MicroscopeIcon,
+  ScrollTextIcon,
   ShoppingBasketIcon,
   UsersIcon,
 } from "lucide-react";
@@ -62,6 +65,30 @@ export default function MainNav() {
           >
             <ShoppingBasketIcon className="h-5 w-5" />
             Tickets
+          </Link>
+          <Link
+            href="/category"
+            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-50"
+            prefetch={false}
+          >
+            <ChartBarStacked  className="h-5 w-5" />
+            Categorías
+          </Link>
+          <Link
+            href="/laboratory"
+            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-50"
+            prefetch={false}
+          >
+            <MicroscopeIcon  className="h-5 w-5" />
+            Laboratorios
+          </Link>
+          <Link
+            href="/request"
+            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-50"
+            prefetch={false}
+          >
+            <ScrollTextIcon className="h-5 w-5" />
+            Solicitudes
           </Link>
         </nav>
       </div>
