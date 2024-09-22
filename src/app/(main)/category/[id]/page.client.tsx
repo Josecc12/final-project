@@ -1,9 +1,13 @@
+"use client";
+
 
 import { Category, User } from "@/app/types/models";
 import LayoutSection from "@/components/LayoutSection";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/Typography";
+import Delete  from "@/components/ui/delete";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 type Props = {
@@ -11,6 +15,11 @@ type Props = {
 };
 
 export default function PageClient({ category }: Props) {
+
+
+  const router = useRouter();
+
+
   return (
     <LayoutSection title={`Detalle de categoria`} description="Aqui puedes ver los detalles de la categoria" 
     actions= {
@@ -19,7 +28,7 @@ export default function PageClient({ category }: Props) {
         <Link href={`/category/${category.id}/edit`}>
         Editar</Link>
       </Button>
-      <Button variant="destructive">Eliminar</Button>
+      <Delete categoria={category}/>
     </div>
     }
     
