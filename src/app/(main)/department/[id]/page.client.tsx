@@ -11,7 +11,7 @@ type Props = {
 
 export default function PageClient({ department }: Props) {
   return (
-    <LayoutSection title={`Detalle Departamento`} description="Aqui puedes ver los detalles de los departamentos" 
+    <LayoutSection title={`Detalle Departamento`} description="Aqui puedes ver los detalles de los departamentos del centro de salud" 
     actions= {
       <div className="flex gap-2 self-end">
       <Button variant="default" asChild>
@@ -34,7 +34,7 @@ export default function PageClient({ department }: Props) {
         </div>
 
         <div className="w-full flex flex-col gap-1">
-          <Typography variant="small" className="font-bold">Activo</Typography>
+          <Typography variant="small" className="font-bold">Estado</Typography>
           <Typography variant="muted">{department.is_active ? "Activo" : "Inactivo"}</Typography>
         </div>
         

@@ -1,3 +1,4 @@
+"use client";
 import findOne from "@/actions/department/findOne";
 import PageClient from "./page.client";
 
