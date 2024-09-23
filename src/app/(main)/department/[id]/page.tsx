@@ -6,7 +6,7 @@ import PageClient from "./page.client";
 
 type Props = {
   params: {
-      id: number;
+      id: string;
   }
 }
 

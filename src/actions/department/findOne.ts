@@ -8,7 +8,7 @@ import { parsedEnv } from "@/app/env";
 import { Department } from "@/app/types/models";
 
 export default async function findOne(
-  id: number
+  id: string
 ): Promise<SuccessReponse<Department> | ErrorResponse> {
   try {
     const url = `${parsedEnv.API_URL}/departamentos/${id}`;
