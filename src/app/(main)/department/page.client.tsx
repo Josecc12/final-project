@@ -60,8 +60,8 @@ export default function PageClient({
 
   return (
     <LayoutSection
-      title="Categorías"
-      description="Listado de categorías, en el cuál existen varios con su respectivo nombre."
+      title="Departamentos"
+      description="Listado de los departamentos existentes"
       actions={
         <Button variant="default" asChild className="self-end">
           <Link href={`/category/new`}>Agregar Categoría</Link>
