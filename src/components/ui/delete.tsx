@@ -60,7 +60,11 @@ type Props={
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={onDelete}>Continuar</AlertDialogAction>
+            
+              <Button variant="destructive" 
+                onClick={onDelete}
+              >Eliminar</Button>
+            
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
