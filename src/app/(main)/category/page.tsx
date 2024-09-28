@@ -1,3 +1,4 @@
+
 import findAll from "@/actions/category/findAll";
 import PageClient from "./page.client";
 import parseSearchParams from "@/utils/functions/parsePaginationParams";
