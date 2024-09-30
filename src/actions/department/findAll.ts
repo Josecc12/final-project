@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
 import { Department } from "@/app/types/models";
 import parsePaginationParams from "@/utils/functions/parsePaginationParams";
-import { parse } from "path";
+
 
 type Props = {
   searchParams?: URLSearchParams;
