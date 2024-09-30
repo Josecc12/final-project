@@ -113,6 +113,9 @@ export default function Page() {
       title="Inventarios"
       description="Encuentra aquí la información de los inventarios de los productos, stock, status y más."
     >
+      <Button variant="default" asChild className="self-end">
+        <Link href={`/inventory/new`}>Agregar Producto</Link>
+      </Button>
       <SearchBar />
       <Card>
         <CardContent className="px-0">
