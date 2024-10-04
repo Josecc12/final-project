@@ -83,3 +83,12 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+
+.rdp [aria-hidden="true"]{
+  @apply hidden;
+}
+
+.rdp-vhidden{
+  @apply hidden;
+}
