@@ -8,3 +8,4 @@ export type {User}
 export type {Category}
 export type {Department}
 export type {Inventory}
+export type {Patient}

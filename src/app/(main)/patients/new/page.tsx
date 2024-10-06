@@ -18,7 +18,7 @@ export default function Page() {
       nombre: "",
       sexo: "",
       cui: "",
-      nacimiento: "",
+      nacimiento: '',
       familiares: "",
       quirurgicos: "",
       traumaticos: "",
