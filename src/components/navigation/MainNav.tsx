@@ -1,5 +1,7 @@
+"use client";
 import Link from "next/link";
 import { Button } from "../ui/button";
+
 
 import {
   ActivityIcon,
@@ -14,6 +16,11 @@ import {
   ShoppingBasketIcon,
   UsersIcon,
 } from "lucide-react";
+import { Logout } from "@/actions/auth/logout";
+
+
+
+
 
 export default function MainNav() {
   return (
@@ -24,7 +31,7 @@ export default function MainNav() {
           className="items-center gap-2 font-bold hidden lg:flex"
           prefetch={false}
         >
-          <span className="text-lg">Centro de Salud Gutemala</span>
+          <span className="text-lg">Centro de Salud San Vicente Buenabaj</span>
         </Link>
         <nav className="space-y-1">
           <Link
@@ -102,10 +109,11 @@ export default function MainNav() {
         </nav>
       </div>
       <div className="space-y-4">
-        <Button variant="default" size="sm" className="w-full">
-          Cerrar sesión
+        <Button  onClick={Logout} variant="default" size="sm" className="w-full">
+           Cerrar sesión
         </Button>
       </div>
     </>
   );
 }
+
