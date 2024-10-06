@@ -2,20 +2,19 @@
 
 import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-import CategoryDto from '../../app/types/dto/category/CategoryDto';
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Category } from "@/app/types/models";
+import { User } from "@/app/types/models";
 
-type DeleteCategoryRequest = {
+type DeleteUserRequest = {
   id: string;
 };
 
-export default async function deleteCategory({
-    id
-}: DeleteCategoryRequest ): Promise<SuccessReponse<Category> | ErrorResponse> {
+export default async function deleteUser({
+  id
+}: DeleteUserRequest): Promise<SuccessReponse<User> | ErrorResponse> {
   try {
-    const url = `${parsedEnv.API_URL}/categorias/${id}`;
+    const url = `${parsedEnv.API_URL}/users/${id}`;
     const session = cookies().get("session")?.value;
 
     const response = await axios.delete(url, {

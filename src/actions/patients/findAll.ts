@@ -2,34 +2,47 @@
 
 import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-import CategoryDto from '../../app/types/dto/category/CategoryDto';
+
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
 import { Category } from "@/app/types/models";
+import parsePaginationParams from "@/utils/functions/parsePaginationParams";
+import { parse } from "path";
 
-type DeleteCategoryRequest = {
-  id: string;
+type Props = {
+  searchParams?: URLSearchParams;
 };
 
-export default async function deleteCategory({
-    id
-}: DeleteCategoryRequest ): Promise<SuccessReponse<Category> | ErrorResponse> {
+export default async function findAll(
+  props: Props = {}
+): Promise<SuccessReponse<Category[]> | ErrorResponse> {
   try {
-    const url = `${parsedEnv.API_URL}/categorias/${id}`;
+    const url = `${parsedEnv.API_URL}/pacientes`;
     const session = cookies().get("session")?.value;
-
-    const response = await axios.delete(url, {
+    const parsedParams = parsePaginationParams(props.searchParams);
+    const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${session}`,
       },
+      params: {
+        ...parsedParams,
+        query: undefined,
+        q: parsedParams.query,
+      }
     });
 
     return {
-      data: response.data,
+      data: response.data.data,
       status: 200,
       statusText: response.statusText,
+      meta: {
+        totalItems: response.data.totalItems,
+        totalPages: response.data.totalPages,
+        page: response.data.page,
+      },
     };
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error)) {
       return {
         message: error.message,
