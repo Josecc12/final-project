@@ -16,13 +16,17 @@ import {
   ShoppingBasketIcon,
   UsersIcon,
 } from "lucide-react";
-import { Logout } from "@/actions/auth/logout";
+import Logout from "@/actions/auth/logout";
+
 
 
 
 
 
 export default function MainNav() {
+  const Log  = async () =>{
+    await Logout();
+  }
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -109,7 +113,7 @@ export default function MainNav() {
         </nav>
       </div>
       <div className="space-y-4">
-        <Button  onClick={Logout} variant="default" size="sm" className="w-full">
+        <Button  onClick={Log} variant="default" size="sm" className="w-full">
            Cerrar sesión
         </Button>
       </div>
