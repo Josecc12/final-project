@@ -5,8 +5,9 @@ import { ErrorResponse, SuccessReponse } from "../../app/types/api";
 
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Department } from "@/app/types/models";
+
 import parsePaginationParams from "@/utils/functions/parsePaginationParams";
+import { Department } from "@/app/types/models";
 
 
 type Props = {

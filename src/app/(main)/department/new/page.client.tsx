@@ -27,7 +27,7 @@ type Props = {
     departments: Department;  
 }
 
-export default function FormDepartment({ departments }: Props) {  
+export default function PageClient({ departments }: Props) {  
     const {
         control,
         formState: { errors },

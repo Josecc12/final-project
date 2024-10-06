@@ -30,7 +30,7 @@ export default async function create({
       },
     });
 
-    revalidatePath("/user");
+    revalidatePath("/department");
     
     return {
       data: response.data,
