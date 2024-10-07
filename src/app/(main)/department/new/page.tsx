@@ -15,6 +15,6 @@ export default async function Page({ params }: Props) {
   }
 
   return (
-    <PageClient departments={responseDepartment.data} /> 
+    <PageClient  /> 
   );
 }

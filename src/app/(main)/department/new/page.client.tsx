@@ -1,85 +1,76 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox"; 
-import { useFormContext } from "react-hook-form";
-import { Department } from '@/app/types/models'; 
+import LayoutSection from "@/components/LayoutSection";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { Form } from "@/components/ui/form";
+
+
+import create from "@/actions/department/create"; // Cambiar la función de creación al endpoint adecuado
+import { DepartmentDto } from "@/app/types/dto/department"; // Tipo adecuado para departamento
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { ErrorResponse } from "@/app/types/api";
+import FormDepartment from "./formDepartment";
 
 const schema = z.object({
-    nameDepartment: z.string().min(2, "El nombre debe tener al menos 2 caracteres"), 
-    is_active: z.boolean(),  
+  nameDepartment: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+  is_active: z.boolean(),
 });
 
-type DepartmentFormInputs = z.infer<typeof schema>;  
+type DepartmentFormInputs = z.infer<typeof schema>;
 
-type Props = {
-    departments: Department;  
-}
+export default function PageClient() {
+  const { toast } = useToast();
+  const router = useRouter();
+  const methods = useForm<DepartmentFormInputs>({
+    mode: "onChange",
+    resolver: zodResolver(schema),
+    defaultValues: {
+      nameDepartment: "",
+      is_active: true, // Valor predeterminado true o false
+    },
+  });
 
-export default function PageClient({ departments }: Props) {  
-    const {
-        control,
-        formState: { errors },
-    } = useFormContext<DepartmentFormInputs>();  
+  const onSubmit = async (data: DepartmentFormInputs) => {
+    console.log(data);
+    const departmentDto: DepartmentDto = {
+      nombre: data.nameDepartment,
+      is_active: data.is_active,
+    };
 
-    return (
-        <Card className="w-full max-w-[600px]">
-            <CardContent className="gap-3 flex flex-col">
-                <div className="flex flex-col gap-4">
-                    <FormField
-                        control={control}
-                        name="nameDepartment"  
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel htmlFor="nombre">Nombre del Departamento</FormLabel>  
-                                <FormControl>
-                                    <Input
-                                        id="nombre"
-                                        placeholder="Ingresa el nombre del departamento"  
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage>{errors.nameDepartment?.message}</FormMessage>  
-                            </FormItem>
-                        )}
-                    >
-                    </FormField>
+    const response = await create(departmentDto);
+    if (response.status === 201 || response.status === 200) {
+      toast({
+        title: "Departamento creado exitosamente",
+        description: `El departamento ${data.nameDepartment} ha sido creado`,
+        duration: 3000,
+      });
+      router.push("/departments"); // Ruta que corresponde
+    } else {
+      toast({
+        title: `Error ${response.status}`,
+        description: (response as ErrorResponse).message,
+        duration: 3000,
+        variant: "destructive",
+      });
+    }
+  };
 
-                    
-                    <FormField
-                        control={control}
-                        name="is_active"  
-                        render={({ field }) => (
-                            <FormItem className="flex items-center">
-                                <FormControl>
-                                    <Checkbox
-                                        id="is_active"
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <FormLabel htmlFor="is_active" className="ml-2">Activo</FormLabel>
-                                <FormMessage>{errors.is_active?.message}</FormMessage>
-                            </FormItem>
-                        )}
-                    >
-                    </FormField>
-                </div>
-            </CardContent>
-            <CardFooter className="flex justify-end">
-                <Button type="submit">Guardar</Button>
-            </CardFooter>
-        </Card>
-    );
+  return (
+    <LayoutSection
+      title="Creacion de Departamento"
+      description="Completa el formulario para editar el departamento"
+    >
+      <FormProvider {...methods}>
+        <Form {...methods}>
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <FormDepartment/>
+          </form>
+        </Form>
+      </FormProvider>
+    </LayoutSection>
+  );
 }
