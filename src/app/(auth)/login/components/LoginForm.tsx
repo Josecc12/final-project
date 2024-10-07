@@ -1,6 +1,7 @@
 "use client";
 
 import { Login } from "@/actions/auth";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,6 +19,7 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { ErrorResponse } from "@/app/types/api";
+import { Eye, EyeOff} from "lucide-react";
 
 const loginSchema = z.object({
   username: z.string().min(4, "El email debe tener al menos 4 caracteres"),
@@ -32,6 +34,7 @@ export function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
+  const [showPassword, setShowPassword] = useState(false); 
   const router = useRouter();
   const { toast } = useToast();
 
@@ -74,9 +77,9 @@ export function LoginForm() {
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800 items-center">
       <div className="w-full max-w-[400px] mx-auto space-y-4">
         <header className="flex flex-col items-center space-y-2 p-10">
-          <div className="flex items-center space-x-2">
             <Activity className="w-8 h-8" />
-            <span className="text-2xl font-bold">Centro de Salud</span>
+          <div className="flex items-center space-x-2">
+            <span className="text-2xl font-bold text-center">Centro de Salud de San Vicente Buenabaj</span>
           </div>
 
           <p className="text-gray-500 dark:text-gray-400">
@@ -116,13 +119,25 @@ export function LoginForm() {
                 <FormItem>
                   <FormLabel htmlFor="password">Contraseña</FormLabel>
                   <FormControl>
-                    <Input
-                      id="password"
-                      type="password"
-                      placeholder="Ingresa tu contraseña"
-                      {...field}
-                      aria-invalid={errors.password ? "true" : "false"}
-                    />
+                      <div className="relative">
+                        <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Ingresa tu contraseña"
+                        {...field}
+                        aria-invalid={errors.password ? "true" : "false"}
+                      />
+                        <div
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-5 w-5 text-gray-500" />
+                          ) : (
+                            <Eye className="h-5 w-5 text-gray-500" />
+                          )}
+                        </div>
+                      </div>
                   </FormControl>
                   <FormMessage>
                     {errors.password && (
@@ -139,7 +154,7 @@ export function LoginForm() {
               variant="default"
               className="justify-center w-full"
             >
-              Login
+              Ingresar
             </Button>
           </form>
         </Form>
