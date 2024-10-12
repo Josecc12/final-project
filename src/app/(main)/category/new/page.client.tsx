@@ -8,7 +8,7 @@ import { z } from "zod";
 import { ErrorResponse } from "@/app/types/api";
 import FormCategory from '@/app/(main)/category/new/FormCategory';
 import { useRouter } from "next/navigation";
-import {Category} from '@/app/types/models'
+import { Category } from '@/app/types/models'
 import CategoryDto from "@/app/types/dto/category/CategoryDto";
 import create from "@/actions/category/create";
 
@@ -20,40 +20,36 @@ const schema = z.object({
 
 type CategoryFormInputs = z.infer<typeof schema>;
 
-type Props={
-    categoria: Category;
-}
 
-export default function PageClient({ categoria }: Props) {
+
+export default function PageClient() {
     const { toast } = useToast();
-    const router    = useRouter();
-    const methods   = useForm<CategoryFormInputs>({
+    const router = useRouter();
+    const methods = useForm<CategoryFormInputs>({
         mode: "onChange",
         resolver: zodResolver(schema),
         defaultValues: {
-            nameCategory: categoria.nombre,
+            nameCategory: '',
             is_active: true,
         }
     });
 
-    const onSubmit = async(data: CategoryFormInputs) => {
-        const categoryDto: CategoryDto= {
+    const onSubmit = async (data: CategoryFormInputs) => {
+        const categoryDto: CategoryDto = {
             ...data,
-            id    : categoria.id,
             nombre: data.nameCategory,
-            is_active: data.is_active,
         };
 
         const response = await create(categoryDto);
 
-        if(response.status === 201 || response.status === 200){
+        if (response.status === 201 || response.status === 200) {
             toast({
                 title: "Categoria creada Exitosamente",
                 description: `La categoria ${data.nameCategory} ha sido creado`,
                 duration: 3000,
             });
             router.push("/category");
-        }else {
+        } else {
             toast({
                 title: `Error ${response.status}`,
                 description: (response as ErrorResponse).message,
@@ -71,10 +67,10 @@ export default function PageClient({ categoria }: Props) {
             <FormProvider {...methods}>
                 <Form {...methods}>
                     <form onSubmit={methods.handleSubmit(onSubmit)}>
-                        <FormCategory categoria={categoria}/>
+                        <FormCategory />
                     </form>
                 </Form>
             </FormProvider>
         </LayoutSection>
-      )
+    )
 }

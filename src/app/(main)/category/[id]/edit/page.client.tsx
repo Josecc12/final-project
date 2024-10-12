@@ -65,7 +65,7 @@ export default function PageClient({categoria}: Props) {
         <FormProvider {...methods}>
             <Form{...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
-                    <FormCategory categoria={categoria}
+                    <FormCategory 
                     />
                 </form>
             </Form>

@@ -12,8 +12,7 @@ import { Category } from "@/app/types/models";
 
 
 export default async function create({
-    nombre,
-    is_active
+  nombre,
 }: CategoryDto): Promise<SuccessReponse<Category> | ErrorResponse> {
   try {
     const url = `${parsedEnv.API_URL}/categorias`;
@@ -21,7 +20,6 @@ export default async function create({
 
     const body = {
       nombre,
-      is_active
     };
 
     const response = await axios.post<Category>(url, body, {
@@ -31,7 +29,7 @@ export default async function create({
     });
 
     revalidatePath("/category");
-    
+
     return {
       data: response.data,
       status: response.status,
