@@ -9,7 +9,7 @@ import { Patient } from "@/app/types/models";
 import { cookies } from "next/headers";
 
 export default async function findOne(
-  id: number
+  id: string
 ): Promise<SuccessReponse<Patient> | ErrorResponse> {
   try {
     const url = `${parsedEnv.API_URL}/pacientes/${id}`;

@@ -7,6 +7,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import schema from "./schema";
 import FormPatient from "./FormPatient";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import create from "@/actions/patient/create";
+import { ErrorResponse } from "@/app/types/api";
 
 type UserFormInputs = z.infer<typeof schema>;
 
@@ -18,7 +22,7 @@ export default function Page() {
       nombre: "",
       sexo: "",
       cui: "",
-      nacimiento: '',
+      nacimiento: new Date(),
       familiares: "",
       quirurgicos: "",
       traumaticos: "",
@@ -27,8 +31,29 @@ export default function Page() {
     },
   });
 
+  const { toast } = useToast();
+  const router = useRouter();
+
   const onSubmit = async (data: UserFormInputs) => {
-    console.log(data);
+ 
+   
+
+    const response = await create(data);
+    if (response.status === 201 || response.status === 200) {
+      toast({
+        title: "Paciente creado exitosamente",
+        description: `El Paciente ${data.nombre} ha sido creado`,
+        duration: 3000,
+      });
+      router.push("/patients");
+    } else {
+      toast({
+        title: `Error ${response.status}`,
+        description: (response as ErrorResponse).message,
+        duration: 3000,
+        variant: "destructive",
+      });
+    }
   };
 
   return (

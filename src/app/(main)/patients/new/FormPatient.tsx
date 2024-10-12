@@ -35,17 +35,14 @@ type UserFormInputs = z.infer<typeof schema>;
 
 const sexos = [
   {
-    id: 1,
+    id: `Masculino`,
     name: "Masculino",
   },
   {
-    id: 2,
+    id: `Femenino`,
     name: "Femenino",
   },
-  {
-    id: 3,
-    name: "Otro",
-  },
+
 ];
 
 export default function FormPatient() {
@@ -76,6 +73,25 @@ export default function FormPatient() {
             )}
           />
         </div>
+
+        <FormField
+            control={control}
+            name="cui"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="cui">CUI</FormLabel>
+                <FormControl>
+                  <Input
+                    id="cui"
+                    placeholder="Ingresa tu nombre"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage>{errors.cui?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
+
         <FormField
           control={control}
           name="sexo"
@@ -103,6 +119,7 @@ export default function FormPatient() {
             </FormItem>
           )}
         />
+
 
         <FormField
           control={control}
