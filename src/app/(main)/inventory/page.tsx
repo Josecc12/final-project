@@ -102,10 +102,13 @@ export default function Page() {
     <LayoutSection
     description="Encuentra aquí la información de los inventarios de los productos, stock, status y más."
       title="Inventarios"
-    >
-      <Button variant="default" asChild className="self-end">
+      actions={
+        <Button variant="default" asChild className="self-end">
         <Link href={`/inventory/new`}>Agregar Producto</Link>
       </Button>
+      }
+    >
+      
       <SearchBar />
       <Card>
         <CardContent className="px-0">
@@ -146,33 +149,7 @@ export default function Page() {
                       {supply.trazador ? "En stock" : "Agotado"}
                     </Badge>
                   </TableCell>
-                  <TableCell className="size-[40px]  p-0 pr-1">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="focus:ring-0 focus-visible:ring-0"
-                        >
-                          <EllipsisVertical />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                        <DropdownMenuItem>
-                          <Link href="/">Editar</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Button 
-                            variant="ghost"
-                            className="p-0 text-normal font-normal h-auto" 
-                            onClick={() => handleDeleteClick(supply.id)} >
-                            Eliminar
-                          </Button>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
+                  
                 </TableRow>
               ))}
             </TableBody>

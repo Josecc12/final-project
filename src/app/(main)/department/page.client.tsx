@@ -64,7 +64,7 @@ export default function PageClient({
       description="Listado de los departamentos existentes"
       actions={
         <Button variant="default" asChild className="self-end">
-          <Link href={`/category/new`}>Agregar Categoría</Link>
+          <Link href={`/department/new`}>Agregar Departamento</Link>
         </Button>
       }
     >
