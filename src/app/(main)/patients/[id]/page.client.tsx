@@ -1,9 +1,16 @@
+'use client';
+
 import { Patient } from "@/app/types/models";
 import LayoutSection from "@/components/LayoutSection";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/Typography";
 import { differenceInYears } from 'date-fns';
 import Link from "next/link";
+import Delete from "@/components/ui/delete"; 
+import deletePatient from "@/actions/patient/delete"; 
+import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
+import { ErrorResponse } from "@/app/types/api";
 
 type Props = {
   patient: Patient;
@@ -11,16 +18,44 @@ type Props = {
 
 export default function PageClient({ patient }: Props) {
   const age = differenceInYears(new Date(), new Date(patient.nacimiento));
+  const router = useRouter(); 
+
+  const onDelete = async () => {
+    const response = await deletePatient({ id: patient.id }); 
+    
+    if (response?.status === 200) {
+      toast({
+        title: "Paciente eliminado exitosamente",
+        description: `El paciente ha sido eliminado/a`,
+        variant: "default",
+      });
+      router.push("/patients");
+      router.refresh(); 
+    } else if (response?.status === 401) {
+      toast({
+        title: "Error de autenticación",
+        description: "No estás autorizado para realizar esta acción.",
+        variant: "destructive",
+      });
+    } else if ("message" in response) {
+      toast({
+        duration: 3000,
+        title: `Error ${response.status}`,
+        description: (response as ErrorResponse).message,
+      });
+    }
+  };
+
   return (
     <LayoutSection
       title="Paciente"
-      description="Información sobre el Juan Pérez"
+      description="Información sobre el paciente"
       actions={
         <div className="flex gap-2 md:self-end self-end">
           <Button variant="default" asChild>
             <Link href={`/patients/${patient.id}/edit`}>Editar</Link>
           </Button>
-
+          <Delete onDelete={onDelete} />
         </div>
       }
     >

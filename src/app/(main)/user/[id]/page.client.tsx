@@ -64,11 +64,11 @@ export default function PageClient({ user }: Props) {
           <Typography variant="muted">{user.name} {user.lastname}</Typography>
         </div>
         <div className="w-full flex flex-col gap-1">
-          <Typography variant="small" className="font-bold">Email</Typography>
+          <Typography variant="small" className="font-bold">Correo electrónico</Typography>
           <Typography variant="muted">{user.email}</Typography>
         </div>
         <div className="w-full flex  items-center gap-1">
-          <Typography variant="small" className="font-bold">Role</Typography>
+          <Typography variant="small" className="font-bold">Rol</Typography>
           <Badge variant="outline" className="w-fit">
             {user.role.name}
           </Badge>

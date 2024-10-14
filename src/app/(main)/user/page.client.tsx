@@ -92,7 +92,7 @@ export default function PageClient({
   return (
     <LayoutSection
       title="Usuarios"
-      description="Lista de usuarios, mostrando solo el correo y el rol asignado."
+      description="Listado de usuarios, mostrando solo el correo y el rol asignado."
       actions={
         <Button variant="default" asChild className="self-end">
           <Link href={`/user/new`}>Agregar Usuario</Link>
@@ -106,8 +106,8 @@ export default function PageClient({
           <Table className="overflow-hidden">
             <TableHeader>
               <TableRow>
-                <TableHead className="cursor-pointer">Email</TableHead>
-                <TableHead className="cursor-pointer">UserName</TableHead>
+                <TableHead className="cursor-pointer">Correo electrónico</TableHead>
+                <TableHead className="cursor-pointer">Nombre</TableHead>
                 <TableHead className="cursor-pointer">Rol</TableHead>
               </TableRow>
             </TableHeader>
