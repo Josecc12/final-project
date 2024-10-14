@@ -80,8 +80,8 @@ export default function PageClient({ roles }: Props) {
 
   return (
     <LayoutSection
-      title="Edición de Usuario"
-      description="Completa el formulario para editar tu cuenta"
+      title="Creacion de Usuario"
+      description="Completa el formulario para el nuevo usuario"
     >
       <FormProvider {...methods}>
         <Form {...methods}>
