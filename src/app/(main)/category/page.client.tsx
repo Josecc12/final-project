@@ -65,7 +65,7 @@ export default function PageClient({
   return (
     <LayoutSection
       title="Categorías"
-      description="Listado de categorías, en el cuál existen varios con su respectivo nombre."
+      description="Listado disponible en el centro de salud"
       actions={
         <Button variant="default" asChild className="self-end">
           <Link href={`/category/new`}>Agregar Categoría</Link>
