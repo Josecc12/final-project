@@ -108,6 +108,7 @@ export default function PageClient({
               <TableRow>
                 <TableHead className="cursor-pointer">Correo electrónico</TableHead>
                 <TableHead className="cursor-pointer">Nombre</TableHead>
+
                 <TableHead className="cursor-pointer">Rol</TableHead>
               </TableRow>
             </TableHeader>
