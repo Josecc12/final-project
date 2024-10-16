@@ -46,7 +46,19 @@ export default function Page() {
         duration: 3000,
       });
       router.push("/patients");
-    } else {
+    } 
+    
+    if(response.status ===409){
+
+      toast({
+        title: `Error`,
+        description: 'CUI ya existe',
+        duration: 3000,
+        variant: "destructive",
+      });
+
+    }
+    else {
       toast({
         title: `Error ${response.status}`,
         description: (response as ErrorResponse).message,
