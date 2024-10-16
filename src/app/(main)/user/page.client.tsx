@@ -106,8 +106,8 @@ export default function PageClient({
           <Table className="overflow-hidden">
             <TableHeader>
               <TableRow>
-                <TableHead className="cursor-pointer">Email</TableHead>
-                <TableHead className="cursor-pointer">UserName</TableHead>
+                <TableHead className="cursor-pointer">Correo Electronico</TableHead>
+                <TableHead className="cursor-pointer">Nombre de Usuario</TableHead>
                 <TableHead className="cursor-pointer">Rol</TableHead>
               </TableRow>
             </TableHeader>
