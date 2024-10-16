@@ -17,13 +17,13 @@ import { ErrorResponse } from "@/app/types/api";
 import Role from "@/app/types/models/Role";
 
 const schema = z.object({
-  firstName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  lastName: z.string().min(2, "El apellido debe tener al menos 2 caracteres"),
+  firstName: z.string().min(2, "El nombre debe ser requerido"),
+  lastName: z.string().min(2, "El apellido debe ser requerido"),
   username: z
     .string()
     .min(4, "El nombre de usuario debe tener al menos 4 caracteres"),
   email: z.string().email("Debe ser un correo electrónico válido"),
-  password: z.string().min(8, "La contraseña debe tener al menos 6 caracteres"),
+  password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
   role: z.string().min(1),
 });
 
@@ -50,7 +50,6 @@ export default function PageClient({ roles }: Props) {
   });
 
   const onSubmit = async (data: UserFormInputs) => {
-    console.log(data);
     const userDto: UserDto = {
       name: data.firstName,
       lastname: data.lastName,
@@ -68,7 +67,17 @@ export default function PageClient({ roles }: Props) {
         duration: 3000,
       });
       router.push("/user");
-    } else {
+    } 
+    if(response.status ===409 ){
+      toast({
+        title: `Error`,
+        description: `El nombre de usuario ya existe`,
+        duration: 3000,
+        variant: "destructive",
+      });
+
+    }
+    else {
       toast({
         title: `Error ${response.status}`,
         description: (response as ErrorResponse).message,

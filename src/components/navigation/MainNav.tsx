@@ -76,7 +76,7 @@ export default function MainNav() {
             prefetch={false}
           >
             <ShoppingBasketIcon className="h-5 w-5" />
-            Tickets
+            Recetas
           </Link>
           <Link
             href="/category"

@@ -61,7 +61,7 @@ export default function PageClient() {
 
     return (
         <LayoutSection
-            title="Agrega una nueva Categoria"
+            title="Agrega una nueva categoría"
             description="completa la información requerida"
         >
             <FormProvider {...methods}>

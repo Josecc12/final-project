@@ -108,6 +108,7 @@ export default function PageClient({
               <TableRow>
                 <TableHead className="cursor-pointer">Correo electrónico</TableHead>
                 <TableHead className="cursor-pointer">Nombre</TableHead>
+                <TableHead className="cursor-pointer">Nombre de Usuario</TableHead>
 
                 <TableHead className="cursor-pointer">Rol</TableHead>
               </TableRow>
@@ -117,6 +118,7 @@ export default function PageClient({
                 <TableRow key={user.id} onClick={() => onRow(user.id)}>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.username}</TableCell>
                   <TableCell>{user.role.name}</TableCell>
                 </TableRow>
               ))}

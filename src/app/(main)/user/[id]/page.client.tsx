@@ -63,6 +63,11 @@ export default function PageClient({ user }: Props) {
           <Typography variant="small" className="font-bold">Nombre</Typography>
           <Typography variant="muted">{user.name} {user.lastname}</Typography>
         </div>
+
+        <div className="w-full flex flex-col gap-1">
+          <Typography variant="small" className="font-bold">Nombre de usuario</Typography>
+          <Typography variant="muted">{user.username}</Typography>
+        </div>
         <div className="w-full flex flex-col gap-1">
           <Typography variant="small" className="font-bold">Correo electrónico</Typography>
           <Typography variant="muted">{user.email}</Typography>

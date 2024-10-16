@@ -207,7 +207,7 @@ export default function FormPatient() {
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor="traumaticos">
-                Prcedimientos traumaticos
+                Pro cedimientos traumaticos
               </FormLabel>
               <FormControl>
                 <Textarea id="traumaticos" {...field} />

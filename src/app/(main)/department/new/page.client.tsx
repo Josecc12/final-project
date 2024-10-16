@@ -31,7 +31,6 @@ export default function PageClient() {
   const router = useRouter();
 
   const onSubmit = async (data: InventoryFormInputs) => {
-    console.log(data);
     const response = await create(data)
     if (response.status === 201 || response.status === 200) {
       toast({
