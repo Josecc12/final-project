@@ -17,6 +17,7 @@ export default async function update({
   email,
   password,
   roleId,
+  departamentoId,
 }: UserDto): Promise<SuccessReponse<User> | ErrorResponse> {
   try {
     const url = `${parsedEnv.API_URL}/users/${id}`;
@@ -29,6 +30,7 @@ export default async function update({
       email,
       password: password || undefined,
       roleId,
+      departamentoId,
     };
 
 

@@ -1,5 +1,5 @@
 import Role from "./Role"
-
+import Department from "./Department"
 
 type User = {
     id: string
@@ -10,6 +10,7 @@ type User = {
     createdAt: string
     updatedAt:string
     role : Role
+    departamento: Department
 }
 
 export default User
