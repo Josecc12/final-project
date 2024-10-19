@@ -4,6 +4,7 @@ import LayoutSection from "@/components/LayoutSection";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/Typography";
 import { toast } from "@/components/ui/use-toast";
+import { MessageSquare, Notebook } from "lucide-react";
 import Link from "next/link";
 import { ErrorResponse } from "@/app/types/api";
 import Delete from "@/components/ui/delete";
@@ -60,20 +61,29 @@ export default function PageClient({ department }: Props) {
         </div>
       }
     >
-      <div className="flex flex-col gap-2 xl:gap-3">
-        <div className="w-full flex flex-col gap-1">
+      <div className="flex items-center space-x-3">
+          <MessageSquare className="h-5 w-5 text-muted-foreground" />
+          <span className="font-medium">
           <Typography variant="small" className="font-bold">
             Codigo
           </Typography>
           <Typography variant="muted">{department.id}</Typography>
+          </span>
         </div>
-        <div className="w-full flex flex-col gap-1">
+
+        <br />
+
+        <div className="flex items-center space-x-3">
+          <Notebook className="h-10 w-5 text-muted-foreground" />
+          <span className="font-medium">
           <Typography variant="small" className="font-bold">
             Nombre
           </Typography>
           <Typography variant="muted">{department.nombre}</Typography>
+          </span>
         </div>
-      </div>
+
+    
     </LayoutSection>
   );
 }

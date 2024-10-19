@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "@/components/ui/use-toast";
 import { ErrorResponse } from "@/app/types/api";
+import { MessageSquare, Notebook } from "lucide-react";
 
 type Props = {
   category: Category;
@@ -60,17 +61,23 @@ export default function PageClient({ category }: Props) {
         </div>
       }
     >
-      <div className="flex flex-col gap-2 xl:gap-3">
-        <div className="w-full flex flex-col gap-1">
-          <Typography variant="small" className="font-bold">Código</Typography>
-          <Typography variant="muted">{category.id}</Typography>
+      <div className="flex items-center space-x-2">
+          <MessageSquare className="h-5 w-5 text-muted-foreground" />
+          <span className="font-medium">
+            <Typography variant="small" className="font-bold">Código</Typography>
+            <Typography variant="muted">{category.id}</Typography>
+          </span>
         </div>
-        <div className="w-full flex flex-col gap-1">
+
+        <br />
+
+        <div className="flex items-center space-x-2">
+          <Notebook className="h-10 w-5 text-muted-foreground" />
+          <span className="font-medium">
           <Typography variant="small" className="font-bold">Nombre</Typography>
           <Typography variant="muted">{category.nombre}</Typography>
+          </span>
         </div>
-        <div className="w-full flex items-center gap-1"></div>
-      </div>
     </LayoutSection>
   );
 }
