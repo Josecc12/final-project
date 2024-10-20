@@ -13,7 +13,8 @@ import {Category} from '@/app/types/models'
 
 
 const schema = z.object({
-    nameCategory: z.string().min(2, "El nombre debe tener al menos 2 caracteres")
+    nameCategory: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+    is_active: z.boolean(),
 })
 
 type CategoryFormInputs = z.infer<typeof schema>;
@@ -30,6 +31,7 @@ export default function PageClient({categoria}: Props) {
         resolver: zodResolver(schema),
         defaultValues: {
             nameCategory: categoria.nombre,
+            is_active: true,
         }
     });
 
@@ -38,6 +40,7 @@ export default function PageClient({categoria}: Props) {
             ...data,
             id    : categoria.id,
             nombre: data.nameCategory,
+            
         });
 
         if(response.status === 200) {
@@ -62,7 +65,7 @@ export default function PageClient({categoria}: Props) {
         <FormProvider {...methods}>
             <Form{...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
-                    <FormCategory categoria={categoria}
+                    <FormCategory 
                     />
                 </form>
             </Form>

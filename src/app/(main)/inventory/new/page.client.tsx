@@ -58,7 +58,18 @@ export default function PageClient({categorias}: Props) {
                 duration: 3000,
             });
             router.push("/inventory");
-        }else {
+        }
+        if(response.status ===409){
+
+            toast({
+              title: `Error`,
+              description: 'Codigo ya existe',
+              duration: 3000,
+              variant: "destructive",
+            });
+      
+          }
+        else {
             toast({
                 title: `Error ${response.status}`,
                 description: (response as ErrorResponse).message,

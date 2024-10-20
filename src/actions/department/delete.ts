@@ -2,19 +2,22 @@
 
 import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-
-import { parsedEnv } from "@/app/env";
-import { Patient } from "@/app/types/models";
-
 import { cookies } from "next/headers";
+import { parsedEnv } from "@/app/env";
+import { Department } from "@/app/types/models";
 
-export default async function findOne(
-  id: string
-): Promise<SuccessReponse<Patient> | ErrorResponse> {
+type DeleteDepartmentRequest = {
+  id: string;
+};
+
+export default async function deleteDepartment({
+    id
+}: DeleteDepartmentRequest ): Promise<SuccessReponse<Department> | ErrorResponse> {
   try {
-    const url = `${parsedEnv.API_URL}/pacientes/${id}`;
+    const url = `${parsedEnv.API_URL}/departamentos/${id}`;
     const session = cookies().get("session")?.value;
-    const response = await axios.get<Patient>(url, {
+
+    const response = await axios.delete(url, {
       headers: {
         Authorization: `Bearer ${session}`,
       },

@@ -5,7 +5,7 @@ import { ErrorResponse, SuccessReponse } from "../../app/types/api";
 
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Category } from "@/app/types/models";
+import { Category, Insumo } from "@/app/types/models";
 import parsePaginationParams from "@/utils/functions/parsePaginationParams";
 import { parse } from "path";
 
@@ -15,7 +15,7 @@ type Props = {
 
 export default async function findAll(
   props: Props = {}
-): Promise<SuccessReponse<Category[]> | ErrorResponse> {
+): Promise<SuccessReponse<Insumo[]> | ErrorResponse> {
   try {
     const url = `${parsedEnv.API_URL}/insumos`;
     const session = cookies().get("session")?.value;

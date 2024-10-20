@@ -12,7 +12,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import FormUser from "../../new/FormUser";
 import Role from "@/app/types/models/Role";
-import { User } from "@/app/types/models";
+import { Department, User } from "@/app/types/models";
+import { de } from "date-fns/locale";
 
 const schema = z.object({
   firstName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
@@ -22,6 +23,7 @@ const schema = z.object({
     .min(4, "El nombre de usuario debe tener al menos 4 caracteres"),
   email: z.string().email("Debe ser un correo electrónico válido"),
   role: z.string().min(1),
+  department: z.string().min(1),
   password: z.string(),
 });
 
@@ -30,9 +32,10 @@ type UserFormInputs = z.infer<typeof schema>;
 type Props = {
   roles: Role[];
   user: User;
+  departments: Department[];
 };
 
-export default function PageClient({ roles, user }: Props) {
+export default function PageClient({ departments ,roles, user }: Props) {
   const { toast } = useToast();
   const router = useRouter();
   const methods = useForm<UserFormInputs>({
@@ -44,6 +47,7 @@ export default function PageClient({ roles, user }: Props) {
       username: user.username,
       email: user.email,
       role: `${user.role.id}`,
+      department: `${user.departamento.id}`,
       password: "",
     },
   });
@@ -55,6 +59,7 @@ export default function PageClient({ roles, user }: Props) {
       id: user.id,
       name: data.firstName,
       lastname: data.lastName,
+      departamentoId: data.department,
     });
     if (response.status === 200) {
       toast({
@@ -79,7 +84,7 @@ export default function PageClient({ roles, user }: Props) {
       <FormProvider {...methods}>
         <Form {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <FormUser roles={roles} />
+            <FormUser roles={roles} departments={departments} />
           </form>
         </Form>
       </FormProvider>

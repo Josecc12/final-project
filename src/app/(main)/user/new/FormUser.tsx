@@ -21,17 +21,18 @@ import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 import schema from "./schema";
 import Role from "@/app/types/models/Role";
-
+import Department from "@/app/types/models/Department";
 
 type UserFormInputs = z.infer<typeof schema>;
 
 
 type Props = {
   roles: Role[]
+  departments: Department[];
 }
 
 
-export default function FormUser({roles}: Props) {
+export default function FormUser({roles, departments}: Props) {
   const {
     control,
     formState: { errors },
@@ -155,6 +156,35 @@ export default function FormUser({roles}: Props) {
                 </Select>
               </FormControl>
               <FormMessage>{errors.role?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="department"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="department">Departamento</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona el departamento" />
+                  </SelectTrigger>
+                  <SelectContent>
+                   {
+                      departments.map((department) => (
+                        <SelectItem key={department.id} value={`${department.id}`}>
+                          {department.nombre}
+                        </SelectItem>
+                      ))
+                   }
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage>{errors.department?.message}</FormMessage>
             </FormItem>
           )}
         />

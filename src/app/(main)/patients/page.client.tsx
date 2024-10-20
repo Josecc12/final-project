@@ -26,17 +26,17 @@ import Link from "next/link";
 
 
 type Props = {
-    patients: Patient[]
-    pagination?: Pagination;
+  patients: Patient[]
+  pagination?: Pagination;
 }
 
 export default function PageClient({
-    patients,
-    pagination = {
-      totalItems: 1,
-      totalPages: 1,
-      page: 1,
-    },
+  patients,
+  pagination = {
+    totalItems: 1,
+    totalPages: 1,
+    page: 1,
+  },
 }: Props) {
   const ref = useRef<HTMLElement>(null);
   const dialogRef = useRef<HTMLElement>(null);
@@ -46,12 +46,16 @@ export default function PageClient({
       if (ref.current) {
         ref.current.click();
       }
-    }else{
+    } else {
       if (dialogRef.current) {
         dialogRef.current.click();
       }
     }
   };
+
+  const handleRowClick = (id: string) => {
+    router.push(`patients/${id}`);
+  }
 
   const router = useRouter();
 
@@ -91,35 +95,23 @@ export default function PageClient({
                 <TableHead className="cursor-pointer w-[170px]">DPI</TableHead>
                 <TableHead className="cursor-pointer">Nombre</TableHead>
 
-                <TableHead className="cursor-pointer w-[250px]">
-                  Última visita
-                </TableHead>
+
               </TableRow>
             </TableHeader>
             <TableBody>
               {patients.map((patient) => (
-                <TableRow key={patient.id} onClick={handleClick}>
+                <TableRow key={patient.id} onClick={()=>handleRowClick(patient.id)}>
                   <TableCell>{patient.cui}</TableCell>
                   <TableCell>{patient.nombre}</TableCell>
 
-                  <TableCell>
-                    {new Date(patient.createdAt).toLocaleDateString("es-ES", {
-                      day: "2-digit",
-                      month: "long",
-                      year: "numeric",
-                    })}{" "}
-                    {new Date(patient.createdAt).toLocaleTimeString("es-ES", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </TableCell>
+
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </CardContent>
         <CardFooter>
-          <PaginationComponent page={pagination.page} totalPages={pagination.totalPages} onPageChange={onPageChange}/>
+          <PaginationComponent page={pagination.page} totalPages={pagination.totalPages} onPageChange={onPageChange} />
         </CardFooter>
       </Card>
       <div className="hidden">

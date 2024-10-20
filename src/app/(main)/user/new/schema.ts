@@ -8,7 +8,8 @@ const schema = z.object({
       .min(4, "El nombre de usuario debe tener al menos 4 caracteres"),
     email: z.string().email("Debe ser un correo electrónico válido"),
     password: z.string().min(8, "La contraseña debe tener al menos 6 caracteres"),
-    role: z.string(),
+    role: z.string().min(1,'Selecciona un Rol'),
+    department: z.string().min(1,'Selecciona un Departamento'),
   });
   
 export default schema;

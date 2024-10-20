@@ -7,6 +7,7 @@ type UserDto = {
     password?:string
     roleId: string
     id?: string
+    departamentoId: string
 }
 
 export default UserDto

@@ -37,7 +37,7 @@ export default async function Dashboard({ children }: Props) {
               className="flex items-center gap-2 font-bold"
               prefetch={false}
             >
-              <span className="text-lg">Centro de Salud</span>
+              <span className="text-lg">Centro de Salud San Vicente Buenabaj</span>
             </Link>
             <Sheet>
               <SheetTrigger asChild>

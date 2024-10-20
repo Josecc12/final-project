@@ -73,7 +73,7 @@ export default function Page() {
       description="Todos los laboratorios y sus detalles."
       actions={
         <Button variant="default" asChild className="self-end">
-          <Link href='#'>Agregar Laboratorio</Link>
+          <Link href='#'>Crear Examen de Laboratorio</Link>
         </Button>
       }
     >

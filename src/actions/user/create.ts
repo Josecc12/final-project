@@ -16,6 +16,7 @@ export default async function create({
   email,
   password,
   roleId,
+  departamentoId,
 }: UserDto): Promise<SuccessReponse<User> | ErrorResponse> {
   try {
     const url = `${parsedEnv.API_URL}/users`;
@@ -28,6 +29,7 @@ export default async function create({
       email,
       password,
       roleId,
+      departamentoId,
     };
 
     const response = await axios.post<User>(url, body, {
