@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { Search } from "lucide-react"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -18,38 +17,35 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-// Definición del tipo de insumo
-type Insumo = {
-  id: string
-  codigo: string
-  nombre: string
-  categoria: {
-    id: string
-    nombre: string
-  }
+// Props genéricas con función de filtro personalizada
+interface SelectSearchBarProps<T> {
+  items: T[]
+  onSelect: (item: T) => void
+  getLabel: (item: T) => string
+  getDescription?: (item: T) => string
+  filterFn: (item: T, query: string) => boolean // Nueva función de filtro
+  placeholder?: string
 }
 
-interface SelectSearchBarProps {
-  insumos: Insumo[]
-  onSelect: (insumo: Insumo) => void
-}
-
-export default function SelectSearchBar({ insumos, onSelect }: SelectSearchBarProps) {
+export default function SelectSearchBar<T>({
+  items,
+  onSelect,
+  getLabel,
+  getDescription,
+  filterFn,
+  placeholder = "Buscar...",
+}: SelectSearchBarProps<T>) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
-  const filteredInsumos = React.useMemo(() => {
-    if (!value) return insumos
+  const filteredItems = React.useMemo(() => {
+    if (!value) return items
     const lowerCaseValue = value.toLowerCase()
-    return insumos.filter(
-      (insumo) =>
-        insumo.nombre.toLowerCase().includes(lowerCaseValue) ||
-        insumo.codigo.toLowerCase().includes(lowerCaseValue)
-    )
-  }, [value, insumos])
+    return items.filter((item) => filterFn(item, lowerCaseValue))
+  }, [value, items, filterFn])
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-2xl">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -58,36 +54,38 @@ export default function SelectSearchBar({ insumos, onSelect }: SelectSearchBarPr
             aria-expanded={open}
             className="w-full justify-between text-left"
           >
-            {value ? `${value.slice(0, 20)}...` : "Buscar insumo..."}
+            {value ? `${value.slice(0, 20)}...` : placeholder}
             <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0">
+        <PopoverContent className="w-full p-0 max-w-2xl">
           <Command>
             <CommandInput
-              placeholder="Buscar insumo por nombre o código..."
+              placeholder={placeholder}
               value={value}
               onValueChange={setValue}
               className="w-full"
             />
             <CommandList>
-              <CommandEmpty>No se encontraron insumos.</CommandEmpty>
+              <CommandEmpty>No se encontraron resultados.</CommandEmpty>
               <CommandGroup>
-                {filteredInsumos.map((insumo) => (
+                {filteredItems.map((item, index) => (
                   <CommandItem
-                    key={insumo.id}
+                    key={index}
                     onSelect={() => {
-                      setValue(insumo.nombre)
-                      onSelect(insumo)
+                      setValue(getLabel(item))
+                      onSelect(item)
                       setOpen(false)
                     }}
                     className="cursor-pointer"
                   >
                     <div className="flex flex-col">
-                      <span>{insumo.nombre}</span>
-                      <span className="text-sm text-muted-foreground">
-                        Código: {insumo.codigo} | Categoría: {insumo.categoria.nombre}
-                      </span>
+                      <span>{getLabel(item)}</span>
+                      {getDescription && (
+                        <span className="text-sm text-muted-foreground">
+                          {getDescription(item)}
+                        </span>
+                      )}
                     </div>
                   </CommandItem>
                 ))}

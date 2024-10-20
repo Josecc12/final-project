@@ -146,14 +146,22 @@ export default function FormAcquisition({
                     value={nuevoLote.insumoId}
                     onValueChange={(value) => setNuevoLote({ ...nuevoLote, insumoId: value })}
                   >
-                  <SelectSearchBar 
-                    insumos={insumos} 
+                  
+                  <SelectSearchBar
+                    items={insumos}
                     onSelect={(insumo) => {
                       setNuevoLote({ ...nuevoLote, insumoId: insumo.id });
                       field.onChange(insumo.id); // Asegúrate de actualizar el formulario también
                     }} 
-                  />
+                    getLabel={(insumo) => insumo.nombre}
+                    getDescription={(insumo) => `Código: ${insumo.codigo} | Categoría: ${insumo.categoria.nombre}`}
 
+                    placeholder="Buscar insumo por nombre o código..."
+                    filterFn={(insumo, query) =>
+                      insumo.nombre.toLowerCase().includes(query) ||
+                      insumo.codigo.toLowerCase().includes(query)
+                    }
+                  />
                   <SelectContent>
                     {insumos.map((insumo) => (
                       <SelectItem key={insumo.id} value={insumo.id}>
