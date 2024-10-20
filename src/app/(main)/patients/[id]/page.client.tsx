@@ -52,9 +52,13 @@ export default function PageClient({ patient }: Props) {
       description="Información sobre el paciente"
       actions={
         <div className="flex gap-2 md:self-end self-end">
+           <Button variant="outline" asChild>
+            <Link href={`/patients/${patient.id}/recipe`}>Nueva receta</Link>
+          </Button>
           <Button variant="default" asChild>
             <Link href={`/patients/${patient.id}/edit`}>Editar</Link>
           </Button>
+         
           <Delete onDelete={onDelete} />
         </div>
       }
