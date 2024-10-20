@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { PlusIcon } from "lucide-react"
-import { DropdownSearch } from "./DropdownSearch"
+
 
 export function RecipeForm() {
   return (
@@ -53,7 +53,7 @@ export function RecipeForm() {
               <Label htmlFor="medications">Medications</Label>
               <div className="grid gap-4">
                 <div className="grid grid-cols-[1fr_auto] items-center gap-4">
-                  <DropdownSearch/>
+                
                   <Input type="number" defaultValue="500" className="w-24" />
                   <Button variant="outline" size="icon">
                     <PlusIcon className="h-4 w-4" />

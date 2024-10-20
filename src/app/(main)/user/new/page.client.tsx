@@ -72,7 +72,7 @@ export default function PageClient({ roles, departments }: Props) {
       });
       router.push("/user");
     } 
-    if(response.status ===409 ){
+    else if(response.status ===409 ){
       toast({
         title: `Error`,
         description: `El nombre de usuario ya existe`,

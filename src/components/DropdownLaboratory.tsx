@@ -10,10 +10,11 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { SearchIcon } from "lucide-react"
-import findAll from "@/actions/inventory/findAll"
-import findOne from "@/actions/inventory/findOne"
-import { Insumo } from "@/app/types/models"
+
+import { Insumo, Test } from "@/app/types/models"
 import { UseFormSetValue, PathValue, FieldValues, Path } from "react-hook-form"
+import findAll from "@/actions/laboratory/findAll"
+import findOne from "@/actions/laboratory/findOne"
 
 interface DropdownSearchProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>
@@ -22,7 +23,7 @@ interface DropdownSearchProps<TFieldValues extends FieldValues> {
   defaultValue?: string
 }
 
-export default function DropdownSearch<TFieldValues extends FieldValues>({
+export default function DropdownLaboratory<TFieldValues extends FieldValues>({
   name,
   setValue,
   placeholder = "Selecciona una opción",
@@ -30,8 +31,8 @@ export default function DropdownSearch<TFieldValues extends FieldValues>({
 }: DropdownSearchProps<TFieldValues>) {
   const [searchTerm, setSearchTerm] = useState("")
   const [isOpen, setIsOpen] = useState(false)
-  const [items, setItems] = useState<Insumo[]>([])
-  const [selectedItem, setSelectedItem] = useState<Insumo | null>(null)
+  const [items, setItems] = useState<Test[]>([])
+  const [selectedItem, setSelectedItem] = useState<Test | null>(null)
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
