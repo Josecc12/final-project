@@ -48,7 +48,7 @@ export default function Page() {
       router.push("/patients");
     } 
     
-    if(response.status ===409){
+    else if(response.status ===409){
 
       toast({
         title: `Error`,

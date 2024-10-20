@@ -19,39 +19,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import SearchBar from "../../../components/navigation/SearchBar";
 
-const users = [
-  {
-    id: 4,
-    name: "daniel",
-    lastname: "chocoy",
-    username: "Juanito",
-    email: "test@gmail.com",
-    createdAt: "2024-08-26T05:02:49.489Z",
-    updatedAt: "2024-08-26T05:02:49.489Z",
-    is_Active: true,
-    password: "$2b$10$0TZ9K9yX9NNVIbaSfWSKiOFcunltCiPUfEyyv1hNpqx/tc.CDCfqi",
-    role: {
-      id: 1,
-      name: "Doctor",
-    },
-  },
-  {
-    id: 5,
-    name: "jose",
-    lastname: "perez",
-    username: "JoseP",
-    email: "joseperez@gmail.com",
-    createdAt: "2024-08-26T06:02:49.489Z",
-    updatedAt: "2024-08-26T06:02:49.489Z",
-    is_Active: true,
-    password:
-      "$2b$10$abc123456789X9NNVIbaSfWSKiOFcunltCiPUfEyyv1hNpqx/tc.CDCfqi",
-    role: {
-      id: 2,
-      name: "Enfermero",
-    },
-  },
-];
+
 
 type Props = {
   users: User[];

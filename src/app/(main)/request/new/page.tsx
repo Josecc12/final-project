@@ -1,68 +1,80 @@
-import { DropdownSearch } from "@/components/DropdownSearch";
-import LayoutSection from "@/components/LayoutSection";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+'use client'
+
+import { useState, useEffect } from 'react'
+import laboratory from "@/actions/laboratory"
+import DropdownLaboratory from "@/components/DropdownLaboratory"
+import LayoutSection from "@/components/LayoutSection"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Table,
   TableBody,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Typography } from "@/components/ui/Typography";
+} from "@/components/ui/table"
+import { Typography } from "@/components/ui/Typography"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import findOne from '@/actions/laboratory/findOne'
+import { Test } from '@/app/types/models'
 
-const mock = [
-  {
-    quantity: 10,
-    item: "Guantes de latex",
-  },
-  {
-    quantity: 5,
-    item: "Jeringas",
-  },
-  {
-    quantity: 20,
-    item: "Algodón",
-  },
-  {
-    quantity: 10,
-    item: "Alcohol",
-  },
-  {
-    quantity: 5,
-    item: "Jeringas",
-  },
-  {
-    quantity: 20,
-    item: "Algodón",
-  },
-  {
-    quantity: 10,
-    item: "Alcohol",
-  },
-  {
-    quantity: 5,
-    item: "Jeringas",
-  },
-  {
-    quantity: 20,
-    item: "Algodón",
-  },
-  {
-    quantity: 10,
-    item: "Alcohol",
-  },
-];
+const schema = z.object({
+  laboratory: z.string().min(1, "El laboratorio es requerido"),
+})
+
+type FormInputs = z.infer<typeof schema>
+
+
 
 export default function PageClient() {
+  const [laboratoryDetails, setLaboratoryDetails] = useState<Test | null>(null)
+
+  const { setValue, watch } = useForm<FormInputs>({
+    mode: "onChange",
+    defaultValues: {
+      laboratory: ""
+    }
+  })
+
+  const selectedLaboratory = watch('laboratory')
+
+  useEffect(() => {
+    const fetchLaboratoryDetails = async () => {
+      if (selectedLaboratory) {
+        try {
+       
+          const response = await findOne(selectedLaboratory)
+          if (response.status !== 200 || !("data" in response)) {
+            throw new Error("Failed to fetch inventory data")
+          }
+          setLaboratoryDetails(response.data)
+        } catch (error) {
+          console.error("Error fetching laboratory details:", error)
+          setLaboratoryDetails(null)
+        }
+      } else {
+        setLaboratoryDetails(null)
+      }
+    }
+
+    fetchLaboratoryDetails()
+  }, [selectedLaboratory])
+
   return (
     <LayoutSection
       title="Nueva solicitud de laboratorio"
-      description="Selecciona un laboratorio para solicitar un insumos"
+      description="Selecciona un laboratorio para solicitar insumos"
     >
       <div className="w-full flex flex-col gap-6">
         <div className="w-full flex gap-8">
-          <DropdownSearch />
+          <div className="w-full">
+            <DropdownLaboratory
+              name="laboratory"
+              setValue={setValue}
+              placeholder="Selecciona un laboratorio"
+            />
+          </div>
           <Button>
             Enviar solicitud
           </Button>
@@ -82,11 +94,11 @@ export default function PageClient() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mock.map((item, index) => (
+                  {laboratoryDetails?.insumoExamenes.map((item, index) => (
                     <TableRow key={index}>
-                      <TableHead>{item.item}</TableHead>
+                      <TableHead>nombre</TableHead>
                       <TableHead className="flex items-center justify-center">
-                        {item.quantity}
+                        {item.cantidad}
                       </TableHead>
                     </TableRow>
                   ))}
@@ -97,5 +109,5 @@ export default function PageClient() {
         </div>
       </div>
     </LayoutSection>
-  );
+  )
 }

@@ -5,15 +5,15 @@ import { ErrorResponse, SuccessReponse } from "../../app/types/api";
 
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Category, Insumo } from "@/app/types/models";
+import { Category, Insumo, Test } from "@/app/types/models";
 
 export default async function findOne(
   id: string
-): Promise<SuccessReponse<Insumo> | ErrorResponse> {
+): Promise<SuccessReponse<Test> | ErrorResponse> {
   try {
-    const url = `${parsedEnv.API_URL}/insumos/${id}`;
+    const url = `${parsedEnv.API_URL}/examenes/${id}`;
     const session = cookies().get("session")?.value;
-    const response = await axios.get<Insumo>(url, {
+    const response = await axios.get<Test>(url, {
       headers: {
         Authorization: `Bearer ${session}`,
       },
