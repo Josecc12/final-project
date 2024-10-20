@@ -97,12 +97,12 @@ export default function MainNav() {
                 </li>
                 <li>
                   <Link
-                    href="/lots"
+                    href="/acquisition"
                     className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-200 rounded-md dark:hover:bg-gray-700"
                     prefetch={false}
                   >
                     <LayersIcon className="h-4 w-4" />
-                    Lotes
+                    adquisiciones
                   </Link>
                 </li>
               </ul>
