@@ -1,4 +1,3 @@
-import { Department } from "@/app/types/models";
 import LayoutSection from "@/components/LayoutSection";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -9,6 +8,8 @@ import Delete from "@/components/ui/delete";
 import deleteDepartment from "@/actions/department/delete";
 import { Department } from "@/app/types/models"; 
 import { useRouter } from "next/navigation";
+import { MessageSquare, Notebook } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
 
 
@@ -65,6 +66,7 @@ export default function PageClient({ department }: Props) {
               <span className="font-medium">
               <Typography variant="small" className="font-bold">Codigo</Typography>
               <Typography variant="muted">{department.id}</Typography>
+              
               </span>
             </div>
             <br />
