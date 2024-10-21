@@ -10,23 +10,27 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { ErrorResponse } from "@/app/types/api";
 import Category from '@/app/types/models/Category';
+import Department  from "@/app/types/models/Department";
 import FormInventory from './FormInventory'
 import InventoryDto from '@/app/types/dto/inventory/InventoryDto'
+import { de } from "date-fns/locale";
 
 const schema = z.object({
     nombre: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
     categoriaId: z.string().min(1),
     codigo: z.string().min(2, "Debe tener al menos 2 caracteres"),
     trazador: z.boolean(),
+    departamentosId: z.array(z.string()),
 });
 
 type Props = {
     categorias: Category[];
+    departamentos: Department[];
 }
 
 type InventoryFormInputs = z.infer<typeof schema>;
 
-export default function PageClient({ categorias }: Props) {
+export default function PageClient({ categorias, departamentos }: Props) {
     const { toast } = useToast();
     const router = useRouter();
 
@@ -38,6 +42,7 @@ export default function PageClient({ categorias }: Props) {
             categoriaId: "",
             codigo: "",
             trazador: true,
+            departamentosId: [],
         }
     });
 
@@ -47,6 +52,7 @@ export default function PageClient({ categorias }: Props) {
             codigo: data.codigo,
             categoriaId: data.categoriaId,
             trazador: data.trazador,
+            departamentosId: data.departamentosId, // Incluye los IDs seleccionados
         };
 
         const response = await create(inventoryDto);
@@ -87,7 +93,7 @@ export default function PageClient({ categorias }: Props) {
             <FormProvider {...methods}>
                 <Form {...methods}>
                     <form onSubmit={methods.handleSubmit(onSubmit)}>
-                        <FormInventory categorias={categorias} />
+                        <FormInventory categorias={categorias} departamentos={departamentos} />
                     </form>
                 </Form>
             </FormProvider>
