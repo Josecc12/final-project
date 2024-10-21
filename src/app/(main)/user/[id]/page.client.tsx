@@ -10,7 +10,7 @@ import deleteUser from "@/actions/user/delete";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import { ErrorResponse } from "@/app/types/api";
-import { Users2, Mail, Briefcase, Building2 } from "lucide-react"
+import { Users2, Mail, Briefcase, Building2, MessagesSquare, Badge } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 
