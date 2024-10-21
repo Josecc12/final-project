@@ -17,7 +17,8 @@ export default async function findOne(
       headers: {
         Authorization: `Bearer ${session}`,
       },
-    });
+    }); 
+    console.log(response.data);
 
     return {
       data: response.data,

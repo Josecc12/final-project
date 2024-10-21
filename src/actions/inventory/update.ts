@@ -8,9 +8,8 @@ import InventoryDto from '../../app/types/dto/inventory/InventoryDto';
 
 import { revalidatePath } from "next/cache";
 import Inventory from '@/app/types/models/Inventario'
-import { de } from "date-fns/locale";
 
-export default async function create({
+export default async function update({
     codigo,
     nombre,
     categoriaId,
@@ -29,7 +28,7 @@ export default async function create({
             trazador
         };
 
-        const response = await axios.post<Inventory>(url,body, {
+        const response = await axios.patch<Inventory>(url,body, {
             headers: {
                 Authorization: `Bearer ${session}`,
             },

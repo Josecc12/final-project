@@ -1,4 +1,3 @@
-"use client";
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -22,8 +21,8 @@ import { useFormContext, Controller } from "react-hook-form";
 import { z } from "zod";
 import Category from "@/app/types/models/Category";
 import Department from "@/app/types/models/Department";
-
-type InventoryFormInputs = z.infer<z.ZodSchema<any>>;
+import schema from "./schema";
+type InventoryFormInputs = z.infer<typeof schema>;
 
 type Props = {
   categorias: Category[];

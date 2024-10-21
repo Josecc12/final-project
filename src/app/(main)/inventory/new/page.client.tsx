@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { ErrorResponse } from "@/app/types/api";
 import Category from '@/app/types/models/Category';
 import Department  from "@/app/types/models/Department";
-import FormInventory from './FormInventory'
+import FormInventory from '../components/FormInventory'
 import InventoryDto from '@/app/types/dto/inventory/InventoryDto'
 import { de } from "date-fns/locale";
 
@@ -54,7 +54,7 @@ export default function PageClient({ categorias, departamentos }: Props) {
             trazador: data.trazador,
             departamentosId: data.departamentosId, // Incluye los IDs seleccionados
         };
-
+        console.log(inventoryDto);
         const response = await create(inventoryDto);
 
         if (response.status === 201 || response.status === 200) {
