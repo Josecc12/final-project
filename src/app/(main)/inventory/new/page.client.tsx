@@ -9,7 +9,7 @@ import create from '@/actions/inventory/create'
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { ErrorResponse } from "@/app/types/api";
-import Category from '@/app/types/models/Category';   
+import Category from '@/app/types/models/Category';
 import FormInventory from './FormInventory'
 import InventoryDto from '@/app/types/dto/inventory/InventoryDto'
 
@@ -26,19 +26,19 @@ type Props = {
 
 type InventoryFormInputs = z.infer<typeof schema>;
 
-export default function PageClient({categorias}: Props) {
+export default function PageClient({ categorias }: Props) {
     const { toast } = useToast();
-    const router    = useRouter();
+    const router = useRouter();
 
     const methods = useForm<InventoryFormInputs>({
-       mode: "onChange" ,
-       resolver: zodResolver(schema),
-       defaultValues: {
+        mode: "onChange",
+        resolver: zodResolver(schema),
+        defaultValues: {
             nombre: "",
             categoriaId: "",
             codigo: "",
             trazador: true,
-       }
+        }
     });
 
     const onSubmit = async (data: InventoryFormInputs) => {
@@ -51,7 +51,7 @@ export default function PageClient({categorias}: Props) {
 
         const response = await create(inventoryDto);
 
-        if(response.status === 201 || response.status === 200){
+        if (response.status === 201 || response.status === 200) {
             toast({
                 title: "Producto creado exitosamente",
                 description: `El producto ${data.nombre} ha sido creado`,
@@ -59,16 +59,16 @@ export default function PageClient({categorias}: Props) {
             });
             router.push("/inventory");
         }
-        if(response.status ===409){
+        else if (response.status === 409) {
 
             toast({
-              title: `Error`,
-              description: 'Codigo ya existe',
-              duration: 3000,
-              variant: "destructive",
+                title: `Error`,
+                description: 'Codigo ya existe',
+                duration: 3000,
+                variant: "destructive",
             });
-      
-          }
+
+        }
         else {
             toast({
                 title: `Error ${response.status}`,
@@ -79,18 +79,18 @@ export default function PageClient({categorias}: Props) {
         }
     }
 
-  return (
-    <LayoutSection
-        title="Inventario"
-        description="completa la información requerida"
-    >
-        <FormProvider {...methods}>
-            <Form {...methods}>
-                <form onSubmit={methods.handleSubmit(onSubmit)}>
-                    <FormInventory categorias={categorias}/>
-                </form>
-            </Form>
-        </FormProvider>
-    </LayoutSection>
-  )
+    return (
+        <LayoutSection
+            title="Inventario"
+            description="completa la información requerida"
+        >
+            <FormProvider {...methods}>
+                <Form {...methods}>
+                    <form onSubmit={methods.handleSubmit(onSubmit)}>
+                        <FormInventory categorias={categorias} />
+                    </form>
+                </Form>
+            </FormProvider>
+        </LayoutSection>
+    )
 }
