@@ -57,7 +57,7 @@ export default function PageClient({ user }: Props) {
 
 <Card className="w-full max-w-md mx-50">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Detalles</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Detalle Usuario</CardTitle>
         </CardHeader>
         
         <CardContent className="space-y-4">
@@ -84,7 +84,7 @@ export default function PageClient({ user }: Props) {
             <div className="flex items-center space-x-2">
               <Mail className="h-5 w-5 text-muted-foreground" />
               <span className="font-medium">
-                <Typography variant="small" className="font-bold">Email</Typography>
+                <Typography variant="small" className="font-bold">Correo Electrónico</Typography>
                 <Typography variant="muted">{user.email}</Typography>
               </span>
             </div>

@@ -56,7 +56,7 @@ export default function PageClient({ category }: Props) {
     >
       <Card className="w-full max-w-md mx-50">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Detalles</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Detalle Categoría</CardTitle>
         </CardHeader>
         
         <CardContent className="space-y-4">
