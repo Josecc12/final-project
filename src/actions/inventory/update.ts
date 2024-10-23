@@ -13,8 +13,7 @@ export default async function update({
     codigo,
     nombre,
     categoriaId,
-    trazador,
-    departamentosId
+    trazador
 }: InventoryDto): Promise<SuccessReponse<Inventory> | ErrorResponse>{
     try {
         const url = `${parsedEnv.API_URL}/insumos`;
@@ -24,7 +23,6 @@ export default async function update({
             codigo,
             nombre,
             categoriaId,
-            departamentosId,
             trazador
         };
 

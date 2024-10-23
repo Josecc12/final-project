@@ -42,7 +42,6 @@ export default function PageClient({ categorias, departamentos }: Props) {
             categoriaId: "",
             codigo: "",
             trazador: true,
-            departamentosId: [],
         }
     });
 
@@ -52,7 +51,6 @@ export default function PageClient({ categorias, departamentos }: Props) {
             codigo: data.codigo,
             categoriaId: data.categoriaId,
             trazador: data.trazador,
-            departamentosId: data.departamentosId, // Incluye los IDs seleccionados
         };
         console.log(inventoryDto);
         const response = await create(inventoryDto);

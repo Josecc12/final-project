@@ -8,7 +8,7 @@ import Delete from "@/components/ui/delete";
 import { toast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ClipboardList, Tag, Warehouse, Building2 } from "lucide-react";
+import { ClipboardList, Tag, Warehouse, Building2, Car } from "lucide-react";
 import deleteInsumo from "@/actions/inventory/delete";
 import Insumo from "@/app/types/models/Insumo";
 import { ErrorResponse } from "@/app/types/api";
@@ -48,17 +48,11 @@ export default function PageClient({ insumo }: Props) {
   };
 
   return (
-    <LayoutSection title="" description="Aquí puedes ver los detalles del insumo">
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            Detalles del Insumo
-          </CardTitle>
-        </CardHeader>
-
+    <LayoutSection title="Detalle de insumo" description="Aquí puedes ver los detalles del insumo">
+      <Card className="w-full max-w-md">
         <CardContent className="space-y-6">
           {/* Código del insumo */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 space-y-4">
             <Tag className="h-5 w-5 text-muted-foreground" />
             <div>
               <Typography variant="small" className="font-bold">Código</Typography>
@@ -85,7 +79,7 @@ export default function PageClient({ insumo }: Props) {
           </div>
 
           {/* Departamentos */}
-          <div className="space-y-2">
+          <div className="space-y-6">
             <div className="flex items-center space-x-2">
               <Building2 className="h-5 w-5 text-muted-foreground" />
               <Typography variant="small" className="font-bold">Departamentos</Typography>
