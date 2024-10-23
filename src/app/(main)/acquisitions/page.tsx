@@ -7,17 +7,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
-import RecipeForm from "./RecipeForm";
+import AcquisitionForm from "./components/AcquisitionForm";
+
 
 
 
 const schema = z.object({
-    motivo: z.string().min(1, "El nombre es requerido"),
-    anotaciones: z.string(),
     insumos: z.array(
         z.object({
             cantidad: z.string().min(1, "La cantidad mínima es 1"),
             insumo: z.string().min(1, 'Selecciona un insumo'),
+            caducidad: z.date({ required_error: "La fecha de nacimiento es requerida" })
         })
     ),
 })
@@ -30,11 +30,10 @@ export default function Page() {
         mode: "onChange",
         resolver: zodResolver(schema),
         defaultValues: {
-            motivo: "",
-            anotaciones: "",
-            insumos: [{ cantidad: "1", insumo: "" }],
+     
+            insumos: [{ cantidad: "1", insumo: "" , caducidad: new Date() }],
         },
-    });
+    })
 
     const { toast } = useToast();
     const router = useRouter();
@@ -46,13 +45,13 @@ export default function Page() {
 
     return (
         <LayoutSection
-            title="Nueva visita medica"
-            description="Pacientes Sample Sample">
+            title="Adquisición de insumos"
+            description="Completa la informacion de los insumos adquiridos">
 
             <FormProvider {...methods}>
                 <Form {...methods}>
                     <form onSubmit={methods.handleSubmit(onSubmit)}>
-                        <RecipeForm />
+                        <AcquisitionForm />
                     </form>
                 </Form>
             </FormProvider>

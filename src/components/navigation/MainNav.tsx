@@ -18,6 +18,7 @@ import {
   LayersIcon,
   TagIcon,
   ChevronDown,
+  TruckIcon,
 } from "lucide-react";
 import Logout from "@/actions/auth/logout";
 
@@ -103,6 +104,14 @@ export default function MainNav() {
                   >
                     <LayersIcon className="h-4 w-4" />
                     Lotes
+                  </Link>
+                  <Link
+                    href="/acquisitions"
+                    className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-200 rounded-md dark:hover:bg-gray-700"
+                    prefetch={false}
+                  >
+                    <TruckIcon className="h-4 w-4" />
+                    Adquisición
                   </Link>
                 </li>
               </ul>
