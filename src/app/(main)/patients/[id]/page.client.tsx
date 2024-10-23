@@ -50,26 +50,15 @@ export default function PageClient({ patient }: Props) {
   };
 
   return (
+
     <LayoutSection
-      title="Paciente"
+      title="Detalle Paciente"
       description="Información sobre el paciente"
-      actions={
-        <div className="flex gap-2 md:self-end self-end">
-           <Button variant="outline" asChild>
-            <Link href={`/patients/${patient.id}/recipe`}>Nueva receta</Link>
-          </Button>
-          <Button variant="default" asChild>
-            <Link href={`/patients/${patient.id}/edit`}>Editar</Link>
-          </Button>
-         
-          <Delete onDelete={onDelete} />
-        </div>
-      }
     >
       
       <Card className="w-full max-w-md mx-50">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Detalle Paciente</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center"></CardTitle>
         </CardHeader>
         
         <CardContent className="space-y-4">
@@ -155,13 +144,17 @@ export default function PageClient({ patient }: Props) {
               </span>
             </div>
             <br />
-            
+
             <div className="flex gap-5 justify-end md:self-end">
-              <Button variant="default" asChild>
-                <Link href={`/patients/${patient.id}/edit`}>Editar</Link>
-              </Button>
-              <Delete onDelete={onDelete} />
-            </div>
+           <Button variant="outline" asChild>
+            <Link href={`/patients/${patient.id}/recipe`}>Nueva receta</Link>
+          </Button>
+          <Button variant="default" asChild>
+            <Link href={`/patients/${patient.id}/edit`}>Editar</Link>
+          </Button>
+         
+          <Delete onDelete={onDelete} />
+        </div>
 
           
           </div>

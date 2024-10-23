@@ -50,14 +50,14 @@ export default function PageClient({ user }: Props) {
   return (
 
     <LayoutSection
-      title={``}
+      title={`Detalles del Usuario`}
       description="Acerca de tu perfil"
     >
       
 
     <Card className="w-full max-w-md mx-50">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">Detalles del Usuario</CardTitle>
+        <CardTitle className="text-2xl font-bold text-center"></CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         

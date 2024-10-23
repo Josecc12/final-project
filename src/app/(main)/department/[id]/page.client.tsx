@@ -12,10 +12,6 @@ import Delete from "@/components/ui/delete";
 import deleteDepartment from "@/actions/department/delete";
 import { Department } from "@/app/types/models"; 
 import { useRouter } from "next/navigation";
-import { MessageSquare, Notebook } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
-
-
 
 type Props = {
   department: Department;
@@ -50,16 +46,16 @@ export default function PageClient({ department }: Props) {
       });
     }
   };
-
+  
   return (
     <LayoutSection
-      title={``}
+      title={`Detalles Departamento`}
       description="Aqui puedes ver los detalles de los departamentos del centro de salud"
      
     >
       <Card className="w-full max-w-md mx-50">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Detalles Departamento</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center"></CardTitle>
         </CardHeader>
         
         <CardContent className="space-y-4">

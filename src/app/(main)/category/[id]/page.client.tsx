@@ -50,13 +50,13 @@ export default function PageClient({ category }: Props) {
 
   return (
     <LayoutSection
-      title={``}
+      title={`Detalle Categoría`}
       description="Aquí puedes ver los detalles de la categoría"
   
     >
       <Card className="w-full max-w-md mx-50">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Detalle Categoría</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center"></CardTitle>
         </CardHeader>
         
         <CardContent className="space-y-4">
