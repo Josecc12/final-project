@@ -17,11 +17,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useFormContext, Controller } from "react-hook-form";
-import { z } from "zod";
 import Category from "@/app/types/models/Category";
 import Department from "@/app/types/models/Department";
-import schema from "./schema";
+import { Checkbox } from "@/components/ui/checkbox"; //
+import { z } from "zod";
 
+const schema = z.object({
+  nombre: z.string().min(1,"El nombre es requerido"),
+  codigo: z.string().min(1,"El código es requerido"),
+  categoriaId: z.string().min(1,"La categoría es requerida"),
+  trazador: z.boolean().default(false), // Definimos el campo booleano
+});
 type InventoryFormInputs = z.infer<typeof schema>;
 
 type Props = {
@@ -86,6 +92,21 @@ export default function FormInventory({ categorias, departamentos }: Props) {
                 </Select>
               </FormControl>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Campo para la variable booleana 'trazador' */}
+        <FormField
+          control={control}
+          name="trazador"
+          render={({ field }) => (
+            <FormItem className="flex items-center space-x-2">
+              <Checkbox
+                checked={field.value}
+                onCheckedChange={(checked) => field.onChange(checked)}
+              />
+              <FormLabel>¿Es un producto trazador?</FormLabel>
             </FormItem>
           )}
         />

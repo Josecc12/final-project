@@ -8,7 +8,7 @@ import Delete from "@/components/ui/delete";
 import { toast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ClipboardList, Tag, Warehouse, Building2, Car } from "lucide-react";
+import { ClipboardList, Tag, Warehouse, Building2, Trash2,Edit, } from "lucide-react";
 import deleteInsumo from "@/actions/inventory/delete";
 import Insumo from "@/app/types/models/Insumo";
 import { ErrorResponse } from "@/app/types/api";
@@ -48,11 +48,31 @@ export default function PageClient({ insumo }: Props) {
   };
 
   return (
-    <LayoutSection title="Detalle de insumo" description="Aquí puedes ver los detalles del insumo">
-      <Card className="w-full max-w-md">
-        <CardContent className="space-y-6">
+    
+      <Card className="w-full max-w-md m-8 my-9">
+        <CardContent className="space-y-4">
+        <CardHeader>
+            <div className="flex items-center justify-between w-full">
+              <div className="flex flex-col">
+                <CardTitle>Detalle de insumo</CardTitle>
+                <Typography variant="small" className="text-muted-foreground">
+                  Aquí puedes ver los detalles del insumo
+                </Typography>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="default" asChild>
+                  <Link href={`/inventory/${insumo.id}/edit`}>
+                    <Edit className="h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button variant="destructive" size="icon" onClick={onDelete}>
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </CardHeader>
           {/* Código del insumo */}
-          <div className="flex items-center space-x-2 space-y-4">
+          <div className="flex items-center space-x-2">
             <Tag className="h-5 w-5 text-muted-foreground" />
             <div>
               <Typography variant="small" className="font-bold">Código</Typography>
@@ -95,14 +115,8 @@ export default function PageClient({ insumo }: Props) {
           </div>
 
           {/* Acciones */}
-          <div className="flex gap-5 justify-end">
-            <Button variant="default" asChild>
-              <Link href={`/inventory/${insumo.id}/edit`}>Editar</Link>
-            </Button>
-            <Delete onDelete={onDelete} />
-          </div>
+          
         </CardContent>
       </Card>
-    </LayoutSection>
   );
 }

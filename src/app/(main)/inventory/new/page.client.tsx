@@ -19,8 +19,7 @@ const schema = z.object({
     nombre: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
     categoriaId: z.string().min(1),
     codigo: z.string().min(2, "Debe tener al menos 2 caracteres"),
-    trazador: z.boolean(),
-    departamentosId: z.array(z.string()),
+    trazador: z.boolean()
 });
 
 type Props = {

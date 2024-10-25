@@ -13,10 +13,11 @@ export default async function update({
     codigo,
     nombre,
     categoriaId,
-    trazador
+    trazador,
+    id
 }: InventoryDto): Promise<SuccessReponse<Inventory> | ErrorResponse>{
     try {
-        const url = `${parsedEnv.API_URL}/insumos`;
+        const url = `${parsedEnv.API_URL}/insumos/${id}`;
         const session = cookies().get("session")?.value;
 
         const body = {

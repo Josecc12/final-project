@@ -47,8 +47,7 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormInputs) => {
     const response = await Login(data);
-    console.log(response);
-
+    
     if (response.status === 200) {
       router.push("/");
       toast({
