@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Typography } from "@/components/ui/Typography";
 import { toast } from "@/components/ui/use-toast";
-import { MessageSquare, Notebook } from "lucide-react";
+import { ClipboardList, Edit, MessageSquare, Notebook, Tag, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { ErrorResponse } from "@/app/types/api";
 import Delete from "@/components/ui/delete";
@@ -48,53 +48,51 @@ export default function PageClient({ department }: Props) {
   };
   
   return (
-    <LayoutSection
-      title={`Detalles Departamento`}
-      description="Aqui puedes ver los detalles de los departamentos del centro de salud"
-     
-    >
-      <Card className="w-full max-w-md mx-50">
+
+    <Card className="w-full max-w-md m-8 my-9">
+      <CardContent className="space-y-4">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center"></CardTitle>
-        </CardHeader>
-        
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            
-            <div className="flex items-center space-x-2">
-              <MessageSquare className="h-5 w-5 text-muted-foreground" />
-              <span className="font-medium">
-
-              <Typography variant="small" className="font-bold">Codigo</Typography>
-              <Typography variant="muted">{department.id}</Typography>
-              
-              </span>
+          <div className="flex items-center justify-between w-full">
+          <div className="flex flex-col">
+               <CardTitle>Detalle del Departamento</CardTitle>
+              <Typography variant="small" className="text-muted-foreground">
+                Aquí puedes ver los detalles del departamento
+              </Typography>
             </div>
-            <br />
-
-          <div className="flex items-center space-x-2">
-            <Notebook className="h-5 w-5 text-muted-foreground" />
-            <span className="font-medium">
-            <Typography variant="small" className="font-bold">Nombre</Typography>
-          <Typography variant="muted">{department.nombre}</Typography>
-            </span>
+            
+            <div className="flex gap-2">
+              <Button variant="default" asChild>
+                <Link href={`/department/${department.id}/edit`}>
+                  <Edit className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button variant="destructive" size="icon" onClick={onDelete}>
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
-          <br />             
-        </div>
 
-        <div className="flex gap-5 justify-end md:self-end">
-          <Button variant="default" asChild>
-            <Link href={`/department/${department.id}/edit`}>Editar</Link>
-          </Button>
-          <Delete onDelete={onDelete} />
-        </div>
-
+        </CardHeader>
+          {/* Código del departamento */}
+          <div className="flex items-center space-x-2">
+            <Tag className="h-5 w-5 text-muted-foreground" />
+            <div>
+              <Typography variant="small" className="font-bold">Código</Typography>
+              <Typography variant="muted">{department.id}</Typography>
+            </div>
+            
+            </div>
+            {/* Nombre del departamento */}
+            <div className="flex items-center space-x-2">
+              <ClipboardList className="h-5 w-5 text-muted-foreground" />
+            <div>
+              <Typography variant="small" className="font-bold">Nombre</Typography>
+              <Typography variant="muted">{department.nombre}</Typography>
+            </div>
+          </div>          
       </CardContent>
     </Card>
-
-
-
-    
-    </LayoutSection>
+  
   );
 }
+
