@@ -3,7 +3,7 @@
 import findOne from "@/actions/inventory/findOne";
 import PageClient from './page.client'
 import findAll from '@/actions/category/findAll';
-import { findAll as findAllDepartments } from '@/actions/department/findAll';
+import { findAll as findAllDepartments } from '@/actions/department';
 
 type Props={
   params:{
