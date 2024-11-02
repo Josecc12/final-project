@@ -22,6 +22,8 @@ import { z } from "zod";
 import schema from "./schema";
 import Role from "@/app/types/models/Role";
 import Department from "@/app/types/models/Department";
+import { useState } from "react";
+import { Eye, EyeOff} from "lucide-react";
 
 type UserFormInputs = z.infer<typeof schema>;
 
@@ -37,6 +39,8 @@ export default function FormUser({roles, departments}: Props) {
     control,
     formState: { errors },
   } = useFormContext<UserFormInputs>();
+
+  const [showPassword, setShowPassword] = useState(false); 
 
   return (
     <Card className="w-full max-w-[600px]">
@@ -119,12 +123,24 @@ export default function FormUser({roles, departments}: Props) {
             <FormItem>
               <FormLabel htmlFor="password">Contraseña</FormLabel>
               <FormControl>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Ingresa tu contraseña"
-                  {...field}
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Ingresa tu contraseña"
+                    {...field}
+                  />
+                  <div 
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5 text-gray-500" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-gray-500" />
+                    )}
+                  </div>
+                </div>
               </FormControl>
               <FormMessage>{errors.password?.message}</FormMessage>
             </FormItem>
