@@ -5,13 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Typography } from "@/components/ui/Typography";
 import { toast } from "@/components/ui/use-toast";
-import { ClipboardList, Edit, MessageSquare, Notebook, Tag, Trash2 } from "lucide-react";
+import { ClipboardList, Edit, Tag, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { ErrorResponse } from "@/app/types/api";
 import Delete from "@/components/ui/delete";
 import deleteDepartment from "@/actions/department/delete";
 import { Department } from "@/app/types/models"; 
 import { useRouter } from "next/navigation";
+import { MessageSquare, Notebook } from "lucide-react";
+
 
 type Props = {
   department: Department;

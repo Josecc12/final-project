@@ -163,24 +163,5 @@ export default function PageClient({ patient }: Props) {
 
       </CardContent>
     </Card>
-
-    /* 
-            <div className="flex gap-5 justify-end md:self-end">
-           <Button variant="outline" asChild>
-            <Link href={`/patients/${patient.id}/recipe`}>Nueva receta</Link>
-          </Button>
-          <Button variant="default" asChild>
-            <Link href={`/patients/${patient.id}/edit`}>Editar</Link>
-          </Button>
-         
-          <Delete onDelete={onDelete} />
-        </div>
-
-          
-          </div>
-        </CardContent>
-      </Card>
-
-    </LayoutSection> */
   );
 }
