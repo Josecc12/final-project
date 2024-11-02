@@ -8,28 +8,26 @@ import InventoryDto from '../../app/types/dto/inventory/InventoryDto';
 
 import { revalidatePath } from "next/cache";
 import Inventory from '@/app/types/models/Inventario'
-import { de } from "date-fns/locale";
 
-export default async function create({
+export default async function update({
     codigo,
     nombre,
     categoriaId,
     trazador,
-    departamentosId
+    id
 }: InventoryDto): Promise<SuccessReponse<Inventory> | ErrorResponse>{
     try {
-        const url = `${parsedEnv.API_URL}/insumos`;
+        const url = `${parsedEnv.API_URL}/insumos/${id}`;
         const session = cookies().get("session")?.value;
 
         const body = {
             codigo,
             nombre,
             categoriaId,
-            departamentosId,
             trazador
         };
 
-        const response = await axios.post<Inventory>(url,body, {
+        const response = await axios.patch<Inventory>(url,body, {
             headers: {
                 Authorization: `Bearer ${session}`,
             },

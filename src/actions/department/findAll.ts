@@ -13,7 +13,7 @@ type Props = {
   searchParams?: URLSearchParams;
 };
 
-export default async function findAll(
+export async function findAll(
   props: Props = {}
 ): Promise<SuccessReponse<Department[]> | ErrorResponse> {
   try {

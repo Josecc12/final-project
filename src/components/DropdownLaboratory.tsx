@@ -74,7 +74,6 @@ export default function DropdownLaboratory<TFieldValues extends FieldValues>({
         try {
 
           const response = await findOne(defaultValue)
-          console.log(response)
           if (response.status === 200 && "data" in response) {
             setSelectedItem(response.data)
             setValue(name, response.data.id as PathValue<TFieldValues, Path<TFieldValues>>, {

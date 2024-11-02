@@ -1,5 +1,5 @@
 
-import findAll from "@/actions/department/findAll";
+import {findAll} from "@/actions/department/findAll";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import PageClient from "./page.client";
 
