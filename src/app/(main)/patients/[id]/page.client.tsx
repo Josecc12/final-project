@@ -25,7 +25,6 @@ export default function PageClient({ patient }: Props) {
 
   const onDelete = async () => {
     const response = await deletePatient({ id: patient.id }); 
-    
     if (response?.status === 200) {
       toast({
         title: "Paciente eliminado exitosamente",
@@ -56,9 +55,6 @@ export default function PageClient({ patient }: Props) {
           <div className="flex items-center justify-between w-full">
             <div className="flex flex-col">
                <CardTitle>Detalle del Paciente</CardTitle>
-              <Typography variant="small" className="text-muted-foreground">
-                Aquí puedes ver los detalles del paciente
-              </Typography>
             </div>
             
             <div className="flex gap-2">

@@ -55,11 +55,7 @@ export default function PageClient({ user }: Props) {
           <div className="flex items-center justify-between w-full">
             <div className="flex flex-col">
                <CardTitle>Detalle del Usuario</CardTitle>
-              <Typography variant="small" className="text-muted-foreground">
-                Aquí puedes ver los detalles del usuario
-              </Typography>
             </div>
-            
             <div className="flex gap-2">
               <Button variant="default" asChild>
                 <Link href={`/user/${user.id}/edit`}>

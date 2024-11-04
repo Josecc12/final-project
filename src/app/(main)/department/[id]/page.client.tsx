@@ -58,7 +58,7 @@ export default function PageClient({ department }: Props) {
           <div className="flex flex-col">
                <CardTitle>Detalle del Departamento</CardTitle>
               <Typography variant="small" className="text-muted-foreground">
-                Aquí puedes ver los detalles del departamento
+               
               </Typography>
             </div>
             

@@ -54,10 +54,7 @@ export default function PageClient({ category }: Props) {
         <CardHeader>
           <div className="flex items-center justify-between w-full">
             <div className="flex flex-col">
-               <CardTitle>Detalle de la Categoria</CardTitle>
-              <Typography variant="small" className="text-muted-foreground">
-                Aquí puedes ver los detalles de la categoria
-              </Typography>
+               <CardTitle>Detalle de la categoría</CardTitle>
             </div>
             
             <div className="flex gap-2">
