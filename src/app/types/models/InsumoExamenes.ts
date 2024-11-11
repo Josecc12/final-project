@@ -4,7 +4,7 @@ import Insumo from "./Insumo";
 type InsumoExamenes = {
     id: string;
     cantidad: number;
-    insumo: Insumo[];
+    insumo: Insumo;
    
 
 }
