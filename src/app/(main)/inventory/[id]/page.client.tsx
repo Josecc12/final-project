@@ -107,8 +107,8 @@ export default function PageClient({ insumo }: Props) {
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {insumo.departamentos.map((dep: Department) => (
-                <Card key={dep.id} className="p-4 border rounded-lg shadow-sm">
-                  <Typography variant="small" className="font-bold">{dep.nombre}</Typography>
+                <Card key={dep.departamento.id} className="p-4 border rounded-lg shadow-sm">
+                  <Typography variant="small" className="font-bold">{dep.departamento.nombre}</Typography>
                 </Card>
               ))}
             </div>

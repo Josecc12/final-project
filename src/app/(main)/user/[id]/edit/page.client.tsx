@@ -47,7 +47,7 @@ export default function PageClient({ departments ,roles, user }: Props) {
       username: user.username,
       email: user.email,
       role: `${user.role.id}`,
-      department: `${user.departamento.id}`,
+      department: `${user.departamento.departamento.id}`,
       password: "",
     },
   });
