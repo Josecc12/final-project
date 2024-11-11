@@ -77,7 +77,7 @@ export default function Page() {
         </Button>
       }
     >
-      <SearchBar />
+      <SearchBar placeholder="Buscar" />
 
       <Card>
         <CardContent className="px-0">

@@ -64,7 +64,7 @@ export default function FormPatient() {
                 <FormControl>
                   <Input
                     id="nombe"
-                    placeholder="Ingresa tu nombre"
+                    placeholder="Ingresa nombre del paciente"
                     {...field}
                   />
                 </FormControl>
@@ -83,7 +83,7 @@ export default function FormPatient() {
                 <FormControl>
                   <Input
                     id="cui"
-                    placeholder="Ingresa tu nombre"
+                    placeholder="Ingresa cui del paciente"
                     {...field}
                   />
                 </FormControl>
@@ -176,7 +176,6 @@ export default function FormPatient() {
               <FormControl>
                 <Textarea
                   id="familiares"
-                  placeholder="Ingresa tu nombre"
                   {...field}
                 />
               </FormControl>
