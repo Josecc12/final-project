@@ -192,8 +192,8 @@ export default function FormUser({roles, departments}: Props) {
                   <SelectContent>
                    {
                       departments.map((department) => (
-                        <SelectItem key={department.departamento.id} value={`${department.departamento.id}`}>
-                          {department.departamento.nombre}
+                        <SelectItem key={department.id} value={`${department.id}`}>
+                          {department.nombre}
                         </SelectItem>
                       ))
                    }

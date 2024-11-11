@@ -25,12 +25,12 @@ export default function PageClient({ department }: Props) {
   const router = useRouter(); 
 
   const onDelete = async () => {
-    const response = await deleteDepartment({ id: department.departamento.id }); 
+    const response = await deleteDepartment({ id: department.id }); 
 
     if (response?.status === 200) {
       toast({
         title: "Departamento eliminado exitosamente",
-        description: `El departamento ${department.departamento.nombre} ha sido eliminado.`,
+        description: `El departamento ${department.nombre} ha sido eliminado.`,
         variant: "default",
       });
       router.push("/department");
@@ -65,7 +65,7 @@ export default function PageClient({ department }: Props) {
             
             <div className="flex gap-2">
               <Button variant="default" asChild>
-                <Link href={`/department/${department.departamento.id}/edit`}>
+                <Link href={`/department/${department.id}/edit`}>
                   <Edit className="h-4 w-4" />
                 </Link>
               </Button>
@@ -81,7 +81,7 @@ export default function PageClient({ department }: Props) {
             <Tag className="h-5 w-5 text-muted-foreground" />
             <div>
               <Typography variant="small" className="font-bold">Código</Typography>
-              <Typography variant="muted">{department.departamento.id}</Typography>
+              <Typography variant="muted">{department.id}</Typography>
             </div>
             
             </div>
@@ -90,7 +90,7 @@ export default function PageClient({ department }: Props) {
               <ClipboardList className="h-5 w-5 text-muted-foreground" />
             <div>
               <Typography variant="small" className="font-bold">Nombre</Typography>
-              <Typography variant="muted">{department.departamento.nombre}</Typography>
+              <Typography variant="muted">{department.nombre}</Typography>
             </div>
           </div>          
       </CardContent>
