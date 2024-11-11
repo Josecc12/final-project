@@ -1,4 +1,5 @@
 import {findAll as findAllDepartments} from "@/actions/department/findAll";
+import findAll from "@/actions/inventory/findAll";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import PageClient from "./page.client";
 
@@ -9,14 +10,18 @@ type Props = {
   export default async function Page({ searchParams }: Props) {
     const params = new URLSearchParams(searchParams);
    
-    const response = await findAllDepartments(
+    const responseDepartamentos = await findAllDepartments(
       {searchParams: params}
     );
+    const responseInsumo = await findAll({
+    });
   
-  
-    if (response.status !== 200 || !("data" in response)) {
-      throw new Error("Failed to fetch categoria data");
+    if (responseDepartamentos.status !== 200 || !("data" in responseDepartamentos)) {
+      throw new Error("Failed to fetch departamentos data");
+    }
+    if (responseInsumo.status !== 200 || !("data" in responseInsumo)) {
+      throw new Error("Failed to fetch insumos data");
     }
   
-    return <PageClient categories={response.data} pagination={response.meta}/>;
+    return <PageClient departments={responseDepartamentos.data} insumos={responseInsumo.data}/>;
   }

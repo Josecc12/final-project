@@ -1,6 +1,6 @@
 
 "use client"
-import { Department } from "@/app/types/models";
+import { Department, Insumo } from "@/app/types/models";
 import { useToast } from "@/components/ui/use-toast";
 import LayoutSection from "@/components/LayoutSection";
 import { FormProvider, useForm } from "react-hook-form";
@@ -21,10 +21,12 @@ const schema = z.object({
 
 type Props = {
     departments: Department[];
+    insumos: Insumo[];
 };
 type TransactionFormInputs = z.infer<typeof schema>;
 export default function PageClient({
     departments,
+    insumos,
 }:Props) {
     const { toast } = useToast();
     const router = useRouter();
@@ -70,7 +72,7 @@ export default function PageClient({
             <FormProvider {...methods}>
                 <Form {...methods}>
                     <form onSubmit={methods.handleSubmit(onSubmit)}>
-                        <FormTransaction />
+                        <FormTransaction departamentos={departments} insumos={insumos}/>
                     </form>
                 </Form>
             </FormProvider>
