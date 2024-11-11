@@ -31,8 +31,8 @@ export default function PageClient({department}:Props) {
         mode: "onChange",
         resolver: zodResolver(schema),
         defaultValues: {
-            id: department.id,
-            name: department.nombre,
+            id: department.departamento.id,
+            name: department.departamento.nombre,
         },
     });
 

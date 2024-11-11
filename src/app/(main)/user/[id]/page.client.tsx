@@ -13,8 +13,6 @@ import { ErrorResponse } from "@/app/types/api";
 import { Users2, Mail, Briefcase, Building2, MessagesSquare, Badge, Edit, Trash2 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-
-
 type Props = {
   user: User;
 };

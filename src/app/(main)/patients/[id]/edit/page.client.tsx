@@ -59,8 +59,9 @@ export default function Page({ patient }: Props) {
     const onSubmit = async (data: UserFormInputs) => {
 
 
-
+        console.log(data);
         const response = await update(data);
+
         if (response.status === 201 || response.status === 200) {
             toast({
                 title: "Paciente actualizado exitosamente",

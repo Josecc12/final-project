@@ -80,8 +80,8 @@ export default function PageClient({
             </TableHeader>
             <TableBody>
             {departaments.map((departament) => (
-                <TableRow key={departament.id} onClick={() => onRow(departament.id)}>
-                  <TableCell>{departament.nombre}</TableCell>
+                <TableRow key={departament.departamento.id} onClick={() => onRow(departament.departamento.id)}>
+                  <TableCell>{departament.departamento.nombre}</TableCell>
        
                 </TableRow>
               ))}

@@ -4,6 +4,7 @@ type InventoryDto = {
     nombre: string;
     categoriaId: string;
     trazador: boolean;
+    departamentosId?: string[];
 }
 
 export default InventoryDto;

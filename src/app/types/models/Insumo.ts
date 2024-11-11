@@ -1,5 +1,5 @@
 import Category from "./Category";
-
+import Department from "./Department";
 
 type Insumo = {
     trazador: boolean;
@@ -7,7 +7,7 @@ type Insumo = {
     codigo: string;
     nombre: string;
     categoria: Category;
-   
+    departamentos: Department[];
 
 }
 

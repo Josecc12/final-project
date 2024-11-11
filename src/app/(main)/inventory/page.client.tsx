@@ -74,7 +74,9 @@ export default function PageClient({ insumos, pagination = {
     const onPageChange = (page: number) => {
         router.push("inventory/?page=" + page);
     };
-
+    const onRow = (id: string) => {
+        router.push(`inventory/${id}`);
+      };
 
 
     return (
@@ -108,7 +110,7 @@ export default function PageClient({ insumos, pagination = {
                         </TableHeader>
                         <TableBody>
                             {insumos.map((supply) => (
-                                <TableRow key={supply.id}>
+                                <TableRow key={supply.id} onClick={()=>onRow(supply.id)}>
                                     <TableCell className="w-[100px] hidden md:table-cell">
                                         {supply.codigo}
                                     </TableCell>

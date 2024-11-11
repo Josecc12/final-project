@@ -1,7 +1,7 @@
 
-import findAll from "@/actions/department/findAll";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import PageClient from "./page.client";
+import { findAll } from "@/actions/department";
 
 
 type Props = {
