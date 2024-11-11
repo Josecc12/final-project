@@ -12,11 +12,12 @@ import { Department } from "@/app/types/models";
 import { useRouter } from "next/navigation";
 import { MessageSquare, Notebook } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
+import DepartmentTemp from "@/app/types/models/DepartmentTemp";
 
 
 
 type Props = {
-  department: Department;
+  department: DepartmentTemp
 };
 
 export default function PageClient({ department }: Props) {
@@ -24,12 +25,12 @@ export default function PageClient({ department }: Props) {
   const router = useRouter(); 
 
   const onDelete = async () => {
-    const response = await deleteDepartment({ id: department.id }); 
+    const response = await deleteDepartment({ id: department.departamento.id }); 
 
     if (response?.status === 200) {
       toast({
         title: "Departamento eliminado exitosamente",
-        description: `El departamento ${department.nombre} ha sido eliminado.`,
+        description: `El departamento ${department.departamento.nombre} ha sido eliminado.`,
         variant: "default",
       });
       router.push("/department");
@@ -68,7 +69,7 @@ export default function PageClient({ department }: Props) {
               <span className="font-medium">
 
               <Typography variant="small" className="font-bold">Codigo</Typography>
-              <Typography variant="muted">{department.id}</Typography>
+              <Typography variant="muted">{department.departamento.id}</Typography>
               
               </span>
             </div>
@@ -78,7 +79,7 @@ export default function PageClient({ department }: Props) {
             <Notebook className="h-5 w-5 text-muted-foreground" />
             <span className="font-medium">
             <Typography variant="small" className="font-bold">Nombre</Typography>
-          <Typography variant="muted">{department.nombre}</Typography>
+          <Typography variant="muted">{department.departamento.nombre}</Typography>
             </span>
           </div>
           <br />             
@@ -86,7 +87,7 @@ export default function PageClient({ department }: Props) {
 
         <div className="flex gap-5 justify-end md:self-end">
           <Button variant="default" asChild>
-            <Link href={`/department/${department.id}/edit`}>Editar</Link>
+            <Link href={`/department/${department.departamento.id}/edit`}>Editar</Link>
           </Button>
           <Delete onDelete={onDelete} />
         </div>

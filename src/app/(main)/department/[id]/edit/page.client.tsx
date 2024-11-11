@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import create from "@/actions/department/create";
 import { ErrorResponse } from "@/app/types/api";
-import { Department } from "@/app/types/models";
+import { DepartmentTemp } from "@/app/types/models";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import DeparmentForm from "../../new/DeparmentForm";
@@ -23,7 +23,7 @@ const schema = z.object({
 type InventoryFormInputs = z.infer<typeof schema>;
 
 type Props = {
-    department: Department
+    department: DepartmentTemp
 }
 
 export default function PageClient({department}:Props) {
@@ -31,8 +31,8 @@ export default function PageClient({department}:Props) {
         mode: "onChange",
         resolver: zodResolver(schema),
         defaultValues: {
-            id: department.id,
-            name: department.nombre,
+            id: department.departamento.id,
+            name: department.departamento.nombre,
         },
     });
 

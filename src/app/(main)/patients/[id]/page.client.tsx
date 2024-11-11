@@ -51,7 +51,7 @@ export default function PageClient({ patient }: Props) {
 
   return (
     <LayoutSection
-      title="Paciente"
+      title=""
       description="Información sobre el paciente"
       
     >
