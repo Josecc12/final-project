@@ -83,7 +83,6 @@ export default function PageClient({ insumo, categorias, departamentos }: Props)
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <FormInventory categorias={categorias} departamentos={departamentos} />
-          <button type="submit">Actualizar</button> {/* Asegura que haya un botón de submit */}
         </form>
       </FormProvider>
     </LayoutSection>
