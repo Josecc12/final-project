@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { z } from "zod";
 import { ErrorResponse } from "@/app/types/api";
-import FormTransaction from './components/FormTransaction';
+import FormTransaction from '../components/FormTransaction';
 import { useRouter } from "next/navigation";
 import { Category } from '@/app/types/models'
 import CategoryDto from "@/app/types/dto/category/CategoryDto";
