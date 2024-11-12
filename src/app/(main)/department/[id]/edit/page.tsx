@@ -12,15 +12,10 @@ type Props={
   }
 }
 
-type DepartmentTempResponse = {
-  status: number;
-  data: DepartmentTemp;
-}
-
 export default async function Page({params}:Props) {
 
 
-  const response = await findOne(params.id) as unknown as DepartmentTempResponse;
+  const response = await findOne(params.id);
   
   if (response.status !== 200 || !("data" in response)) {
     throw new Error("Failed to fetch data");
