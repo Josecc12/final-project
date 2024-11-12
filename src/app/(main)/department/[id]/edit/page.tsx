@@ -1,8 +1,6 @@
 
 import findOne from "@/actions/department/findOne";
 import PageClient from "./page.client";
-import { DepartmentTemp } from "@/app/types/models";
-
 
 
 

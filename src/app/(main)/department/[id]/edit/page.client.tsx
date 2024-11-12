@@ -8,11 +8,11 @@ import { z } from "zod";
 
 import create from "@/actions/department/create";
 import { ErrorResponse } from "@/app/types/api";
-import { Department, DepartmentTemp } from "@/app/types/models";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import DeparmentForm from "../../new/DeparmentForm";
 import update from "@/actions/department/update";
+import { Department } from "@/app/types/models";
 
 
 const schema = z.object({
