@@ -10,14 +10,19 @@ import { z } from "zod";
 import { ErrorResponse } from "@/app/types/api";
 import FormTransaction from '../components/FormTransaction';
 import { useRouter } from "next/navigation";
-import { Category } from '@/app/types/models'
-import CategoryDto from "@/app/types/dto/category/CategoryDto";
-import create from "@/actions/category/create";
+import TransactionDto from "@/app/types/dto/transaction/TransactionDto";
+import create from "@/actions/transaction/create";
 
 const schema = z.object({
-    nameCategory: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-    is_active: z.boolean(),
-})
+    origen: z.string().min(1, "El nombre es requerido"),
+    destino: z.string().min(1, "El nombre es requerido"),
+    insumos: z.array(
+        z.object({
+            cantidad: z.number().min(1, "La cantidad mínima es 1"),
+            insumoId: z.string().min(1, 'Selecciona un insumo'),
+        })
+    ),
+  })
 
 type Props = {
     departments: Department[];
@@ -34,26 +39,35 @@ export default function PageClient({
         mode: "onChange",
         resolver: zodResolver(schema),
         defaultValues: {
-            nameCategory: '',
-            is_active: true,
+            origen: "",
+            destino: "",
+            insumos: [],
+
         }
     });
 
     const onSubmit = async (data: TransactionFormInputs) => {
-        const categoryDto: CategoryDto = {
-            ...data,
-            nombre: data.nameCategory,
+        console.log("data")
+        console.log(data);
+        const transactionDto: TransactionDto = {
+            departamentoRetiroId: data.origen,
+            departamentoAdquisicionId: data.destino,
+            insumos: data.insumos.map(({ insumoId, cantidad }) => ({
+                insumoId: insumoId, // Conversión en el nombre
+                cantidad,
+            }))
         };
-
-        const response = await create(categoryDto);
+        
+        console.log(transactionDto);
+        const response = await create(transactionDto);
 
         if (response.status === 201 || response.status === 200) {
             toast({
                 title: "Categoria creada Exitosamente",
-                description: `La categoria ${data.nameCategory} ha sido creado`,
+                description: `el movimiento de insumos dessde ${data.origen} hasta ${data.destino} ha sido creado`,
                 duration: 3000,
             });
-            router.push("/category");
+            router.push("/transaction");
         } else {
             toast({
                 title: `Error ${response.status}`,

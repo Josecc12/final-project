@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import DropdownSearch from "@/components/DropdownSearch";
 import {
     FormControl,
@@ -12,32 +11,24 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Trash2, PlusCircleIcon } from 'lucide-react';
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { useState } from 'react';
 import { Department, Insumo } from "@/app/types/models";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { z } from "zod";
 
 const schema = z.object({
-  origen: z.string().min(1, "El nombre es requerido"),
-  destino: z.string().min(1, "El nombre es requerido"),
-  descripcion: z.string().min(1, "El nombre es requerido"),
+  origen: z.string().min(1, "Selecciona el departamento de origen"),
+  destino: z.string().min(1, "Selecciona el departamento de destino"),
   insumos: z.array(
       z.object({
           cantidad: z.number().min(1, "La cantidad mínima es 1"),
-          insumo: z.string().min(1, 'Selecciona un insumo'),
+          insumo: z.string().min(1, "Selecciona un insumo"),
       })
   ),
-})
+});
 
 type FormInputs = z.infer<typeof schema>;
-
-interface Detalle {
-  insumo: string;
-  cantidad: number;
-}
 
 type Props = {
     departamentos: Department[];
@@ -45,16 +36,23 @@ type Props = {
 };
 
 export default function FormTransaction({ departamentos, insumos }: Props) {
-  const { control, formState: { errors }, register, setValue } = useFormContext<FormInputs>();
+  const { 
+          control, 
+          formState: { errors, defaultValues },
+          register, 
+          setValue 
+        } = useFormContext<FormInputs>();
+
   const { fields, append, remove } = useFieldArray({
       control,
       name: "insumos",
   });
-
+  console.log(fields);
   return (
     <div className="container mx-auto p-4">
       <Card className="p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Departamento de Origen*/}
           <FormField
             control={control}
             name="origen"
@@ -77,6 +75,7 @@ export default function FormTransaction({ departamentos, insumos }: Props) {
               </FormItem>
             )}
           />
+          {/* Departamento de Destino */}
           <FormField
             control={control}
             name="destino"
@@ -99,25 +98,9 @@ export default function FormTransaction({ departamentos, insumos }: Props) {
               </FormItem>
             )}
           />
+           
         </div>
-        <FormField
-          control={control}
-          name="descripcion"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="descripcion">Descripción</FormLabel>
-              <FormControl>
-                <Input
-                  id="descripcion"
-                  placeholder="Descripción del movimiento"
-                  {...field}
-                  required
-                />
-              </FormControl>
-              <FormMessage>{errors.descripcion?.message}</FormMessage>
-            </FormItem>
-          )}
-        />
+        {/* Detalles de Insumos */}
         <div className="space-y-2">
           <h2 className="text-xl font-semibold">Detalles de Insumos</h2>
           {fields.map((field, index) => (
@@ -128,7 +111,14 @@ export default function FormTransaction({ departamentos, insumos }: Props) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Cantidad</FormLabel>
-                    <Input {...field} type="number" placeholder="Cantidad" required />
+                    <Input
+                      {...field}
+                      type="number"
+                      placeholder="Cantidad"
+                      required
+                      value={field.value || ""}
+                      onChange={(e) => field.onChange(Number(e.target.value) || 0)} // Convirtiendo a número
+                    />
                     <FormMessage>{errors.insumos?.[index]?.cantidad?.message}</FormMessage>
                   </FormItem>
                 )}
