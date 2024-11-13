@@ -10,8 +10,7 @@ import { z } from "zod";
 
 
 const schema = z.object({
-    motivo: z.string().min(1, "El nombre es requerido"),
-    anotaciones: z.string(),
+    descripcion: z.string().min(1, "El nombre es requerido"),
     insumos: z.array(
         z.object({
             cantidad: z.number().min(1, "La cantidad mínima es 1"),
@@ -43,7 +42,7 @@ export default function RecipeForm() {
 
             <FormField
             control={control}
-            name="motivo"
+            name="descripcion"
             render={({ field }) => (
               <FormItem>
                 <FormLabel htmlFor="cui">Motivo de la consulta</FormLabel>
@@ -54,27 +53,12 @@ export default function RecipeForm() {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage>{errors.motivo?.message}</FormMessage>
+                <FormMessage>{errors.descripcion?.message}</FormMessage>
               </FormItem>
             )}
           />
 
-            <FormField
-                control={control}
-                name="anotaciones"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Anotaciones</FormLabel>
-                        <FormControl>
-                            <Textarea
-                                id="anotaciones"
-                                placeholder="Ingresa las anotaciones de la consulta"
-                                {...field}
-                            />
-                        </FormControl>
-                        <FormMessage>{errors.anotaciones?.message}</FormMessage>
-                    </FormItem>
-                )}/>
+         
 
             
 

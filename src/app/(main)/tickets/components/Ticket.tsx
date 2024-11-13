@@ -1,3 +1,4 @@
+import { Insumo } from "@/app/types/models";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,15 +19,36 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { ChevronsUpDown } from "lucide-react";
 
-export function Ticket() {
+
+type Props = {
+  id: string;
+  createdAt: string;
+  usuario: string;
+  paciente: string;
+  insumos: (Insumo & { cantidad: number })[];
+}
+
+export function Ticket({
+  id,
+  createdAt,
+  usuario,
+  paciente,
+  insumos,
+}: Props) {
   return (
     <Card className="overflow-hidden w-full">
       <CardHeader className="flex flex-row items-start bg-muted/50">
         <div className="grid gap-0.5">
           <CardTitle className="group flex items-center gap-2 text-lg">
-            Order Oe31b70H
+            Orden {id}
           </CardTitle>
-          <CardDescription>Date: November 23, 2023</CardDescription>
+          <CardDescription>{
+            new Date(createdAt).toLocaleDateString('es-ES', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })
+          }</CardDescription>
         </div>
         <div className="ml-auto flex items-center gap-1">
           <DropdownMenu>
@@ -37,59 +59,47 @@ export function Ticket() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Edit</DropdownMenuItem>
-              <DropdownMenuItem>Export</DropdownMenuItem>
+              <DropdownMenuItem>Entregada</DropdownMenuItem>
+
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Trash</DropdownMenuItem>
+              <DropdownMenuItem>Rechazar</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </CardHeader>
       <CardContent className="p-6 text-sm">
         <div className="grid gap-3">
-          <div className="font-semibold">Order Details</div>
+          <div className="font-semibold">Detalles de Orden</div>
           <ul className="grid gap-3">
-            <li className="flex items-center justify-between">
-              <span className="text-muted-foreground">
-                Glimmer Lamps x <span>2</span>
-              </span>
-              <span>$250.00</span>
-            </li>
-            <li className="flex items-center justify-between">
-              <span className="text-muted-foreground">
-                Aqua Filters x <span>1</span>
-              </span>
-              <span>$49.00</span>
-            </li>
+
+            {
+              insumos.map((insumo) => (
+                <li className="flex items-center justify-between">
+                  <span className="text-muted-foreground">
+                    {insumo.nombre} x <span>{ insumo.cantidad}</span>
+                  </span>
+
+                </li>
+              ))
+            }
           </ul>
         </div>
 
         <Separator className="my-4" />
         <div className="grid gap-3">
-          <div className="font-semibold">Customer Information</div>
+          <div className="font-semibold">Infomracion de paciente</div>
           <dl className="grid gap-3">
             <div className="flex items-center justify-between">
-              <dt className="text-muted-foreground">Customer</dt>
-              <dd>Liam Johnson</dd>
+              <dt className="text-muted-foreground">Paciente</dt>
+              <dd>{paciente}</dd>
             </div>
-            <div className="flex items-center justify-between">
-              <dt className="text-muted-foreground">Email</dt>
-              <dd>
-                <a href="#">liam@acme.com</a>
-              </dd>
-            </div>
-            <div className="flex items-center justify-between">
-              <dt className="text-muted-foreground">Phone</dt>
-              <dd>
-                <a href="#">+1 234 567 890</a>
-              </dd>
-            </div>
+
           </dl>
         </div>
       </CardContent>
       <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
         <div className="text-xs text-muted-foreground">
-          Updated <time dateTime="2023-11-23">November 23, 2023</time>
+          Recetado por: {usuario}
         </div>
       </CardFooter>
     </Card>
