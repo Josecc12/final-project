@@ -28,14 +28,12 @@ export default async function create({
         departamentoAdquisicionId,
         insumos,
     };
-    console.log(body);
 
     const response = await axios.post<Transaction>(url, body, {
       headers: {
         Authorization: `Bearer ${session}`,
       },
     });
-    console.log(response.data);
     revalidatePath("/transaction");
 
     return {

@@ -5,15 +5,18 @@ type Transaction = {
     user: {
       username: string
     }
+    departamentoOrigen: {
+      id: string
+      nombre: string
+    }
+    departamentoDestino: {
+      id: string
+      nombre: string
+    }
     detalleRetiro: Array<{
       id: string
+      nombreInsumo: string
       cantidad: number
-      insumoDepartamento: {
-        existencia: number
-        departamento: {
-          nombre: string
-        }
-      }
     }>
   }
 export default Transaction

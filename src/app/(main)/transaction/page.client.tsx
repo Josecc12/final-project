@@ -1,14 +1,9 @@
 "use client";
 
 import LayoutSection from "@/components/LayoutSection";
-
-
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { PaginationComponent } from "@/components/ui/pagination";
 import { useState } from 'react'
-import { Car, ChevronDown, ChevronUp } from 'lucide-react'
-
-
 import {
   Table,
   TableBody,
@@ -23,6 +18,7 @@ import { Pagination } from "@/app/types/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { format } from "date-fns";
 
 type transaction = {
     id: string
@@ -94,58 +90,67 @@ export default function PageClient({
       router.push(`${url.pathname}`);
     }
   };
-  const toggleRow = (id: string) => {
-    setExpandedRows(prev => {
-      const next = new Set(prev)
-      if (next.has(id)) {
-        next.delete(id)
-      } else {
-        next.add(id)
-      }
-      return next
-    })
-  }
+  
+  const onRow = (id: string) => {
+    router.push(`transaction/${id}`);
+  };
+
   return (
+    <LayoutSection
+        description="Encuentra aquí la información de los inventarios de los productos, stock, status y más."
+        title="Inventarios"
+        actions={
+            <Button variant="default" asChild className="self-end">
+                <Link href={`/transaction/new`}>Nuevo movimiento de insumos</Link>
+            </Button>
+        }
+    >
 
-    <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-4">Lista de Retiros</h1>
-      <Card>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[50px]"></TableHead>
-            <TableHead>Fecha</TableHead>
-            <TableHead>Descripción</TableHead>
-            <TableHead>Usuario</TableHead>
-            <TableHead>Detalles</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-            {transactions.map((transaction) => (
-                <TableRow key={transaction.id}>
-                <TableCell>
-                    <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => toggleRow(transaction.id)}
-                    >
-                    {expandedRows.has(transaction.id) ? (
-                        <ChevronUp className="h-4 w-4" />
-                    ) : (
-                        <ChevronDown className="h-4 w-4" />
-                    )}
-                    </Button>
-                </TableCell>
-                <TableCell>{new Date(transaction.createdAt).toLocaleString()}</TableCell>
-                <TableCell>{transaction.descripcion}</TableCell>
-                <TableCell>{transaction.user.username}</TableCell>
-                <TableCell>{transaction.detalleRetiro.length} items</TableCell>
-                </TableRow>
-            ))}
-        </TableBody>
+        <SearchBar />
 
-      </Table>
-      </Card>
-    </div>
-  );
+        <Card>
+            <CardContent className="px-0">
+                <Table className="overflow-hidden">
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="cursor-pointer w-[100px] hidden md:table-cell">
+                                Fecha
+                            </TableHead>
+                            <TableHead className="cursor-pointer">Descripcion</TableHead>
+                            <TableHead className="cursor-pointer hidden lg:table-cell">
+                                Usuario
+                            </TableHead>
+                            <TableHead className="cursor-pointer hidden lg:table-cell">
+                                Items
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {transactions.map((transaction) => (
+                            <TableRow key={transaction.id} onClick={()=>onRow(transaction.id)}>
+                                <TableCell className="w-[100px] hidden md:table-cell">
+                                    {format(new Date(transaction.createdAt), "dd/MM/yyyy HH:mm:ss")}
+                                </TableCell>
+                                <TableCell>{transaction.descripcion}</TableCell>
+                                <TableCell className="hidden lg:table-cell">
+                                    {transaction.user.username}
+                                </TableCell>
+                                <TableCell>{transaction.detalleRetiro.length} items</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </CardContent>
+            <CardFooter>
+                <PaginationComponent
+                    page={pagination.page}
+                    totalPages={pagination.totalPages}
+                    onPageChange={onPageChange}
+                />
+            </CardFooter>
+        </Card>
+
+
+    </LayoutSection>
+);
 }
