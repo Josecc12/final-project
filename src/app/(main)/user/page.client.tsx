@@ -67,7 +67,7 @@ export default function PageClient({
         </Button>
       }
     >
-      <SearchBar onSearch={onSearch} />
+      <SearchBar placeholder="Buscar por nombre o nombre de usuario" onSearch={onSearch} />
 
       <Card>
         <CardContent className="px-0">

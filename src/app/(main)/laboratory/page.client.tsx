@@ -67,7 +67,7 @@ export default function PageClient({ tests, pagination = {
         </Button>
       }
     >
-      <SearchBar onSearch={onSearch} />
+      <SearchBar placeholder="Buscar por nombre" onSearch={onSearch} />
 
       <Card>
         <CardContent className="px-0">

@@ -86,7 +86,7 @@ export default function PageClient({
         </Button>
       }
     >
-      <SearchBar onSearch={onSearch} />
+      <SearchBar placeholder="Buscar por dpi o nombre" onSearch={onSearch} />
       <Card>
         <CardContent className="px-0">
           <Table className="overflow-hidden">

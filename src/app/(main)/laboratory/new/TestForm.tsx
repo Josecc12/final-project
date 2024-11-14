@@ -49,7 +49,7 @@ export default function TestForm() {
                 <FormControl>
                   <Input
                     id="cui"
-                    placeholder="Ingresa tu nombre"
+                    placeholder="Ingresa el nombre del examen de laboratorio"
                     {...field}
                   />
                 </FormControl>
@@ -67,7 +67,7 @@ export default function TestForm() {
                         <FormControl>
                             <Input
                                 id="descripcion"
-                                placeholder="Ingresa la descripción"
+                                placeholder="Ingresa la descripción del examen de laboratorio"
                                 {...field}
                             />
                         </FormControl>

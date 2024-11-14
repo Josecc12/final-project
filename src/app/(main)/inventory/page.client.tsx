@@ -90,7 +90,7 @@ export default function PageClient({ insumos, pagination = {
             }
         >
 
-            <SearchBar />
+            <SearchBar placeholder="Buscar" />
 
             <Card>
                 <CardContent className="px-0">
