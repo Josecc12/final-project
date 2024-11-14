@@ -3,21 +3,20 @@
 import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
 
-import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Department } from "@/app/types/models";
 import parsePaginationParams from "@/utils/functions/parsePaginationParams";
-import { parse } from "path";
+import { cookies } from "next/headers";
+import { Transaction } from "@/app/types/models";
 
 type Props = {
   searchParams?: URLSearchParams;
 };
 
-export async function findAll(
+export default async function findAll(
   props: Props = {}
-): Promise<SuccessReponse<Department[]> | ErrorResponse> {
+): Promise<SuccessReponse<Transaction[]> | ErrorResponse> {
   try {
-    const url = `${parsedEnv.API_URL}/departamentos`;
+    const url = `${parsedEnv.API_URL}/retiros`;
     const session = cookies().get("session")?.value;
     const parsedParams = parsePaginationParams(props.searchParams);
     const response = await axios.get(url, {

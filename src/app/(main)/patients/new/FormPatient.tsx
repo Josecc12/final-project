@@ -197,7 +197,7 @@ export default function FormPatient() {
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor="quirurgicos">
-                Procedimientos Quirurgicos
+                Procedimientos quirúrgico
               </FormLabel>
               <FormControl>
                 <Textarea id="quirurgicos" placeholder="" {...field} />
@@ -213,7 +213,7 @@ export default function FormPatient() {
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor="traumaticos">
-                Pro cedimientos traumaticos
+                Procedimientos traumáticos
               </FormLabel>
               <FormControl>
                 <Textarea id="traumaticos" {...field} />
