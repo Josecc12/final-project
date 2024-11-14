@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Typography } from "@/components/ui/Typography";
 import { toast } from "@/components/ui/use-toast";
 import { differenceInYears } from 'date-fns';
-import { Activity, Calendar, ContactRound, Edit, IdCard, Milk, Plus, Shell, Siren, Trash2, Users2 } from "lucide-react";
+import { Activity, Calendar, ContactRound, Edit, IdCard, MicroscopeIcon, Milk, Plus, Shell, Siren, Trash2, Users2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -61,6 +61,11 @@ export default function PageClient({ patient }: Props) {
             < Button variant="default" asChild>
                 <Link href={`/patients/${patient.id}/recipe`}>                            
                   <Plus className="h-4 w-4" />
+                </Link>
+              </Button>
+              < Button variant="default" asChild>
+                <Link href={`/patients/${patient.id}/request/new`}>                            
+                  <MicroscopeIcon className="h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="default" asChild>
