@@ -1,3 +1,5 @@
+import confirm from "@/actions/recipe/confirm";
+import { ErrorResponse } from "@/app/types/api";
 import { Insumo } from "@/app/types/models";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
 import { ChevronsUpDown } from "lucide-react";
 
 
@@ -35,7 +38,37 @@ export function Ticket({
   paciente,
   insumos,
 }: Props) {
+
+  const { toast } = useToast() 
+
+  const onConfirm = async () => {
+    const response = await confirm(id);
+    if (response?.status === 200 || response?.status === 201) {
+      toast({
+        title: "Orden entregada exitosamente",
+        description: `La orden ha sido entregada`,
+        variant: "default",
+      });
+    } else if (response?.status === 401) {
+      toast({
+        title: "Error de autenticación",
+        description: "No estás autorizado para realizar esta acción.",
+        variant: "destructive",
+      });
+    } else if ("message" in response) {
+      toast({
+        duration: 3000,
+        title: `Error ${response.status}`,
+        description: (response as ErrorResponse).message,
+      });
+    }
+
+  }
+
   return (
+
+    
+
     <Card className="overflow-hidden w-full">
       <CardHeader className="flex flex-row items-start bg-muted/50">
         <div className="grid gap-0.5">
@@ -59,7 +92,7 @@ export function Ticket({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Entregada</DropdownMenuItem>
+              <DropdownMenuItem onClick={onConfirm}>Entregada</DropdownMenuItem>
 
               <DropdownMenuSeparator />
               <DropdownMenuItem>Rechazar</DropdownMenuItem>
