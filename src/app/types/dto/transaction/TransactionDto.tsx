@@ -1,5 +1,4 @@
 type TransactionDto = {
-    id: string;
     departamentoRetiroId: string;
     departamentoAdquisicionId: string;
     insumos: {

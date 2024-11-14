@@ -54,6 +54,7 @@ export default function PageClient({
 
     const onSubmit = async (data: TransactionFormInputs) => {
         const transactionDto: TransactionDto = {
+            
             departamentoRetiroId: data.origen,
             departamentoAdquisicionId: data.destino,
             insumos: data.insumos.map(({ insumoId, cantidad }) => ({
