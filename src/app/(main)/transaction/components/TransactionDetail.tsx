@@ -10,7 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Transaction } from '@/app/types/models';
-
+import { Button } from 'react-day-picker';
+import Link from "next/link";
 
 interface TransactionDetailProps {
   transaction: Transaction;
@@ -44,7 +45,9 @@ const TransactionDetail = ({ transaction }: TransactionDetailProps) => {
             <p className="text-sm font-medium text-gray-500">Descripción</p>
             <p className="text-sm mt-1">{transaction.descripcion}</p>
           </div>
+          
         </CardContent>
+        
       </Card>
 
       <Card>
@@ -55,20 +58,16 @@ const TransactionDetail = ({ transaction }: TransactionDetailProps) => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Departamento</TableHead>
+                <TableHead>Insumo</TableHead>
                 <TableHead className="text-right">Cantidad</TableHead>
-                <TableHead className="text-right">Existencia</TableHead>
-                <TableHead>Estado</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {transaction.detalleRetiro.map((detalle) => (
                 <TableRow key={detalle.id}>
-                  <TableCell>{detalle.insumoDepartamento.departamento.nombre}</TableCell>
+                  <TableCell>{detalle.nombreInsumo}</TableCell>
                   <TableCell className="text-right">{detalle.cantidad}</TableCell>
-                  <TableCell className="text-right">{detalle.insumoDepartamento.existencia}</TableCell>
                   <TableCell>
-
                   </TableCell>
                 </TableRow>
               ))}
