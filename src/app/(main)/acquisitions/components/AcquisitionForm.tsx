@@ -1,33 +1,30 @@
 import DropdownSearch from "@/components/DropdownSearch";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CalendarIcon, PlusCircleIcon, Trash2Icon } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { z } from "zod";
-
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { es } from "date-fns/locale"
+import { es } from "date-fns/locale";
 
+// Extiende el esquema para incluir `descripcion`
 const schema = z.object({
-
+    descripcion: z.string().min(1, "La descripción es requerida"),
     insumos: z.array(
         z.object({
             cantidad: z.number().min(1, "La cantidad mínima es 1"),
             insumo: z.string().min(1, 'Selecciona un insumo'),
-            caducidad: z.date({ required_error: "La fecha de nacimiento es requerida" })
+            caducidad: z.date({ required_error: "La fecha de caducidad es requerida" }),
+            numeroLote: z.string().min(1, "El número de lote es requerido")
         })
     ),
-})
+});
 
 type FormInputs = z.infer<typeof schema>;
 
@@ -43,12 +40,30 @@ export default function AcquisitionForm() {
     const { fields, append, remove } = useFieldArray({
         control,
         name: "insumos",
-    })
+    });
 
     return (
         <Card className="w-full max-w-[800px] flex flex-col gap-4 p-4">
             <CardContent className="gap-3 flex flex-col w-full">
+                {/* Campo de texto para la descripción */}
+                <FormField
+                    control={control}
+                    name="descripcion"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Descripción</FormLabel>
+                            <FormControl>
+                                <Textarea
+                                    placeholder="Agrega una descripción para la adquisición"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
 
+                {/* Campos de insumos */}
                 {fields.map((field, index) => (
                     <div key={field.id} className="flex flex-col gap-2">
                         <div className="flex gap-3 flex-col md:flex-row">
@@ -58,7 +73,6 @@ export default function AcquisitionForm() {
                                         Cantidad
                                     </label>
                                     <Input
-
                                         id={`insumos.${index}.cantidad`}
                                         type="number"
                                         {...register(`insumos.${index}.cantidad` as const, {
@@ -66,7 +80,6 @@ export default function AcquisitionForm() {
                                             min: { value: 1, message: "La cantidad mínima es 1" },
                                         })}
                                     />
-
                                 </div>
                                 <div className="flex flex-col gap-1 w-full">
                                     <label htmlFor={`insumos.${index}.insumo`} className="text-sm font-medium">
@@ -78,7 +91,6 @@ export default function AcquisitionForm() {
                                         setValue={setValue}
                                         placeholder="Selecciona un insumo"
                                     />
-
                                 </div>
                             </div>
                             <div className="flex gap-2 justify-between self-end">
@@ -88,7 +100,7 @@ export default function AcquisitionForm() {
                                     render={({ field }) => (
                                         <FormItem className="flex flex-col">
                                             <FormLabel>Fecha de caducidad</FormLabel>
-                                            <Popover >
+                                            <Popover>
                                                 <PopoverTrigger asChild>
                                                     <FormControl className="w-full">
                                                         <Button
@@ -120,7 +132,6 @@ export default function AcquisitionForm() {
                                                     />
                                                 </PopoverContent>
                                             </Popover>
-
                                             <FormMessage />
                                         </FormItem>
                                     )}
@@ -136,23 +147,26 @@ export default function AcquisitionForm() {
                                 </Button>
                             </div>
                         </div>
-                        {errors.insumos?.[index]?.cantidad && (
-                            <p className="text-sm text-red-500">{errors.insumos[index]?.cantidad?.message}</p>
-                        )}
-                        {errors.insumos?.[index]?.insumo && (
-                            <p className="text-sm text-red-500">{errors.insumos[index]?.insumo?.message}</p>
-                        )}
-                        {errors.insumos?.[index]?.caducidad && (
-                            <p className="text-sm text-red-500">{errors.insumos[index]?.insumo?.message}</p>
-                        )}
+                        <div className="flex flex-col gap-1 w-full">
+                            <label htmlFor={`insumos.${index}.numeroLote`} className="text-sm font-medium">
+                                Número de Lote
+                            </label>
+                            <Input
+                                id={`insumos.${index}.numeroLote`}
+                                type="text"
+                                {...register(`insumos.${index}.numeroLote` as const, {
+                                    required: "El número de lote es requerido",
+                                })}
+                            />
+                        </div>
                     </div>
                 ))}
-                <Button
 
+                <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={() => append({ cantidad: 1, insumo: "", caducidad: new Date() })}
+                    onClick={() => append({ cantidad: 1, insumo: "", caducidad: new Date(), numeroLote: "" })}
                     className="w-fit"
                 >
                     <PlusCircleIcon className="h-4 w-4 mr-2" />
@@ -163,5 +177,5 @@ export default function AcquisitionForm() {
                 </Button>
             </CardContent>
         </Card>
-    )
+    );
 }

@@ -1,19 +1,16 @@
 'use client';
 
-import { Patient } from "@/app/types/models";
-import LayoutSection from "@/components/LayoutSection";
-import { Button } from "@/components/ui/button";
-import { Typography } from "@/components/ui/Typography";
-import { differenceInYears } from 'date-fns';
-import Link from "next/link";
-import Delete from "@/components/ui/delete"; 
-import deletePatient from "@/actions/patient/delete"; 
-import { useRouter } from "next/navigation";
-import { toast } from "@/components/ui/use-toast";
+import deletePatient from "@/actions/patient/delete";
 import { ErrorResponse } from "@/app/types/api";
-import user from "@/actions/user";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Users2, Mail, Calendar, IdCard, ContactRound, Activity, Shell, Siren, Milk, Edit, Trash2, Plus } from "lucide-react";
+import { Patient } from "@/app/types/models";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Typography } from "@/components/ui/Typography";
+import { toast } from "@/components/ui/use-toast";
+import { differenceInYears } from 'date-fns';
+import { Activity, Calendar, ContactRound, Edit, IdCard, Milk, Plus, Shell, Siren, Trash2, Users2 } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Props = {
   patient: Patient;
@@ -30,6 +27,7 @@ export default function PageClient({ patient }: Props) {
         title: "Paciente eliminado exitosamente",
         description: `El paciente ha sido eliminado/a`,
         variant: "default",
+        duration: 3000,
       });
       router.push("/patients");
       router.refresh(); 
@@ -38,12 +36,14 @@ export default function PageClient({ patient }: Props) {
         title: "Error de autenticación",
         description: "No estás autorizado para realizar esta acción.",
         variant: "destructive",
+        duration: 3000,
       });
     } else if ("message" in response) {
       toast({
         duration: 3000,
         title: `Error ${response.status}`,
         description: (response as ErrorResponse).message,
+        
       });
     }
   };
