@@ -29,6 +29,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 import { es } from "date-fns/locale"
 
 type UserFormInputs = z.infer<typeof schema>;
@@ -50,6 +51,11 @@ export default function FormPatient() {
     control,
     formState: { errors },
   } = useFormContext<UserFormInputs>();
+  const router = useRouter();
+
+  const handleCancel = () => {
+    router.push("/patients"); // Redirige a la lista de pacientes.
+};
 
   return (
     <Card className="w-full max-w-[600px]">
@@ -245,6 +251,9 @@ export default function FormPatient() {
         />
       </CardContent>
       <CardFooter className="flex justify-end">
+        <Button type="button" variant="outline" onClick={handleCancel}>
+                    Cancelar
+        </Button>
         <Button type="submit">Guardar</Button>
       </CardFooter>
     </Card>

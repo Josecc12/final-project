@@ -3,14 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { PlusCircleIcon, Trash2Icon } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { z } from "zod";
 
 
 const schema = z.object({
-    descripcion: z.string().min(1, "El nombre es requerido"),
+    nombre: z.string().min(1, "El nombre es requerido"),
+    descripcion: z.string().min(1, "La descripción es requerida"),
     insumos: z.array(
         z.object({
             cantidad: z.number().min(1, "La cantidad mínima es 1"),
@@ -21,7 +21,7 @@ const schema = z.object({
 
 type FormInputs = z.infer<typeof schema>;
 
-export default function RecipeForm() {
+export default function TestForm() {
 
     const {
         control,
@@ -42,23 +42,38 @@ export default function RecipeForm() {
 
             <FormField
             control={control}
-            name="descripcion"
+            name="nombre"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="cui">Motivo de la consulta</FormLabel>
+                <FormLabel htmlFor="cui">Nombre del examen</FormLabel>
                 <FormControl>
-                  <Textarea
-                
-                    placeholder="Ingresa el motivo de la consulta"
+                  <Input
+                    id="cui"
+                    placeholder="Ingresa tu nombre"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage>{errors.descripcion?.message}</FormMessage>
+                <FormMessage>{errors.nombre?.message}</FormMessage>
               </FormItem>
             )}
           />
 
-         
+            <FormField
+                control={control}
+                name="descripcion"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel htmlFor="descripcion">Descripción</FormLabel>
+                        <FormControl>
+                            <Input
+                                id="descripcion"
+                                placeholder="Ingresa la descripción"
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormMessage>{errors.descripcion?.message}</FormMessage>
+                    </FormItem>
+                )}/>
 
             
 

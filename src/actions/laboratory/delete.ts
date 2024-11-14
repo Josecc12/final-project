@@ -4,17 +4,17 @@ import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Category, Department } from "@/app/types/models";
+import { Department, Test } from "@/app/types/models";
 
-type DeleteDepartamentRequest = {
+type DeleteLaboratory = {
   id: string;
 };
 
-export default async function deleteCategory({
+export default async function deleteLaboratory({
     id
-}: DeleteDepartamentRequest ): Promise<SuccessReponse<Department> | ErrorResponse> {
+}: DeleteLaboratory ): Promise<SuccessReponse<Test> | ErrorResponse> {
   try {
-    const url = `${parsedEnv.API_URL}/departamentos/${id}`;
+    const url = `${parsedEnv.API_URL}/examenes/${id}`;
     const session = cookies().get("session")?.value;
 
     const response = await axios.delete(url, {

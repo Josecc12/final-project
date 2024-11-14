@@ -11,23 +11,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
-import { Category } from '@/app/types/models'
+import { useRouter } from "next/navigation";
 import { z } from "zod";
-
 
 const schema = z.object({
     nameCategory: z.string().min(2, "El nombre debe tener al menos 2 caracteres")
-})
+});
 
 type CategoryFormInputs = z.infer<typeof schema>;
-
-
 
 export default function FormCategory() {
     const {
         control,
         formState: { errors },
     } = useFormContext<CategoryFormInputs>();
+    const router = useRouter();
+
+    const handleCancel = () => {
+        router.push("/category"); // Redirige a la lista de categorías u otra ruta deseada
+    };
 
     return (
         <Card className="w-full max-w-[600px]">
@@ -43,19 +45,21 @@ export default function FormCategory() {
                                     <Input
                                         id="nombre"
                                         placeholder="Ingresa el nombre"
-                                        {...field}>
-
-                                    </Input>
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormMessage>{errors.nameCategory?.message}</FormMessage>
                             </FormItem>
-                        )}>
-                    </FormField>
+                        )}
+                    />
                 </div>
             </CardContent>
-            <CardFooter className="flex justify-end">
+            <CardFooter className="flex justify-end gap-2">
+                <Button type="button" variant="outline" onClick={handleCancel}>
+                    Cancelar
+                </Button>
                 <Button type="submit">Guardar</Button>
             </CardFooter>
         </Card>
-    )
+    );
 }
