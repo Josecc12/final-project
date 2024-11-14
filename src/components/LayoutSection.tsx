@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 type Props = {
   children: ReactNode;
   title: string;
-  description: string;
+  description?: string;
   actions?: ReactNode;
 };
 

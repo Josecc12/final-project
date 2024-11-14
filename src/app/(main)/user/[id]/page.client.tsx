@@ -10,9 +10,8 @@ import deleteUser from "@/actions/user/delete";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import { ErrorResponse } from "@/app/types/api";
-import { Users2, Mail, Briefcase, Building2, MessagesSquare, Badge } from "lucide-react"
+import { Users2, Mail, Briefcase, Building2, MessagesSquare, Badge, Edit, Trash2 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 
 type Props = {
   user: User;
@@ -48,68 +47,64 @@ export default function PageClient({ user }: Props) {
   };
 
   return (
-
-    <LayoutSection
-      title={``}
-      description="Acerca de tu perfil"
-  
-    >
-
-<Card className="w-full max-w-md mx-50">
+    <Card className="w-full max-w-md m-8 my-9">
+      <CardContent className="space-y-4">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Detalle Usuario</CardTitle>
-        </CardHeader>
-        
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            
-            <div className="flex items-center space-x-2">
-              <Users2 className="h-5 w-5 text-muted-foreground" />
-              <span className="font-medium">
-                <Typography variant="small" className="font-bold">Nombre</Typography>
-                <Typography variant="muted">{user.name} {user.lastname}</Typography>
-              </span>
+          <div className="flex items-center justify-between w-full">
+            <div className="flex flex-col">
+               <CardTitle>Detalle del Usuario</CardTitle>
             </div>
-            <br />
-
-            <div className="flex items-center space-x-2">
-              <Users2 className="h-5 w-5 text-muted-foreground" />
-              <span className="font-medium">
-                <Typography variant="small" className="font-bold">Nombre de Usuario</Typography>
-                <Typography variant="muted">{user.username}</Typography>
-              </span>
+            <div className="flex gap-2">
+              <Button variant="default" asChild>
+                <Link href={`/user/${user.id}/edit`}>
+                  <Edit className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button variant="destructive" size="icon" onClick={onDelete}>
+                <Trash2 className="h-4 w-4" />
+              </Button>
             </div>
-            <br />
-
-            <div className="flex items-center space-x-2">
-              <Mail className="h-5 w-5 text-muted-foreground" />
-              <span className="font-medium">
-                <Typography variant="small" className="font-bold">Correo Electrónico</Typography>
-                <Typography variant="muted">{user.email}</Typography>
-              </span>
-            </div>
-            <br />             
           </div>
 
+        </CardHeader>
+          {/* Nombre del usuario */}
+          <div className="flex items-center space-x-2">
+            <Users2 className="h-5 w-5 text-muted-foreground" />
+            <div>
+              <Typography variant="small" className="font-bold">Nombre</Typography>
+              <Typography variant="muted">{user.name} {user.lastname}</Typography>
+            </div>      
+          </div>
+            
+          {/* Username */}
+          <div className="flex items-center space-x-2">
+            <Users2 className="h-5 w-5 text-muted-foreground" />
+            <div>
+             <Typography variant="small" className="font-bold">Nombre de usuario</Typography>
+             <Typography variant="muted">{user.username}</Typography>
+            </div>
+          </div>  
+
+          {/* Correo del usuario */}
+          <div className="flex items-center space-x-2">
+            <Mail className="h-5 w-5 text-muted-foreground" />
+            <div>
+             <Typography variant="small" className="font-bold">Correo Eléctronico</Typography>
+             <Typography variant="muted">{user.email}</Typography>
+            </div>
+          </div>  
+
+
+          {/* Rol del usuario */}
           <div className="flex items-center space-x-2">
             <Briefcase className="h-5 w-5 text-muted-foreground" />
-            <span className="font-medium">
-              <Typography variant="small" className="font-bold">Rol</Typography>
-              <Typography variant="muted">{user.role.name}</Typography>
-            </span>
-            
-          </div>
-        
-        <div className="flex gap-5 justify-end md:self-end">
-          <Button variant="default" asChild>
-            <Link href={`/user/${user.id}/edit`}>Editar</Link>
-          </Button>
-          <Delete onDelete={onDelete} />
-        </div>
+            <div>
+             <Typography variant="small" className="font-bold">Rol</Typography>
+             <Typography variant="muted">{user.role.name}</Typography>
+            </div>
+          </div>  
 
       </CardContent>
     </Card>
-
-    </LayoutSection>
   );
 }
