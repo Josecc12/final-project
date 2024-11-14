@@ -1,12 +1,24 @@
+'use server';
 import { Suspense } from 'react'
 import LayoutSection from "@/components/LayoutSection"
 import RecipeQueueClient from './page.client'
 import findAll from "@/actions/recipe/findAll"
+import { ReadonlyURLSearchParams } from "next/navigation";
 
-export default async function Page() {
-  'use server'
+type Props = {
+  searchParams: ReadonlyURLSearchParams;
+};
+
+
+export default async function Page({ searchParams }: Props) {
   
-  const response = await findAll()
+  
+  const params = new URLSearchParams(searchParams);
+ 
+  const response = await findAll(
+    {searchParams: params}
+  );
+
 
   if (response.status !== 200 || !("data" in response)) {
     throw new Error("Failed to fetch recipes data")
