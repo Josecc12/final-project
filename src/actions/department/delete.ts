@@ -4,15 +4,15 @@ import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Department } from "@/app/types/models";
+import { Category, Department } from "@/app/types/models";
 
-type DeleteDepartmentRequest = {
+type DeleteDepartamentRequest = {
   id: string;
 };
 
-export default async function deleteDepartment({
+export default async function deleteCategory({
     id
-}: DeleteDepartmentRequest ): Promise<SuccessReponse<Department> | ErrorResponse> {
+}: DeleteDepartamentRequest ): Promise<SuccessReponse<Department> | ErrorResponse> {
   try {
     const url = `${parsedEnv.API_URL}/departamentos/${id}`;
     const session = cookies().get("session")?.value;
