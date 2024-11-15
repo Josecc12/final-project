@@ -2,18 +2,22 @@
 
 import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Category, Insumo, Order } from "@/app/types/models";
+import { Department, Order, Test } from "@/app/types/models";
 
-export default async function findOne(
-  id: string
-): Promise<SuccessReponse<Order> | ErrorResponse> {
+type DeleteLaboratoryOrder = {
+  id: string;
+};
+
+export default async function deleteLaboratoryOrder({
+    id
+}: DeleteLaboratoryOrder ): Promise<SuccessReponse<Order> | ErrorResponse> {
   try {
     const url = `${parsedEnv.API_URL}/orden-laboratorio/${id}`;
     const session = cookies().get("session")?.value;
-    const response = await axios.get<Order>(url, {
+
+    const response = await axios.delete(url, {
       headers: {
         Authorization: `Bearer ${session}`,
       },
