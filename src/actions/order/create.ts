@@ -4,39 +4,49 @@ import { parsedEnv } from "@/app/env";
 import axios, { isAxiosError } from "axios";
 import { cookies } from "next/headers";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-
 import { revalidatePath } from "next/cache";
-import LaboratorioDto from "@/app/types/dto/order/LaboratoryOrderDto";
+import { getSession } from "../auth";
 
-export default async function create({
-    descripcion,
-    estado,
-    usuarioId,
-    pacienteId,
-    examenId,
-}: LaboratorioDto): Promise<SuccessReponse<any> | ErrorResponse> {
+interface CreateLaboratoryOrderDto {
+    descripcion: string;
+    pacienteId: string;
+    examenId: string;
+}
+
+export default async function create(orderData: CreateLaboratoryOrderDto): Promise<SuccessReponse<any> | ErrorResponse> {
     try {
-        const url = `${parsedEnv.API_URL}/orden-laboratorio`;
         const session = cookies().get("session")?.value;
+        if (!session) {
+            return {
+                message: "No hay sesión activa",
+                status: 401
+            };
+        }
 
+        const sess = await getSession();
+        if (!sess?.sub) {
+            return {
+                message: "No se pudo obtener el ID del usuario",
+                status: 401
+            };
+        }
 
-        const body = {
-            descripcion,
-            estado,
-            usuarioId,
-            pacienteId,
-            examenId,
+        const url = `${parsedEnv.API_URL}/orden-laboratorio`;
+        
+        const completeOrderData = {
+            ...orderData,
+            usuarioId: sess.sub
         };
 
-        console.log("body", body);
-
-        const response = await axios.post(url, body, {
+        const response = await axios.post(url, completeOrderData, {
             headers: {
                 Authorization: `Bearer ${session}`,
+                'Content-Type': 'application/json'
             },
         });
-
-        revalidatePath("/orden-laboratorio");
+        console.log("response", response);
+        revalidatePath("/laboratory");
+        revalidatePath(`/patients/${orderData.pacienteId}`);
 
         return {
             data: response.data,
@@ -44,17 +54,19 @@ export default async function create({
             statusText: response.statusText,
         };
     } catch (error) {
-        console.log(error);
+        console.error("Error creating laboratory order:", error);
+        
         if (isAxiosError(error)) {
             return {
-                message: error.message,
+                message: error.response?.data?.message || error.message,
                 code: error.code,
                 status: error.response?.status,
             };
-        } else {
-            return {
-                message: "An unexpected error occurred.",
-            };
         }
+        
+        return {
+            message: "Error inesperado al crear la orden.",
+            status: 500
+        };
     }
 }
