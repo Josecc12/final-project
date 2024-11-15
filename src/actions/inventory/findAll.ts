@@ -17,7 +17,7 @@ export default async function findAll(
   props: Props = {}
 ): Promise<SuccessReponse<Insumo[]> | ErrorResponse> {
   try {
-    const url = `${parsedEnv.API_URL}/insumos`;
+    const url = `${parsedEnv.API_URL}/semaforo/insumos`;
     const session = cookies().get("session")?.value;
     const parsedParams = parsePaginationParams(props.searchParams);
     const response = await axios.get(url, {

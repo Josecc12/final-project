@@ -4,24 +4,18 @@ import { parsedEnv } from "@/app/env";
 import axios, { isAxiosError } from "axios";
 import { cookies } from "next/headers";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-
+import { Recipe } from "../../app/types/models";
 import { revalidatePath } from "next/cache";
 import { getSession } from "../auth";
 
-export default async function confirm(id: string): Promise<SuccessReponse<string> | ErrorResponse> {
+export default async function confirm(id: string): Promise<SuccessReponse<Recipe> | ErrorResponse> {
     try {
         const url = `${parsedEnv.API_URL}/recetas/${id}/retiro`;
         const session = cookies().get("session")?.value;
         const sess = await getSession();
-
-        console.log("session", sess);
         const body = {
-
             userId: sess?.sub,
         };
-
-        console.log("body", body);
-
         const response = await axios.post(url, body, {
             headers: {
                 Authorization: `Bearer ${session}`,
@@ -31,7 +25,7 @@ export default async function confirm(id: string): Promise<SuccessReponse<string
         revalidatePath("/patients");
 
         return {
-            data: 'Success',
+            data: response.data, // Esto debería incluir la receta actualizada con insumosRetirados
             status: response.status,
             statusText: response.statusText,
         };
