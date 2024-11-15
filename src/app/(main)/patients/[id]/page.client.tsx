@@ -160,7 +160,46 @@ export default function PageClient({ patient }: Props) {
              <Typography variant="small" className="font-bold">Vicios</Typography>
              <Typography variant="muted">{patient.vicios}</Typography>
             </div>
-          </div>  
+          </div>
+          {patient.sexo === "Femenino" && patient.antecedente && (
+            <div className="border border-muted-foreground rounded-lg p-4 space-y-2 bg-gray-50">
+              <Typography variant="small" className="font-bold text-gray-700">Antecedentes</Typography>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex items-center space-x-2">
+                  <Siren className="h-4 w-4 text-muted-foreground" />
+                  <Typography variant="muted">Abortos: {patient.antecedente.abortos}</Typography>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Users2 className="h-4 w-4 text-muted-foreground" />
+                  <Typography variant="muted">Hijos vivos: {patient.antecedente.hijos_vivos}</Typography>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Siren className="h-4 w-4 text-muted-foreground" />
+                  <Typography variant="muted">Hijos muertos: {patient.antecedente.hijos_muertos}</Typography>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Shell className="h-4 w-4 text-muted-foreground" />
+                  <Typography variant="muted">Gestas: {patient.antecedente.gestas}</Typography>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <Typography variant="muted">Última regla: {patient.antecedente.ultima_regla}</Typography>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <ContactRound className="h-4 w-4 text-muted-foreground" />
+                  <Typography variant="muted">Planificación familiar: {patient.antecedente.planificacion_familiar}</Typography>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Activity className="h-4 w-4 text-muted-foreground" />
+                  <Typography variant="muted">Partos: {patient.antecedente.partos}</Typography>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <IdCard className="h-4 w-4 text-muted-foreground" />
+                  <Typography variant="muted">Cesáreas: {patient.antecedente.cesareas}</Typography>
+                </div>
+              </div>
+            </div>
+          )}
 
       </CardContent>
     </Card>

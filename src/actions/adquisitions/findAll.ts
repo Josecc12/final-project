@@ -5,9 +5,11 @@ import { ErrorResponse, SuccessReponse } from "../../app/types/api";
 
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Category, Insumo } from "@/app/types/models";
+
 import parsePaginationParams from "@/utils/functions/parsePaginationParams";
-import { parse } from "path";
+import { Test } from "@/app/types/models";
+import adquisition from "@/app/types/models/adquisicion";
+
 
 type Props = {
   searchParams?: URLSearchParams;
@@ -15,9 +17,9 @@ type Props = {
 
 export default async function findAll(
   props: Props = {}
-): Promise<SuccessReponse<Insumo[]> | ErrorResponse> {
+): Promise<SuccessReponse<adquisition> | ErrorResponse> {
   try {
-    const url = `${parsedEnv.API_URL}/semaforo/insumos`;
+    const url = `${parsedEnv.API_URL}/lotes`;
     const session = cookies().get("session")?.value;
     const parsedParams = parsePaginationParams(props.searchParams);
     const response = await axios.get(url, {
@@ -42,7 +44,6 @@ export default async function findAll(
       },
     };
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error)) {
       return {
         message: error.message,

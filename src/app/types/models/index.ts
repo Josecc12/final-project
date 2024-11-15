@@ -8,6 +8,7 @@ import Test from "./Test";
 import InsumoExamenes from "./InsumoExamenes";
 import Transaction from "./Transaction";
 import Order from "./Order";
+import Recipe from "./Recipe";
 export type {User}
 export type {Category}
 export type {Department}
@@ -18,3 +19,5 @@ export type {Test}
 export type {InsumoExamenes}
 export type {Transaction}
 export type {Order}
+export type {Recipe}
+

@@ -4,7 +4,7 @@ import LayoutSection from "@/components/LayoutSection";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import { z } from "zod";
+import { any, z } from "zod";
 import schema from "./schema";
 import FormPatient from "./FormPatient";
 import { useToast } from "@/components/ui/use-toast";
@@ -24,10 +24,23 @@ export default function Page() {
       cui: "",
       nacimiento: new Date(),
       familiares: "",
+      medicos: "",
       quirurgicos: "",
       traumaticos: "",
       alergias: "",
       vicios: "",
+      antecedentes: [
+        {
+          gestas: 0,
+          hijos_vivos: 0,
+          hijos_muertos: 0,
+          abortos: 0,
+          ultima_regla: new Date(),
+          planificacion_familiar: "",
+          partos: 0,
+          cesareas: 0,
+        },
+      ],
     },
   });
 
@@ -35,7 +48,6 @@ export default function Page() {
   const router = useRouter();
 
   const onSubmit = async (data: UserFormInputs) => {
- 
    
 
     const response = await create(data);

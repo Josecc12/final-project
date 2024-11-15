@@ -68,7 +68,7 @@ export default function PageClient() {
 
     return (
         <LayoutSection
-            title="Nueva visita medica"
+            title="Crear receta medica"
         >
 
             <FormProvider {...methods}>

@@ -66,8 +66,8 @@ export default function PageClient({
 
         if (response.status === 201 || response.status === 200) {
             toast({
-                title: "Categoria creada Exitosamente",
-                description: `el movimiento de insumos dessde ${data.origen} hasta ${data.destino} ha sido creado`,
+                title: "Movimiento creado Exitosamente",
+                description: `El movimiento de insumos desde ${data.origen} hasta ${data.destino} ha sido creado`,
                 duration: 3000,
             });
             router.push("/transaction");
@@ -84,7 +84,7 @@ export default function PageClient({
     return (
         <LayoutSection
             title="Crea un movimiento de insumos entre departamentos"
-            description="completa la información requerida"
+            description="Completa la información requerida"
         >
             <FormProvider {...methods}>
                 <Form {...methods}>

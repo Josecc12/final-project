@@ -15,13 +15,15 @@ export default async function create({
     cui,
     nacimiento,
     familiares,
+    medicos,
     quirurgicos,
     traumaticos,
     alergias,
     vicios,
+    antecedentes,
 
 
-}: PatientDto): Promise<SuccessReponse<Patient> | ErrorResponse> {
+}: any): Promise<SuccessReponse<Patient> | ErrorResponse> {
     try {
         const url = `${parsedEnv.API_URL}/pacientes`;
         const session = cookies().get("session")?.value;
@@ -35,13 +37,14 @@ export default async function create({
             cui,
             nacimiento: formattedDate,
             familiares,
+            medicos,
             quirurgicos,
             traumaticos,
             alergias,
             vicios,
-
+            antecedente: antecedentes[0],
         };
-
+        console.log(body);
         const response = await axios.post<Patient>(url, body, {
             headers: {
                 Authorization: `Bearer ${session}`,
