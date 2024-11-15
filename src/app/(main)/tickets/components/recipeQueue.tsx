@@ -1,21 +1,54 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useForm, FormProvider } from "react-hook-form"
+import { useSearchParams } from 'next/navigation'
 import RecipeProcessForm from './RecipeProcessForm'
 import type { Recipe } from '@/app/types/models'
 import deleteRecipe from '@/actions/recipe/delete'
+import confirm from '@/actions/recipe/confirm'
+
 interface RecipeQueueProps {
   initialRecipes: Recipe[]
 }
 
 export function RecipeQueue({ initialRecipes }: RecipeQueueProps) {
-  const [queue, setQueue] = useState<Recipe[]>(initialRecipes)
+  const searchParams = useSearchParams()
+  const [queue, setQueue] = useState<Recipe[]>([])
   const [processing, setProcessing] = useState(false)
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null)
 
   const form = useForm()
+
+  // Efecto para actualizar el queue cuando cambien los parámetros de búsqueda o initialRecipes
+  useEffect(() => {
+    // Filtrar las recetas basado en los query params
+    let filteredRecipes = [...initialRecipes]
+    
+    // Aquí puedes agregar la lógica específica de filtrado según tus queryParams
+    // Por ejemplo:
+    const fecha = searchParams.get('fecha')
+    const doctor = searchParams.get('doctor')
+    
+    if (fecha) {
+      filteredRecipes = filteredRecipes.filter(recipe => {
+        const recipeDate = new Date(recipe.createdAt).toLocaleDateString()
+        return recipeDate === fecha
+      })
+    }
+
+    if (doctor) {
+      filteredRecipes = filteredRecipes.filter(recipe => 
+        recipe.user.name.toLowerCase().includes(doctor.toLowerCase())
+      )
+    }
+
+    // Aplicar el filtro de estado "Pendiente"
+    filteredRecipes = filteredRecipes.filter(recipe => recipe.estado === "Pendiente")
+    
+    setQueue(filteredRecipes)
+  }, [searchParams, initialRecipes]) // Dependencias del efecto
 
   const processRecipe = (recipe: Recipe) => {
     setEditingRecipe(recipe)
@@ -23,16 +56,32 @@ export function RecipeQueue({ initialRecipes }: RecipeQueueProps) {
 
   const onSubmitEdit = async () => {
     if (!editingRecipe) return
-
-    console.log('Procesando receta:', editingRecipe)
+    
     setProcessing(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    setProcessing(false)
+    console.log('Procesando receta:', editingRecipe)
+    
+    try {
+      const response = await confirm(editingRecipe.id)
+      if (response.status !== 200 || !("data" in response)) {
+        console.error('Error al procesar receta:', response)
+        return
+      }
 
-    setQueue(prevQueue => prevQueue.filter(recipe => recipe.id !== editingRecipe.id))
-    setEditingRecipe(null)
-  }
-
+      // Actualizar el estado con los datos procesados
+      setEditingRecipe(response.data)
+      
+      // Actualizar el queue para reflejar el nuevo estado
+      setQueue(prevQueue => prevQueue.map(recipe => 
+        recipe.id === editingRecipe.id ? response.data : recipe
+      ))
+    } catch (error) {
+      console.error('Error durante el procesamiento:', error)
+    } finally {
+      setProcessing(false)
+      // Ya no cerramos el diálogo aquí
+      // setEditingRecipe(null) <- Removemos esta línea
+    }
+}
 
   return (
     <>
@@ -52,7 +101,10 @@ export function RecipeQueue({ initialRecipes }: RecipeQueueProps) {
                   </Button>
                   <Button
                     variant="destructive"
-                    onClick={() => deleteRecipe({ id: recipe.id })}
+                    onClick={async () => {
+                      await deleteRecipe({ id: recipe.id })
+                      setQueue(prevQueue => prevQueue.filter(r => r.id !== recipe.id))
+                    }}
                     className="mt-2"
                   >
                     Eliminar
