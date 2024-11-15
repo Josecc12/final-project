@@ -19,15 +19,17 @@ import {
 import { useFormContext, Controller } from "react-hook-form";
 import Category from "@/app/types/models/Category";
 import Department from "@/app/types/models/Department";
-import { Checkbox } from "@/components/ui/checkbox"; //
+import { Checkbox } from "@/components/ui/checkbox";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   nombre: z.string().min(1,"El nombre es requerido"),
   codigo: z.string().min(1,"El código es requerido"),
   categoriaId: z.string().min(1,"La categoría es requerida"),
-  trazador: z.boolean().default(false), // Definimos el campo booleano
+  trazador: z.boolean().default(false),
 });
+
 type InventoryFormInputs = z.infer<typeof schema>;
 
 type Props = {
@@ -36,7 +38,13 @@ type Props = {
 };
 
 export default function FormInventory({ categorias, departamentos }: Props) {
-  const { control} = useFormContext<InventoryFormInputs>();
+  const { control } = useFormContext<InventoryFormInputs>();
+  const router = useRouter();
+
+  const handleCancel = () => {
+    router.push('/inventory');
+  };
+
   return (
     <Card className="w-full max-w-[600px]">
       <CardContent className="gap-3 flex flex-col py-4">
@@ -96,7 +104,6 @@ export default function FormInventory({ categorias, departamentos }: Props) {
           )}
         />
 
-        {/* Campo para la variable booleana 'trazador' */}
         <FormField
           control={control}
           name="trazador"
@@ -112,7 +119,14 @@ export default function FormInventory({ categorias, departamentos }: Props) {
         />
       </CardContent>
 
-      <CardFooter className="flex justify-end">
+      <CardFooter className="flex justify-end space-x-2">
+        <Button 
+          type="button" 
+          variant="outline" 
+          onClick={handleCancel}
+        >
+          Cancelar
+        </Button>
         <Button type="submit">Guardar</Button>
       </CardFooter>
     </Card>

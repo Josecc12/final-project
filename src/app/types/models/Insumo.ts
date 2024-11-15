@@ -8,7 +8,7 @@ type Insumo = {
     nombre: string;
     categoria: Category;
     departamentos: Department[];
-
+    status: "red" | "yellow" | "green" | "out-of-stock";
 }
 
 export default Insumo

@@ -2,22 +2,19 @@
 
 import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-import { cookies } from "next/headers";
+
 import { parsedEnv } from "@/app/env";
-import { Category, Department } from "@/app/types/models";
+import { Transaction } from "@/app/types/models";
 
-type DeleteDepartamentRequest = {
-  id: string;
-};
+import { cookies } from "next/headers";
 
-export default async function deleteCategory({
-    id
-}: DeleteDepartamentRequest ): Promise<SuccessReponse<Department> | ErrorResponse> {
+export default async function findOne(
+  id: string
+): Promise<SuccessReponse<Transaction> | ErrorResponse> {
   try {
-    const url = `${parsedEnv.API_URL}/departamentos/${id}`;
+    const url = `${parsedEnv.API_URL}/retiros/${id}`;
     const session = cookies().get("session")?.value;
-
-    const response = await axios.delete(url, {
+    const response = await axios.get<Transaction>(url, {
       headers: {
         Authorization: `Bearer ${session}`,
       },

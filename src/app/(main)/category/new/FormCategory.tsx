@@ -11,23 +11,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
-import { Category } from '@/app/types/models'
-import { z } from "zod";
+import { useRouter } from "next/navigation";
 
-
-const schema = z.object({
-    nameCategory: z.string().min(2, "El nombre debe tener al menos 2 caracteres")
-})
-
-type CategoryFormInputs = z.infer<typeof schema>;
-
-
-
-export default function FormCategory() {
+export default function FormCategory({ isSubmitting = false }) {
     const {
         control,
         formState: { errors },
-    } = useFormContext<CategoryFormInputs>();
+    } = useFormContext();
+    const router = useRouter();
+
+    const handleCancel = () => {
+        router.push("/category");
+    };
 
     return (
         <Card className="w-full max-w-[600px]">
@@ -43,19 +38,32 @@ export default function FormCategory() {
                                     <Input
                                         id="nombre"
                                         placeholder="Ingresa el nombre"
-                                        {...field}>
-
-                                    </Input>
+                                        {...field}
+                                        disabled={isSubmitting}
+                                    />
                                 </FormControl>
-                                <FormMessage>{errors.nameCategory?.message}</FormMessage>
+                                <FormMessage>{errors.root?.message}</FormMessage>
                             </FormItem>
-                        )}>
-                    </FormField>
+                        )}
+                    />
                 </div>
             </CardContent>
-            <CardFooter className="flex justify-end">
-                <Button type="submit">Guardar</Button>
+            <CardFooter className="flex justify-end gap-2">
+                <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={handleCancel}
+                    disabled={isSubmitting}
+                >
+                    Cancelar
+                </Button>
+                <Button 
+                    type="submit"
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? 'Guardando...' : 'Guardar'}
+                </Button>
             </CardFooter>
         </Card>
-    )
+    );
 }

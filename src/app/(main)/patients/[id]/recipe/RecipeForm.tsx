@@ -1,17 +1,16 @@
 import DropdownSearch from "@/components/DropdownSearch";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { PlusCircleIcon, Trash2Icon } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { z } from "zod";
-
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
-    motivo: z.string().min(1, "El nombre es requerido"),
-    anotaciones: z.string(),
+    descripcion: z.string().min(1, "El nombre es requerido"),
     insumos: z.array(
         z.object({
             cantidad: z.number().min(1, "La cantidad mínima es 1"),
@@ -23,7 +22,10 @@ const schema = z.object({
 type FormInputs = z.infer<typeof schema>;
 
 export default function RecipeForm() {
-
+    const router = useRouter();
+    const handleCancel = () => {
+        router.push("/patients");
+    };
     const {
         control,
         formState: { errors, defaultValues },
@@ -43,7 +45,7 @@ export default function RecipeForm() {
 
             <FormField
             control={control}
-            name="motivo"
+            name="descripcion"
             render={({ field }) => (
               <FormItem>
                 <FormLabel htmlFor="cui">Motivo de la consulta</FormLabel>
@@ -54,27 +56,12 @@ export default function RecipeForm() {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage>{errors.motivo?.message}</FormMessage>
+                <FormMessage>{errors.descripcion?.message}</FormMessage>
               </FormItem>
             )}
           />
 
-            <FormField
-                control={control}
-                name="anotaciones"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Anotaciones</FormLabel>
-                        <FormControl>
-                            <Textarea
-                                id="anotaciones"
-                                placeholder="Ingresa las anotaciones de la consulta"
-                                {...field}
-                            />
-                        </FormControl>
-                        <FormMessage>{errors.anotaciones?.message}</FormMessage>
-                    </FormItem>
-                )}/>
+         
 
             
 
@@ -137,9 +124,21 @@ export default function RecipeForm() {
                 <PlusCircleIcon className="h-4 w-4 mr-2" />
                 Agregar Insumo
             </Button>
-            <Button type="submit" className="w-full">
-                Guardar
-            </Button>
+            <CardFooter className="flex justify-end gap-2">
+                <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={handleCancel}
+                    
+                >
+                    Cancelar
+                </Button>
+                <Button 
+                    type="submit"
+                >
+                    Guardar
+                </Button>
+            </CardFooter>
             </CardContent>
         </Card>
     )
