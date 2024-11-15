@@ -47,14 +47,22 @@ export default function PageClient({
   pagination = { totalItems: 1, totalPages: 1, page: 1 },
 }: Props) {
   const router = useRouter();
+      const onPageChange = (page: number) => {
+        router.push("inventory/?page=" + page);
+    };
+    const onRow = (id: string) => {
+        router.push(`inventory/${id}`);
+    };
 
-  const onPageChange = (page: number) => {
-    router.push("inventory/?page=" + page);
-  };
-
-  const onRow = (id: string) => {
-    router.push(`inventory/${id}`);
-  };
+    const onSearch = (value: string) => {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        params.set("query", value);
+        router.push(`${url.pathname}?${params.toString()}`);
+        if (value === "") {
+            router.push(`${url.pathname}`);
+        }
+    };
 
   return (
     <LayoutSection
@@ -66,9 +74,8 @@ export default function PageClient({
         </Button>
       }
     >
-      <SearchBar placeholder="Buscar" />
-
       <Card>
+      <SearchBar placeholder="Buscar" onSearch={onSearch}/>
         <CardContent className="px-0">
           <Table className="overflow-hidden">
             <TableHeader>

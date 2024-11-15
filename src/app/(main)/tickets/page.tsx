@@ -1,39 +1,37 @@
-import LayoutSection from "@/components/LayoutSection";
-import { Ticket } from "./components/Ticket";
-import findAll from "@/actions/recipe/findAll";
+'use server';
+import { Suspense } from 'react'
+import LayoutSection from "@/components/LayoutSection"
+import RecipeQueueClient from './page.client'
+import findAll from "@/actions/recipe/findAll"
+import { ReadonlyURLSearchParams } from "next/navigation";
 
-export default async function Page() {
+type Props = {
+  searchParams: ReadonlyURLSearchParams;
+};
 
-  const response = await findAll();
+
+export default async function Page({ searchParams }: Props) {
+  
+  
+  const params = new URLSearchParams(searchParams);
+ 
+  const response = await findAll(
+    {searchParams: params}
+  );
+
 
   if (response.status !== 200 || !("data" in response)) {
-    throw new Error("Failed to fetch patients data");
+    throw new Error("Failed to fetch recipes data")
   }
 
   return (
     <LayoutSection
-      title="Tickets"
-      description="Revisa las ordenes de tus pacientes y entrega los insumos necesarios."
+      title="Cola de Recetas"
+      description="Gestiona y procesa las recetas de tus pacientes."
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-        {
-          response.data.map((ticket) => (
-            <Ticket
-              id={ticket.id}
-              key={ticket.id}
-              createdAt={ticket.createdAt}
-
-
-              usuario={ticket.user.name + ticket.user.lastname}
-              paciente={ticket.paciente.nombre}
-              insumos={ticket.insumos}
-            />
-          ))
-        }
-
-
-      </div>
+      <Suspense fallback={<div>Cargando...</div>}>
+        <RecipeQueueClient initialRecipes={response.data} />
+      </Suspense>
     </LayoutSection>
-  );
+  )
 }
