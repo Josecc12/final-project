@@ -111,7 +111,7 @@ export default function MainNav() {
                     prefetch={false}
                   >
                     <TruckIcon className="h-4 w-4" />
-                    Adquisición
+                    Adquisiciones
                   </Link>
                 </li>
               </ul>
