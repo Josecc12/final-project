@@ -31,6 +31,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { es } from "date-fns/locale"
+import { useState } from "react";
 
 type UserFormInputs = z.infer<typeof schema>;
 
@@ -47,6 +48,7 @@ const sexos = [
 ];
 
 export default function FormPatient() {
+  const [showFemaleCard, setShowFemaleCard] = useState(false);
   const {
     control,
     formState: { errors },
@@ -60,6 +62,7 @@ export default function FormPatient() {
   return (
     <Card className="w-full max-w-[600px]">
       <CardContent className="gap-3 flex flex-col">
+        
         <div className="flex flex-col gap-4">
           <FormField
             control={control}
@@ -106,7 +109,10 @@ export default function FormPatient() {
               <FormLabel htmlFor="role">Sexo</FormLabel>
               <FormControl>
                 <Select
-                  onValueChange={field.onChange}
+                   onValueChange={(value) => {
+                      field.onChange(value); 
+                      setShowFemaleCard(value === "Femenino"); 
+                     }}
                   defaultValue={field.value}
                 >
                   <SelectTrigger>
@@ -250,6 +256,152 @@ export default function FormPatient() {
           )}
         />
       </CardContent>
+
+      {showFemaleCard && (
+  <Card className="w-full max-w-[600px] mt-4">
+    <CardContent className="gap-3 flex flex-col">
+      <div className="flex flex-col gap-4">
+        {/* Gestas */}
+        <FormField
+          control={control}
+          name="gestas"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="gestas">Número de gestas</FormLabel>
+              <FormControl>
+                <Input type="number" min="0" {...field} />
+              </FormControl>
+              <FormMessage>{errors.gestas?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+
+        {/* Hijos vivos */}
+        <FormField
+          control={control}
+          name="hijos_vivos"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="hijos_vivos">Número de hijos vivos</FormLabel>
+              <FormControl>
+                <Input type="number" min="0" {...field} />
+              </FormControl>
+              <FormMessage>{errors.hijos_vivos?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+
+        {/* Hijos muertos */}
+        <FormField
+          control={control}
+          name="hijos_muertos"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="hijos_muertos">
+                Número de hijos muertos
+              </FormLabel>
+              <FormControl>
+                <Input type="number" min="0" {...field} />
+              </FormControl>
+              <FormMessage>{errors.hijos_muertos?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+
+        {/* Abortos */}
+        <FormField
+          control={control}
+          name="abortos"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="abortos">Número de abortos</FormLabel>
+              <FormControl>
+                <Input type="number" min="0" {...field} />
+              </FormControl>
+              <FormMessage>{errors.abortos?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+
+<FormField
+  control={control}
+  name="ultima_regla"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Última regla</FormLabel>
+      <FormControl>
+        <Input
+          type="date"
+          value={field.value ? field.value.toISOString().split("T")[0] : ""}
+          onChange={(e) => field.onChange(new Date(e.target.value))}
+        />
+      </FormControl>
+      <FormMessage>{errors.ultima_regla?.message}</FormMessage>
+    </FormItem>
+  )}
+/>
+
+
+        {/* Planificación familiar */}
+        <FormField
+          control={control}
+          name="planificacion_familiar"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Planificación familiar</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Describe los métodos de planificación familiar"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage>
+                {errors.planificacion_familiar?.message}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+
+        {/* Partos */}
+        <FormField
+          control={control}
+          name="partos"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Número de partos</FormLabel>
+              <FormControl>
+                <Input type="number" min="0" {...field} />
+              </FormControl>
+              <FormMessage>{errors.partos?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+
+        {/* Cesáreas */}
+        <FormField
+          control={control}
+          name="cesareas"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Número de cesáreas</FormLabel>
+              <FormControl>
+                <Input type="number" min="0" {...field} />
+              </FormControl>
+              <FormMessage>{errors.cesareas?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+      </div>
+    </CardContent>
+    <CardFooter className="flex justify-end">
+      <Button type="button" variant="outline" onClick={() => setShowFemaleCard(false)}>
+        Cerrar
+      </Button>
+    </CardFooter>
+  </Card>
+)}
+
+
       <CardFooter className="flex justify-end">
         <Button type="button" variant="outline" onClick={handleCancel}>
                     Cancelar
@@ -257,5 +409,11 @@ export default function FormPatient() {
         <Button type="submit">Guardar</Button>
       </CardFooter>
     </Card>
+  
+
+
   );
+
+
+
 }
