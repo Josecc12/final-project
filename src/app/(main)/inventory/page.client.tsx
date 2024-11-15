@@ -76,8 +76,17 @@ export default function PageClient({ insumos, pagination = {
     };
     const onRow = (id: string) => {
         router.push(`inventory/${id}`);
-      };
+    };
 
+    const onSearch = (value: string) => {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        params.set("query", value);
+        router.push(`${url.pathname}?${params.toString()}`);
+        if (value === "") {
+            router.push(`${url.pathname}`);
+        }
+    };
 
     return (
         <LayoutSection
@@ -90,7 +99,7 @@ export default function PageClient({ insumos, pagination = {
             }
         >
 
-            <SearchBar placeholder="Buscar" />
+            <SearchBar placeholder="Buscar" onSearch={onSearch}/>
 
             <Card>
                 <CardContent className="px-0">
@@ -110,7 +119,7 @@ export default function PageClient({ insumos, pagination = {
                         </TableHeader>
                         <TableBody>
                             {insumos.map((supply) => (
-                                <TableRow key={supply.id} onClick={()=>onRow(supply.id)}>
+                                <TableRow key={supply.id} onClick={() => onRow(supply.id)}>
                                     <TableCell className="w-[100px] hidden md:table-cell">
                                         {supply.codigo}
                                     </TableCell>
