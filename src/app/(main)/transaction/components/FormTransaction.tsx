@@ -16,6 +16,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { Department } from "@/app/types/models";
 import { Card } from "@/components/ui/card";
 import { z } from "zod";
+import { useState } from 'react';
 
 const schema = z.object({
   origen: z.string().min(1, "Selecciona el departamento de origen"),
@@ -25,7 +26,17 @@ const schema = z.object({
       cantidad: z.number().min(1, "La cantidad mínima es 1"),
       insumoId: z.string().min(1, "Selecciona un insumo"),
     })
-  ).min(1, "Debe agregar al menos un insumo"), // Agregamos la validación min(1)
+  )
+  .min(1, "Debe agregar al menos un insumo")
+  .refine(
+    (insumos) => {
+      const insumoIds = insumos.map(i => i.insumoId);
+      return new Set(insumoIds).size === insumoIds.length;
+    },
+    {
+      message: "No puede haber insumos duplicados",
+    }
+  ),
 }).refine((data) => data.origen !== data.destino, {
   message: "El departamento de origen y destino no pueden ser el mismo",
   path: ["destino"],
@@ -42,13 +53,45 @@ export default function FormTransaction({ departamentos}: Props) {
           control, 
           formState: { errors, defaultValues },
           register, 
-          setValue 
+          setValue,
+          watch,
+          trigger 
         } = useFormContext<FormInputs>();
+
+  const [duplicateErrors, setDuplicateErrors] = useState<{ [key: number]: string }>({});
 
   const { fields, append, remove } = useFieldArray({
       control,
       name: "insumos",
   });
+
+  // Función para verificar si un insumo ya existe
+  const isInsumoAlreadySelected = (insumoId: string, currentIndex: number) => {
+    const insumos = watch('insumos');
+    return insumos?.some((insumo, idx) => 
+      insumo.insumoId === insumoId && idx !== currentIndex
+    );
+  };
+
+  // Función modificada para manejar el cambio de insumo
+  const handleInsumoChange = (value: string, index: number) => {
+    if (isInsumoAlreadySelected(value, index)) {
+      // Si el insumo ya existe, mostramos el error
+      setDuplicateErrors(prev => ({
+        ...prev,
+        [index]: "Este insumo ya fue seleccionado"
+      }));
+      return;
+    }
+    // Limpiamos el error si existe
+    setDuplicateErrors(prev => {
+      const newErrors = { ...prev };
+      delete newErrors[index];
+      return newErrors;
+    });
+    setValue(`insumos.${index}.insumoId`, value);
+    trigger('insumos'); // Esto dispara la validación del formulario
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -127,7 +170,7 @@ export default function FormTransaction({ departamentos}: Props) {
                 <DropdownSearch
                   defaultValue={defaultValues?.insumos?.[index]?.insumoId}
                   name={`insumos.${index}.insumoId` as const}
-                  setValue={setValue}
+                  setValue={(name, value) => handleInsumoChange(value, index)}
                   placeholder="Selecciona un insumo"
                 />
               </div>
@@ -137,7 +180,6 @@ export default function FormTransaction({ departamentos}: Props) {
                 size="icon"
                 onClick={() => remove(index)}
                 className="self-end min-w-[40px]"
-                // Deshabilitar el botón de eliminar si solo queda un insumo
                 disabled={fields.length === 1}
               >
                 <Trash2Icon className="h-4 w-4" />
@@ -149,10 +191,13 @@ export default function FormTransaction({ departamentos}: Props) {
             {errors.insumos?.[index]?.insumoId && (
               <p className="text-sm text-red-500">{errors.insumos[index]?.insumoId?.message}</p>
             )}
+            {duplicateErrors[index] && (
+              <p className="text-sm text-red-500">{duplicateErrors[index]}</p>
+            )}
           </div>
         ))}
         
-        {/* Mostrar error general de insumos si no hay ninguno */}
+        {/* Mostrar error general de insumos */}
         {errors.insumos && !Array.isArray(errors.insumos) && (
           <p className="text-sm text-red-500 mt-2">{errors.insumos.message}</p>
         )}
@@ -162,7 +207,7 @@ export default function FormTransaction({ departamentos}: Props) {
           variant="outline"
           size="sm"
           onClick={() => append({ cantidad: 1, insumoId: "" })}
-          className="w-fit"
+          className="w-fit mt-4"
         >
           <PlusCircleIcon className="h-4 w-4 mr-2" />
           Agregar Insumo
