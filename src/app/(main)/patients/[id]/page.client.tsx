@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Typography } from "@/components/ui/Typography";
 import { toast } from "@/components/ui/use-toast";
 import { differenceInYears } from 'date-fns';
-import { Activity, Calendar, ContactRound, Edit, IdCard, Milk, Plus, Shell, Siren, Trash2, Users2 } from "lucide-react";
+import { Activity, Calendar, ContactRound, Edit, IdCard, Milk, Plus, Shell, Siren, Trash2, Users2, FileClock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -195,7 +195,12 @@ export default function PageClient({ patient }: Props) {
               </div>
             </div>
           )}
-
+         <Button variant="default" asChild className="flex items-center gap-4">
+          <Link href={`/patients/${patient.id}/history`}>                            
+            <FileClock className="h-4 w-4" />
+            <p>HISTORIAL</p>
+          </Link>
+        </Button>
       </CardContent>
     </Card>
   );
