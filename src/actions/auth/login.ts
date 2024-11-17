@@ -25,10 +25,11 @@ export default async function Login({
 
     cookies().set("session", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 7,
+      secure: false, // Cambiado para aceptar conexiones HTTP
+      maxAge: 60 * 60 * 24 * 7, // 7 días
       sameSite: "strict",
     });
+    
 
     return {
       data: "Logged in",
