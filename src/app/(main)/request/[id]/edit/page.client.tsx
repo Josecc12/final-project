@@ -9,20 +9,25 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { Test } from "@/app/types/models";
-import RequestForm, { FormValues } from "../../components/RequestForm";
-import create from "@/actions/order/create";
+import { Test, Order } from "@/app/types/models";
+import RequestForm, { FormValues } from "@/app/(main)/patients/[id]/components/RequestForm";
+import update from "@/actions/order/update";
 
 interface PageClientProps {
-  patientId: string;
   examenes: Test[];
+  order: Order;
 }
 
-export default function PageClient({ patientId, examenes }: PageClientProps) {
+export default function PageClient({ examenes, order }: PageClientProps) {
   const router = useRouter();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  // Preparar los datos iniciales para el formulario
+  const initialData: FormValues = {
+    examenId: order.examen.id,
+    descripcion: order.examen.descripcion,
+  };
+  
   const handleCancel = () => {
     router.back();
   };
@@ -30,29 +35,29 @@ export default function PageClient({ patientId, examenes }: PageClientProps) {
   const handleSubmit = async (values: FormValues) => {
     setIsSubmitting(true);
     try {
-      const response = await create({
+      const response = await update(order.id, {
         ...values,
-        pacienteId: patientId,
+        pacienteId: order.paciente.id,
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         toast({
-          title: "Orden creada exitosamente",
-          description: "La orden de laboratorio ha sido creada",
+          title: "Orden actualizada exitosamente",
+          description: "La orden de laboratorio ha sido actualizada",
           duration: 3000,
         });
         router.push("/request");
         router.refresh();
       } else {
         toast({
-          title: "Error al crear la orden",
+          title: "Error al actualizar la orden",
           description: "Ha ocurrido un error inesperado",
           variant: "destructive",
           duration: 3000,
         });
       }
     } catch (error) {
-      console.log("Error creating laboratory order:", error);
+      console.log("Error updating laboratory order:", error);
       toast({
         title: "Error",
         description: "Ha ocurrido un error inesperado",
@@ -66,8 +71,11 @@ export default function PageClient({ patientId, examenes }: PageClientProps) {
 
   return (
     <Card className="w-full max-w-3xl mx-auto my-8">
-      <CardHeader>
-        <CardTitle>Nueva Orden de Laboratorio</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-6">
+        <CardTitle>Editar Orden de Laboratorio</CardTitle>
+        <div className="text-sm text-muted-foreground">
+          ID: {order.id}
+        </div>
       </CardHeader>
       <CardContent>
         <RequestForm
@@ -75,6 +83,7 @@ export default function PageClient({ patientId, examenes }: PageClientProps) {
           onSubmit={handleSubmit}
           onCancel={handleCancel}
           isSubmitting={isSubmitting}
+          initialData={initialData}
         />
       </CardContent>
     </Card>

@@ -12,6 +12,7 @@ import { toast } from "@/components/ui/use-toast";
 import { ErrorResponse } from "@/app/types/api";
 import { Users2, Mail, Briefcase, Building2, MessagesSquare, Badge, Edit, Trash2, Paperclip, Sheet, CheckCircle, Clock, FileText } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import page from "../../acquisitions/new/page";
 
 type Props = {
   order: Order;
@@ -19,7 +20,7 @@ type Props = {
 
 export default function PageClient({ order }: Props) {
   const router = useRouter(); 
-
+  
   const onDelete = async () => {
     const response = await deleteUser({ id: order.id }); 
 
@@ -56,7 +57,7 @@ export default function PageClient({ order }: Props) {
             </div>
             <div className="flex gap-2">
               <Button variant="default" asChild>
-                <Link href={`/user/${order.id}/edit`}>
+                <Link href={`/request/${order.id}/edit`}>
                   <Edit className="h-4 w-4" />
                 </Link>
               </Button>
