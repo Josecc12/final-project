@@ -10,6 +10,7 @@ import Transaction from "./Transaction";
 import Order from "./Order";
 import Recipe from "./Recipe";
 import PatientMedicalHistory from "./PatientMedicalHistory";
+import departure from "./Departure";
 export type {User}
 export type {Category}
 export type {Department}
@@ -22,4 +23,6 @@ export type {Transaction}
 export type {Order}
 export type {Recipe}
 export type {PatientMedicalHistory}
+export type {departure}
+
 
