@@ -4,9 +4,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 
 import {
-  ActivityIcon,
   Building,
-  ChartBarStacked,
   ClipboardPlusIcon,
   HomeIcon,
   LayoutGridIcon,
@@ -19,6 +17,7 @@ import {
   TagIcon,
   ChevronDown,
   TruckIcon,
+  ArrowLeftRight
 } from "lucide-react";
 import Logout from "@/actions/auth/logout";
 
@@ -72,7 +71,7 @@ export default function MainNav() {
             {/* Submenú de Inventario */}
             <div
               className={`overflow-hidden transition-all duration-300 ${
-                isInventoryOpen ? "max-h-40" : "max-h-0"
+                isInventoryOpen ? "max-h-50" : "max-h-0"
               }`}
             >
               <ul className="ml-6 mt-2 space-y-1">
@@ -112,6 +111,14 @@ export default function MainNav() {
                   >
                     <TruckIcon className="h-4 w-4" />
                     Adquisiciones
+                  </Link>
+                  <Link
+                    href="/departures"
+                    className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-200 rounded-md dark:hover:bg-gray-700"
+                    prefetch={false}
+                  >
+                    <ArrowLeftRight className="h-4 w-4" />
+                    Retiros
                   </Link>
                 </li>
               </ul>

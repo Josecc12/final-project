@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/Typography";
 import Link from "next/link";
 import Delete from "@/components/ui/delete";
-import deleteUser from "@/actions/user/delete";
+import deleteLaboratoryOrder from "@/actions/order/delete";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import { ErrorResponse } from "@/app/types/api";
@@ -22,7 +22,7 @@ export default function PageClient({ order }: Props) {
   const router = useRouter(); 
   
   const onDelete = async () => {
-    const response = await deleteUser({ id: order.id }); 
+    const response = await deleteLaboratoryOrder({ id: order.id }); 
 
     if (response?.status === 200) {
       toast({
