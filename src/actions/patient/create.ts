@@ -30,20 +30,36 @@ export default async function create({
 
         const date = new Date(nacimiento);
         const formattedDate = date.toISOString().split('T')[0];
+        var body={}
+        if(sexo === "Masculino"){
+            body = {
+                nombre,
+                sexo,
+                cui,
+                nacimiento: formattedDate,
+                familiares,
+                medicos,
+                quirurgicos,
+                traumaticos,
+                alergias,
+                vicios,
+            };
+        }else{
+            body = {
+                nombre,
+                sexo,
+                cui,
+                nacimiento: formattedDate,
+                familiares,
+                medicos,
+                quirurgicos,
+                traumaticos,
+                alergias,
+                vicios,
+                antecedente: antecedentes[0],
+            };
 
-        const body = {
-            nombre,
-            sexo,
-            cui,
-            nacimiento: formattedDate,
-            familiares,
-            medicos,
-            quirurgicos,
-            traumaticos,
-            alergias,
-            vicios,
-            antecedente: antecedentes[0],
-        };
+        }
         console.log(body);
         const response = await axios.post<Patient>(url, body, {
             headers: {
