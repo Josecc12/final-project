@@ -55,6 +55,16 @@ export default function PageClient({insumos, pagination = {
     };
     const onRow = (id: string) => {
         router.push(`acquisitions/${id}`);
+    };
+
+    const onSearch = (value: string) => {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        params.set("query", value);
+        router.push(`${url.pathname}?${params.toString()}`);
+        if (value === "") {
+          router.push(`${url.pathname}`);
+        }
       };
 
       return (
@@ -68,7 +78,7 @@ export default function PageClient({insumos, pagination = {
             }
         >
 
-            <SearchBar placeholder="Buscar" />
+            <SearchBar placeholder="Buscar" onSearch={onSearch}/>
             <Card>
                 <CardContent className="px-0">
                     <Table className="overflow-hidden w-full">
