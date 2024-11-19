@@ -4,10 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useForm, FormProvider } from "react-hook-form"
 import { useSearchParams } from 'next/navigation'
+import { useToast } from "@/components/ui/use-toast"
 import RecipeProcessForm from './RecipeProcessForm'
 import type { Recipe } from '@/app/types/models'
 import deleteRecipe from '@/actions/recipe/delete'
 import confirm from '@/actions/recipe/confirm'
+import { ErrorResponse } from "@/app/types/api";
 
 interface RecipeQueueProps {
   initialRecipes: Recipe[]
@@ -18,16 +20,13 @@ export function RecipeQueue({ initialRecipes }: RecipeQueueProps) {
   const [queue, setQueue] = useState<Recipe[]>([])
   const [processing, setProcessing] = useState(false)
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null)
+  const { toast } = useToast()
 
   const form = useForm()
 
-  // Efecto para actualizar el queue cuando cambien los parámetros de búsqueda o initialRecipes
   useEffect(() => {
-    // Filtrar las recetas basado en los query params
     let filteredRecipes = [...initialRecipes]
     
-    // Aquí puedes agregar la lógica específica de filtrado según tus queryParams
-    // Por ejemplo:
     const fecha = searchParams.get('fecha')
     const doctor = searchParams.get('doctor')
     
@@ -44,44 +43,75 @@ export function RecipeQueue({ initialRecipes }: RecipeQueueProps) {
       )
     }
 
-    // Aplicar el filtro de estado "Pendiente"
     filteredRecipes = filteredRecipes.filter(recipe => recipe.estado === "Pendiente")
     
     setQueue(filteredRecipes)
-  }, [searchParams, initialRecipes]) // Dependencias del efecto
+  }, [searchParams, initialRecipes])
 
   const processRecipe = (recipe: Recipe) => {
     setEditingRecipe(recipe)
+  }
+
+  const handleDelete = async (recipeId: string) => {
+    try {
+      await deleteRecipe({ id: recipeId })
+      setQueue(prevQueue => prevQueue.filter(r => r.id !== recipeId))
+      toast({
+        title: "Receta eliminada",
+        description: "La receta se ha eliminado correctamente",
+        variant: "default",
+      })
+    } catch (error) {
+      toast({
+        title: "Error al eliminar",
+        description: "No se pudo eliminar la receta. Por favor, intente nuevamente.",
+        variant: "destructive",
+      })
+    }
   }
 
   const onSubmitEdit = async () => {
     if (!editingRecipe) return
     
     setProcessing(true)
-    console.log('Procesando receta:', editingRecipe)
     
     try {
       const response = await confirm(editingRecipe.id)
-      if (response.status !== 200 || !("data" in response)) {
-        console.error('Error al procesar receta:', response)
-        return
+      
+      if (response?.status === 201) {
+        toast({
+          title: "la receta ha sido procesada",
+          description: `la receta ha sido procesada exitosamente`,
+          variant: "default",
+          duration: 3000,
+        });
+        setProcessing(true)
+      } else if (response?.status === 404) {
+        toast({
+          title: "Error",
+          description: "no hay insumos para procesar la receta",
+          variant: "destructive",
+          duration: 3000,
+        });
+        setProcessing(false)
+      } else if ("message" in response) {
+        toast({
+          duration: 3000,
+          title: `Error ${response.status}`,
+          description: (response as ErrorResponse).message,
+          variant: "destructive",
+        });
+        setProcessing(false)
       }
 
-      // Actualizar el estado con los datos procesados
-      setEditingRecipe(response.data)
-      
-      // Actualizar el queue para reflejar el nuevo estado
-      setQueue(prevQueue => prevQueue.map(recipe => 
-        recipe.id === editingRecipe.id ? response.data : recipe
-      ))
     } catch (error) {
-      console.error('Error durante el procesamiento:', error)
-    } finally {
-      setProcessing(false)
-      // Ya no cerramos el diálogo aquí
-      // setEditingRecipe(null) <- Removemos esta línea
-    }
-}
+      toast({
+        title: "Error al procesar la receta",
+        description: error instanceof Error ? error.message : "Ocurrió un error inesperado al procesar la receta",
+        variant: "destructive",
+      })
+    } 
+  }
 
   return (
     <>
@@ -101,10 +131,7 @@ export function RecipeQueue({ initialRecipes }: RecipeQueueProps) {
                   </Button>
                   <Button
                     variant="destructive"
-                    onClick={async () => {
-                      await deleteRecipe({ id: recipe.id })
-                      setQueue(prevQueue => prevQueue.filter(r => r.id !== recipe.id))
-                    }}
+                    onClick={() => handleDelete(recipe.id)}
                     className="mt-2"
                   >
                     Eliminar
