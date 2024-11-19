@@ -8,6 +8,8 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { PaginationComponent } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import confirm from "@/actions/order/confirm";
+import { useToast } from "@/components/ui/use-toast";
+import { ErrorResponse } from "@/app/types/api";
 import {
   Table,
   TableBody,
@@ -35,7 +37,7 @@ export default function PageClient({
   },
 }: Props) {
   const router = useRouter();
-
+  const { toast } = useToast()
   const onPageChange = (page: number) => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
@@ -61,10 +63,22 @@ export default function PageClient({
     e.stopPropagation(); // Prevent row click event
     try {
       const response = await confirm(orderId);
-      if (response.status !== 201) {
-        console.error('Error confirming order:', response);
-        return;
-      }
+      console.log(response);
+      if (response.status !== 200) {
+        toast({
+          title: "confirmada",
+          description: `la orden ha sido confirmada`,
+          variant: "default",
+          duration: 3000,
+        });
+      } else if ("message" in response) {
+        toast({
+          duration: 3000,
+          title: `Error ${response.status}`,
+          description: (response as ErrorResponse).message,
+          variant: "destructive",
+          } );
+    }
       router.refresh(); // Refresh the page to show updated status
     } catch (error) {
       console.error('Error confirming order:', error);

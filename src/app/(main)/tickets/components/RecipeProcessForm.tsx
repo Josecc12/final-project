@@ -2,23 +2,47 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
 import { Recipe } from '@/app/types/models';
+import { useToast } from "@/components/ui/use-toast";
 
 interface RecipeProcessFormProps {
   recipe: Recipe | null;
   onCancel: () => void;
   isProcessing?: boolean;
   processedData?: Recipe | null;
+  onProcess?: (recipe: Recipe) => Promise<void>;
 }
 
 export default function RecipeProcessForm({ 
   recipe, 
   onCancel, 
   isProcessing = false,
-  processedData
+  processedData,
+  onProcess
 }: RecipeProcessFormProps) {
+  const { toast } = useToast();
+  
   // Determinar qué datos mostrar basado en si la receta ha sido procesada
   const displayData = processedData || recipe;
   const insumosList = processedData ? processedData.insumosRetirados : recipe?.insumosRecetados;
+
+  const handleProcess = async () => {
+    if (!recipe || !onProcess) return;
+
+    try {
+      await onProcess(recipe);
+      toast({
+        title: "Receta procesada",
+        description: "La receta se ha procesado exitosamente",
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Error al procesar",
+        description: error instanceof Error ? error.message : "Ocurrió un error al procesar la receta",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <Card className="w-full max-w-[800px] flex flex-col gap-4 p-4">
@@ -78,7 +102,10 @@ export default function RecipeProcessForm({
           Cancelar
         </Button>
         {!processedData && (
-          <Button type="submit" disabled={isProcessing}>
+          <Button 
+            onClick={handleProcess}
+            disabled={isProcessing}
+          >
             {isProcessing ? 'Procesando...' : 'Procesar Receta'}
           </Button>
         )}
