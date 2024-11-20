@@ -3,16 +3,8 @@
 import { useState } from "react";
 import LayoutSection from "@/components/LayoutSection";
 import SearchBar from "../../../components/navigation/SearchBar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { PaginationComponent } from "@/components/ui/pagination";
 import {
     Table,
@@ -22,37 +14,27 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import clsx from "clsx";
-import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { ErrorResponse, Pagination } from "@/app/types/api";
-import { toast } from "@/components/ui/use-toast";
-import deleteSupply from "@/actions/inventory/delete";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { useRouter } from "next/navigation";
+import { Pagination as PaginationType } from "@/app/types/api";
 import { Insumo } from "@/app/types/models";
 
 
-export default function PageClient({insumos, pagination = {
-    totalItems: 1,
-    totalPages: 1,
-    page: 1,
-},}: any){
+
+export default function PageClient({
+    insumos, 
+    pagination = {
+        totalItems: 1,
+        totalPages: 1,
+        page: 1,
+    },
+}: any) {
     const router = useRouter();
 
     const onPageChange = (page: number) => {
         router.push("acquisitions/?page=" + page);
     };
+
     const onRow = (id: string) => {
         router.push(`acquisitions/${id}`);
     };
@@ -63,11 +45,11 @@ export default function PageClient({insumos, pagination = {
         params.set("query", value);
         router.push(`${url.pathname}?${params.toString()}`);
         if (value === "") {
-          router.push(`${url.pathname}`);
+            router.push(`${url.pathname}`);
         }
-      };
+    };
 
-      return (
+    return (
         <LayoutSection
             description="Encuentra aquí la información de las adquisiciones que haz realizado."
             title="Adquisiciones"
@@ -77,47 +59,90 @@ export default function PageClient({insumos, pagination = {
                 </Button>
             }
         >
-
             <SearchBar placeholder="Buscar" onSearch={onSearch}/>
+            
             <Card>
                 <CardContent className="px-0">
-                    <Table className="overflow-hidden w-full">
+                    {/* Tabla de escritorio */}
+                    <Table className="hidden md:table overflow-hidden w-full">
                         <TableHeader>
-                        <TableRow>
-                            <TableHead className="cursor-pointer w-1/4 hidden md:table-cell">
-                            Codigo
-                            </TableHead>
-                            <TableHead className="cursor-pointer w-1/4">
-                            Cantidad disponible
-                            </TableHead>
-                            <TableHead className="cursor-pointer w-1/4 hidden lg:table-cell">
-                            Insumo
-                            </TableHead>
-                            <TableHead className="w-1/4">
-                            Fecha de caducidad
-                            </TableHead>
-                            <TableHead className="w-[40px] p-0 pr-1" />
-                        </TableRow>
+                            <TableRow>
+                                <TableHead className="cursor-pointer w-1/4 hidden md:table-cell">
+                                    Codigo
+                                </TableHead>
+                                <TableHead className="cursor-pointer w-1/4">
+                                    Cantidad disponible
+                                </TableHead>
+                                <TableHead className="cursor-pointer w-1/4 hidden lg:table-cell">
+                                    Insumo
+                                </TableHead>
+                                <TableHead className="w-1/4">
+                                    Fecha de caducidad
+                                </TableHead>
+                            </TableRow>
                         </TableHeader>
                         <TableBody className="w-full">
-                        {insumos.map((supply: any) => (
-                            <TableRow key={supply.id} onClick={() => onRow(supply.id)}>
-                            <TableCell className="w-1/4 hidden md:table-cell">
-                                {supply.numeroLote}
-                            </TableCell>
-                            <TableCell className="w-1/4">
-                                {supply.cantidadActual}
-                            </TableCell>
-                            <TableCell className="w-1/4 hidden lg:table-cell">
-                                {supply.insumoDepartamento.insumo.nombre}
-                            </TableCell>
-                            <TableCell className="w-1/4 flex justify-center text-center">
-                                {supply.fechaCaducidad}
-                            </TableCell>
-                            </TableRow>
-                        ))}
+                            {insumos.map((supply:any) => (
+                                <TableRow 
+                                    key={supply.id} 
+                                    onClick={() => onRow(supply.id)}
+                                    className="cursor-pointer"
+                                >
+                                    <TableCell className="w-1/4 hidden md:table-cell">
+                                        {supply.numeroLote}
+                                    </TableCell>
+                                    <TableCell className="w-1/4">
+                                        {supply.cantidadActual}
+                                    </TableCell>
+                                    <TableCell className="w-1/4 hidden lg:table-cell">
+                                        {supply.insumoDepartamento.insumo.nombre}
+                                    </TableCell>
+                                    <TableCell className="w-1/4 text-center">
+                                        {supply.fechaCaducidad}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
+
+                    {/* Vista de lista para móviles */}
+                    <div className="block md:hidden space-y-4 px-4">
+                        {insumos.map((supply:any) => (
+                            <div 
+                                key={supply.id} 
+                                className="border rounded-lg p-4 shadow-sm hover:bg-gray-50 transition-colors"
+                                onClick={() => onRow(supply.id)}
+                            >
+                                <div className="flex justify-between items-start mb-2">
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium text-gray-900 truncate">
+                                            Código: {supply.numeroLote}
+                                        </p>
+                                        <p className="text-sm text-gray-500 truncate">
+                                            {supply.insumoDepartamento.insumo.nombre}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex justify-between items-center mt-2">
+                                    <div>
+                                        <p className="text-sm text-gray-700">
+                                            Cantidad: {supply.cantidadActual}
+                                        </p>
+                                        <p className="text-xs text-gray-500">
+                                            Caduca: {supply.fechaCaducidad}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Mensaje cuando no hay adquisiciones */}
+                    {insumos.length === 0 && (
+                        <div className="text-center py-8 text-gray-500">
+                            No hay adquisiciones registradas.
+                        </div>
+                    )}
                 </CardContent>
 
                 <CardFooter>
@@ -128,8 +153,6 @@ export default function PageClient({insumos, pagination = {
                     />
                 </CardFooter>
             </Card>
-
         </LayoutSection>
     );
-
 }
