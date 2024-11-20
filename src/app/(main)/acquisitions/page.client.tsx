@@ -19,10 +19,7 @@ import { useRouter } from "next/navigation";
 import { Pagination as PaginationType } from "@/app/types/api";
 import { Insumo } from "@/app/types/models";
 
-type Props = {
-    insumos: Insumo[];
-    pagination?: PaginationType;
-}
+
 
 export default function PageClient({
     insumos, 
@@ -31,7 +28,7 @@ export default function PageClient({
         totalPages: 1,
         page: 1,
     },
-}: Props) {
+}: any) {
     const router = useRouter();
 
     const onPageChange = (page: number) => {
