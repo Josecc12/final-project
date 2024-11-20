@@ -19,9 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef } from "react";
 
 type Props = {
   orders: Order[]
@@ -38,6 +36,7 @@ export default function PageClient({
 }: Props) {
   const router = useRouter();
   const { toast } = useToast()
+
   const onPageChange = (page: number) => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
@@ -64,49 +63,60 @@ export default function PageClient({
     try {
       const response = await confirm(orderId);
       console.log(response);
-      if (response.status !== 200) {
+      if (response.status == 201) {
         toast({
-          title: "confirmada",
-          description: `la orden ha sido confirmada`,
+          title: "Confirmada",
+          description: `La orden ha sido confirmada`,
           variant: "default",
           duration: 3000,
         });
-      } else if ("message" in response) {
+      } else if (response.status == 404) {
+        toast({
+          duration: 3000,
+          title: `Error ${response.status}`,
+          description: "No se pudo confirmar la orden por falta de medicamento en el inventario de laboratorio",
+          variant: "destructive",
+        });
+      }else if ("message" in response) {
         toast({
           duration: 3000,
           title: `Error ${response.status}`,
           description: (response as ErrorResponse).message,
           variant: "destructive",
-          } );
-    }
+        });
+      }
       router.refresh(); // Refresh the page to show updated status
     } catch (error) {
       console.error('Error confirming order:', error);
     }
   };
 
+  // Filtrar solo órdenes pendientes
+  const pendingOrders = orders.filter(order => order.estado == "Pendiente");
+
   return (
     <LayoutSection
       title="Solicitudes de Laboratorio"
       description="Todas tus solicitudes de laboratorio"
     >
-     <SearchBar placeholder="Buscar" onSearch={onSearch} />
+      <SearchBar placeholder="Buscar" onSearch={onSearch} />
 
       <Card>
         <CardContent className="px-0">
-          <Table className="overflow-hidden">
+          {/* Tabla de escritorio */}
+          <Table className="hidden md:table overflow-hidden">
             <TableHeader>
               <TableRow>     
                 <TableHead className="w-[150px]">Paciente</TableHead>
                 <TableHead className="w-[150px]">Examen</TableHead>
-                <TableHead className="w-[150px]">Descripcion de Examen</TableHead>
+                <TableHead className="w-[150px]">Descripción de Examen</TableHead>
                 <TableHead className="w-[150px]">Usuario</TableHead>
                 <TableHead className="w-[150px]">Estado</TableHead>
                 <TableHead className="w-[100px]">Acciones</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {orders.filter(order => order.estado == "Pendiente").map((order) => (
+              {pendingOrders.map((order) => (
                 <TableRow key={order.id} onClick={() => onRow(order.id)}>
                   <TableCell>{order.paciente.nombre}</TableCell>
                   <TableCell>{order.examen.nombre}</TableCell>
@@ -127,9 +137,69 @@ export default function PageClient({
               ))}
             </TableBody>
           </Table>
+
+          {/* Vista de lista para móviles */}
+          <div className="block md:hidden space-y-4 px-4">
+            {pendingOrders.map((order) => (
+              <div 
+                key={order.id} 
+                className="border rounded-lg p-4 shadow-sm hover:bg-gray-50 transition-colors"
+                onClick={() => onRow(order.id)}
+              >
+                <div className="flex justify-between items-start mb-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">
+                      {order.paciente.nombre}
+                    </p>
+                    <p className="text-sm text-gray-500 truncate">
+                      {order.examen.nombre}
+                    </p>
+                  </div>
+                  <span className={`ml-2 px-2 py-1 text-xs font-medium rounded ${
+                    order.estado === 'Pendiente' ? 'text-yellow-600 bg-yellow-100' : 'text-green-600 bg-green-100'
+                  }`}>
+                    {order.estado}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                  <p className="text-sm text-gray-500 truncate">
+                    {order.usuario.nombre}
+                  </p>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleConfirm(order.id, e);
+                    }}
+                    disabled={order.estado === 'CONFIRMADO'}
+                    className="ml-2"
+                  >
+                    Confirmar
+                  </Button>
+                </div>
+                <div className="mt-2">
+                  <p className="text-xs text-gray-400">
+                    {order.examen.descripcion}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Mensaje cuando no hay órdenes pendientes */}
+          {pendingOrders.length === 0 && (
+            <div className="text-center py-8 text-gray-500">
+              No hay solicitudes de laboratorio pendientes.
+            </div>
+          )}
         </CardContent>
         <CardFooter>
-          <PaginationComponent page={pagination.page} totalPages={pagination.totalPages} onPageChange={onPageChange} />
+          <PaginationComponent 
+            page={pagination.page} 
+            totalPages={pagination.totalPages} 
+            onPageChange={onPageChange} 
+          />
         </CardFooter>
       </Card>
     </LayoutSection>

@@ -36,7 +36,8 @@ import {
 } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils"
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+
 type Props = {
     retiros: departure[];
     departments: Department[];
@@ -107,7 +108,7 @@ export default function PageClient(
       <h1 className="text-2xl font-bold mb-4">Resumen de Retiros</h1>
       
       {/* Filter Section */}
-      <div className="mb-4 flex space-x-2">
+      <div className="mb-4 flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
         <Select 
           onValueChange={(value) => setFilters(prev => ({ ...prev, department: value }))}
           value={filters.department}
@@ -127,7 +128,7 @@ export default function PageClient(
             <Button
               variant={"outline"}
               className={cn(
-                "w-[280px] justify-start text-left font-normal",
+                "w-full justify-start text-left font-normal",
                 !filters.startDate && "text-muted-foreground"
               )}
             >
@@ -157,7 +158,7 @@ export default function PageClient(
             <Button
               variant={"outline"}
               className={cn(
-                "w-[280px] justify-start text-left font-normal",
+                "w-full justify-start text-left font-normal",
                 !filters.endDate && "text-muted-foreground"
               )}
             >
@@ -184,59 +185,111 @@ export default function PageClient(
 
         <Button onClick={handleFilterSubmit}>Filtrar</Button>
       </div>
-      <Card>
 
-      
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-1/4">Nombre Insumo</TableHead>
-            <TableHead className="w-1/6">Cantidad Total</TableHead>
-            <TableHead className="w-1/2">Detalles</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {Object.entries(processedData).map(([nombreInsumo, { totalCantidad, detalles }]) => (
-            <TableRow key={nombreInsumo}>
-              <TableCell className="font-medium">{nombreInsumo}</TableCell>
-              <TableCell>{totalCantidad}</TableCell>
-              <TableCell>
-                <Collapsible open={expandedRows[nombreInsumo]} onOpenChange={() => toggleRowExpansion(nombreInsumo)}>
-                  <CollapsibleTrigger asChild>
-                    <Button variant="ghost" className="w-full justify-start">
-                      {expandedRows[nombreInsumo] ? <ChevronUp className="h-4 w-4 mr-2" /> : <ChevronDown className="h-4 w-4 mr-2" />}
-                      {expandedRows[nombreInsumo] ? 'Ocultar' : 'Ver'} Detalles
-                    </Button>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Fecha</TableHead>
-                          <TableHead>Descripción</TableHead>
-                          <TableHead>Usuario</TableHead>
-                          <TableHead>Cantidad</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {detalles.map((detalle) => (
-                          <TableRow key={detalle.id}>
-                            <TableCell>{new Date(detalle.createdAt).toLocaleString()}</TableCell>
-                            <TableCell>{detalle.descripcion}</TableCell>
-                            <TableCell>{detalle.username}</TableCell>
-                            <TableCell>{detalle.cantidad}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </CollapsibleContent>
-                </Collapsible>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      </Card>
+      {/* Desktop Table View */}
+      <div className="hidden md:block">
+        <Card>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-1/4">Nombre Insumo</TableHead>
+                <TableHead className="w-1/6">Cantidad Total</TableHead>
+                <TableHead className="w-1/2">Detalles</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {Object.entries(processedData).map(([nombreInsumo, { totalCantidad, detalles }]) => (
+                <TableRow key={nombreInsumo}>
+                  <TableCell className="font-medium">{nombreInsumo}</TableCell>
+                  <TableCell>{totalCantidad}</TableCell>
+                  <TableCell>
+                    <Collapsible open={expandedRows[nombreInsumo]} onOpenChange={() => toggleRowExpansion(nombreInsumo)}>
+                      <CollapsibleTrigger asChild>
+                        <Button variant="ghost" className="w-full justify-start">
+                          {expandedRows[nombreInsumo] ? <ChevronUp className="h-4 w-4 mr-2" /> : <ChevronDown className="h-4 w-4 mr-2" />}
+                          {expandedRows[nombreInsumo] ? 'Ocultar' : 'Ver'} Detalles
+                        </Button>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Fecha</TableHead>
+                              <TableHead>Descripción</TableHead>
+                              <TableHead>Usuario</TableHead>
+                              <TableHead>Cantidad</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {detalles.map((detalle) => (
+                              <TableRow key={detalle.id}>
+                                <TableCell>{new Date(detalle.createdAt).toLocaleString()}</TableCell>
+                                <TableCell>{detalle.descripcion}</TableCell>
+                                <TableCell>{detalle.username}</TableCell>
+                                <TableCell>{detalle.cantidad}</TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Card>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="block md:hidden space-y-4">
+        {Object.entries(processedData).map(([nombreInsumo, { totalCantidad, detalles }]) => (
+          <Card key={nombreInsumo} className="w-full">
+            <CardContent className="p-4">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-lg font-semibold">{nombreInsumo}</h3>
+                <span className="text-muted-foreground">Total: {totalCantidad}</span>
+              </div>
+
+              <Collapsible>
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" className="w-full justify-start">
+                    <ChevronDown className="h-4 w-4 mr-2" />
+                    Ver Detalles
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="space-y-2 mt-2">
+                    {detalles.map((detalle) => (
+                      <div 
+                        key={detalle.id} 
+                        className="border-t pt-2 first:border-t-0"
+                      >
+                        <div className="flex justify-between">
+                          <span className="font-medium">Fecha:</span>
+                          <span>{new Date(detalle.createdAt).toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="font-medium">Descripción:</span>
+                          <span>{detalle.descripcion}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="font-medium">Usuario:</span>
+                          <span>{detalle.username}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="font-medium">Cantidad:</span>
+                          <span>{detalle.cantidad}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   )
 }

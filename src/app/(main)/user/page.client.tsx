@@ -1,7 +1,6 @@
 "use client";
 
 import LayoutSection from "@/components/LayoutSection";
-
 import { Pagination } from "@/app/types/api";
 import { User } from "@/app/types/models";
 import { Button } from "@/components/ui/button";
@@ -18,8 +17,6 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import SearchBar from "../../../components/navigation/SearchBar";
-
-
 
 type Props = {
   users: User[];
@@ -71,13 +68,13 @@ export default function PageClient({
 
       <Card>
         <CardContent className="px-0">
-          <Table className="overflow-hidden">
+          {/* Tabla de escritorio */}
+          <Table className="hidden md:table overflow-hidden">
             <TableHeader>
               <TableRow>
                 <TableHead className="cursor-pointer">Correo electrónico</TableHead>
                 <TableHead className="cursor-pointer">Nombre</TableHead>
                 <TableHead className="cursor-pointer">Nombre de Usuario</TableHead>
-
                 <TableHead className="cursor-pointer">Rol</TableHead>
               </TableRow>
             </TableHeader>
@@ -92,6 +89,36 @@ export default function PageClient({
               ))}
             </TableBody>
           </Table>
+
+          {/* Vista de lista para móviles */}
+          <div className="block md:hidden space-y-4 px-4">
+            {users.map((user) => (
+              <div 
+                key={user.id} 
+                className="border rounded-lg p-4 shadow-sm hover:bg-gray-50 transition-colors"
+                onClick={() => onRow(user.id)}
+              >
+                <div className="flex justify-between items-start mb-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">
+                      {user.name}
+                    </p>
+                    <p className="text-sm text-gray-500 truncate">
+                      {user.username}
+                    </p>
+                  </div>
+                  <span className="ml-2 px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded">
+                    {user.role.name}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <p className="text-sm text-gray-500 truncate">
+                    {user.email}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </CardContent>
         <CardFooter>
           <PaginationComponent
