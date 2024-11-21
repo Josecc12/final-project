@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Typography } from "@/components/ui/Typography";
 import { toast } from "@/components/ui/use-toast";
 import { differenceInYears } from 'date-fns';
-import { Activity, Calendar, ContactRound, Edit, IdCard, MicroscopeIcon, Milk, Plus, Shell, Siren, Trash2, Users2, FileClock } from "lucide-react";
+import { Activity, Calendar, ContactRound, Edit, IdCard, MicroscopeIcon, Milk, Plus, Shell, Siren, Trash2, Users2, FileClock, Phone, MapIcon, MapPin, Building2, Landmark, Flag, MapPinned, Map } from "lucide-react";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -116,17 +116,44 @@ export default function PageClient({ patient }: Props) {
              <Typography variant="small" className="font-bold">CUI</Typography>
              <Typography variant="muted">{patient.cui}</Typography>
             </div>
-          </div>  
+          </div>
+
+          {/* Telefono del paciente */}
+          <div className="flex items-center space-x-2">
+            <Phone className="h-5 w-5 text-muted-foreground" />
+            <div>
+             <Typography variant="small" className="font-bold">Teléfono</Typography>
+             <Typography variant="muted">{patient.telefono}</Typography>
+            </div>
+          </div>
+
+          {/* Comunidad del paciente */}
+          <div className="flex items-center space-x-2">
+            <MapPin className="h-5 w-5 text-muted-foreground" />
+            <div>
+             <Typography variant="small" className="font-bold">Comunidad</Typography>
+             <Typography variant="muted">{patient.comunidad}</Typography>
+            </div>
+          </div> 
+
+          {/* Municipio del paciente */}
+          <div className="flex items-center space-x-2">
+            <MapPinned className="h-5 w-5 text-muted-foreground" />
+            <div>
+             <Typography variant="small" className="font-bold">Municipio</Typography>
+             <Typography variant="muted">{patient.municipio}</Typography>
+            </div>
+          </div>      
 
           {/* Familiares del paciente */}
           <div className="flex items-center space-x-2">
             <ContactRound className="h-5 w-5 text-muted-foreground" />
             <div>
              <Typography variant="small" className="font-bold">Familiares</Typography>
-             <Typography variant="muted">{patient.familiares}</Typography>
             </div>
           </div>  
 
+             <Typography variant="muted">{patient.familiares}</Typography>
           {/* Quirúrgicos del paciente */}
           <div className="flex items-center space-x-2">
             <Activity className="h-5 w-5 text-muted-foreground" />
