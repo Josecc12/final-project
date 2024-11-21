@@ -18,6 +18,9 @@ type Patient = {
     nombre: string
     sexo: string
     cui: string
+    telefono: string
+    municipio: string,
+    comunidad: string,
     createdAt: string
     nacimiento: string
     familiares: string
