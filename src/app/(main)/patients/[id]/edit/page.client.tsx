@@ -18,6 +18,9 @@ const schema = z.object({
     nombre: z.string().min(1, "El nombre es requerido"),
     sexo: z.string().min(1, "El sexo es requerido"),
     cui: z.string(),
+    telefono: z.string(),
+    comunidad: z.string(),
+    municipio: z.string(),
     nacimiento: z.date({ required_error: "La fecha de nacimiento es requerida" }),
     familiares: z.string(),
     quirurgicos: z.string(),
@@ -27,12 +30,12 @@ const schema = z.object({
 
 });
 
+
 type UserFormInputs = z.infer<typeof schema>;
 
 type Props = {
     patient: Patient;
 };
-
 
 
 export default function Page({ patient }: Props) {
@@ -44,6 +47,9 @@ export default function Page({ patient }: Props) {
             nombre: patient.nombre,
             sexo: patient.sexo,
             cui: patient.cui,
+            telefono: patient.telefono,
+            comunidad: patient.comunidad,
+            municipio: patient.municipio,
             nacimiento: new Date(patient.nacimiento),
             familiares: patient.familiares,
             quirurgicos: patient.quirurgicos,
