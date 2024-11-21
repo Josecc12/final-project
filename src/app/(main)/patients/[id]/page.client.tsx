@@ -150,10 +150,10 @@ export default function PageClient({ patient }: Props) {
             <ContactRound className="h-5 w-5 text-muted-foreground" />
             <div>
              <Typography variant="small" className="font-bold">Familiares</Typography>
+             <Typography variant="muted">{patient.familiares}</Typography>
             </div>
           </div>  
 
-             <Typography variant="muted">{patient.familiares}</Typography>
           {/* Quirúrgicos del paciente */}
           <div className="flex items-center space-x-2">
             <Activity className="h-5 w-5 text-muted-foreground" />
