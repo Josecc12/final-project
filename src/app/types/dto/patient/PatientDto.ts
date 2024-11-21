@@ -4,6 +4,9 @@ type PatientDto = {
     nombre: string
     sexo: string
     cui?: string
+    telefono?: string
+    comunidad?: string
+    municipio?: string
     nacimiento: Date
     familiares?: string
     quirurgicos?: string

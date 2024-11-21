@@ -181,6 +181,48 @@ export default function FormPatient() {
 
         <FormField
           control={control}
+          name="telefono"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="telefono">Número de teléfono</FormLabel>
+              <FormControl>
+                <Input id="telefono" placeholder="Número de teléfono" {...field} />
+              </FormControl>
+              <FormMessage>{errors.cui?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="municipio"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="municipio">Municipio</FormLabel>
+              <FormControl>
+                <Input id="municipio" placeholder="Municipio al que pertenece" {...field} />
+              </FormControl>
+              <FormMessage>{errors.cui?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="comunidad"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="comunidad">Comunidad</FormLabel>
+              <FormControl>
+                <Input id="comunidad" placeholder="Comunidad a la que pertenece" {...field} />
+              </FormControl>
+              <FormMessage>{errors.cui?.message}</FormMessage>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
           name="familiares"
           render={({ field }) => (
             <FormItem>
