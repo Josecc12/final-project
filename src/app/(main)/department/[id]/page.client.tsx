@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Typography } from "@/components/ui/Typography";
 import { toast } from "@/components/ui/use-toast";
-import { ClipboardList, Edit, Tag, Trash2 } from "lucide-react";
+import { ClipboardList, Edit, PackageIcon, Tag, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { ErrorResponse } from "@/app/types/api";
 import Delete from "@/components/ui/delete";
@@ -13,6 +13,8 @@ import deleteDepartment from "@/actions/department/delete";
 import { Department } from "@/app/types/models"; 
 import { useRouter } from "next/navigation";
 import { MessageSquare, Notebook } from "lucide-react";
+import { FaProductHunt } from "react-icons/fa";
+
 
 
 
@@ -67,6 +69,11 @@ export default function PageClient({ department }: Props) {
               <Button variant="default" asChild>
                 <Link href={`/department/${department.id}/edit`}>
                   <Edit className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button variant="default" asChild>
+                <Link href={`/department/${department.id}/insumo`}>
+                  <PackageIcon className="h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="destructive" size="icon" onClick={onDelete}>
