@@ -47,22 +47,22 @@ export default function PageClient({
   pagination = { totalItems: 1, totalPages: 1, page: 1 },
 }: Props) {
   const router = useRouter();
-      const onPageChange = (page: number) => {
-        router.push("inventory/?page=" + page);
-    };
-    const onRow = (id: string) => {
-        router.push(`inventory/${id}`);
-    };
+  const onPageChange = (page: number) => {
+    router.push("inventory/?page=" + page);
+  };
+  const onRow = (id: string) => {
+    router.push(`inventory/${id}`);
+  };
 
-    const onSearch = (value: string) => {
-        const url = new URL(window.location.href);
-        const params = new URLSearchParams(url.search);
-        params.set("query", value);
-        router.push(`${url.pathname}?${params.toString()}`);
-        if (value === "") {
-            router.push(`${url.pathname}`);
-        }
-    };
+  const onSearch = (value: string) => {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    params.set("query", value);
+    router.push(`${url.pathname}?${params.toString()}`);
+    if (value === "") {
+      router.push(`${url.pathname}`);
+    }
+  };
 
   return (
     <LayoutSection
@@ -75,7 +75,7 @@ export default function PageClient({
       }
     >
       <Card>
-      <SearchBar placeholder="Buscar" onSearch={onSearch}/>
+        <SearchBar placeholder="Buscar" onSearch={onSearch}/>
         <CardContent className="px-0">
           <Table className="overflow-hidden">
             <TableHeader>
@@ -86,6 +86,9 @@ export default function PageClient({
                 <TableHead className="cursor-pointer">Nombre</TableHead>
                 <TableHead className="cursor-pointer hidden lg:table-cell">
                   Categoría
+                </TableHead>
+                <TableHead className="w-[100px] text-right">
+                  Cantidad
                 </TableHead>
                 <TableHead className="w-[150px]">Estado de stock</TableHead>
                 <TableHead className="size-[40px] p-0 pr-1" />
@@ -101,7 +104,9 @@ export default function PageClient({
                   <TableCell className="hidden lg:table-cell">
                     {supply.categoria.nombre}
                   </TableCell>
-                  {/* Mostrar solo el ícono según el estado */}
+                  <TableCell className="text-right">
+                    {supply.cantidadActual.toLocaleString()}
+                  </TableCell>
                   <TableCell className="w-[150px] flex justify-center items-center">
                     {getSemaphoreIcon(supply.status)}
                   </TableCell>
