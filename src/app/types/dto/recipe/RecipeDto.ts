@@ -5,6 +5,7 @@ type RecipeDto = {
     insumos: {
         insumoId: string;
         cantidad: number;
+        uso: string;
 
     }[];
 }

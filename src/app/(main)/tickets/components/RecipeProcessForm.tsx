@@ -12,7 +12,7 @@ interface RecipeProcessFormProps {
   onProcess?: (recipe: Recipe) => Promise<void>;
 }
 
-export default function RecipeProcessForm({ 
+export default function   RecipeProcessForm({ 
   recipe, 
   onCancel, 
   isProcessing = false,
@@ -69,30 +69,34 @@ export default function RecipeProcessForm({
               <label className="text-sm font-medium">
                 {processedData ? 'Insumos Retirados' : 'Insumos Recetados'}
               </label>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Insumo</TableCell>
-                    <TableCell className="text-right">Cantidad</TableCell>
-                    {processedData && <TableCell className="text-right">Estado</TableCell>}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {insumosList?.map((insumo) => (
-                    <TableRow key={insumo.id}>
-                      <TableCell>{insumo.nombre}</TableCell>
-                      <TableCell className="text-right">{insumo.cantidad}</TableCell>
+              <Table className="w-full">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className="whitespace-nowrap font-medium w-full">Insumo</TableCell>
+                      <TableCell className="text-right whitespace-nowrap font-medium w-[100px]">Cantidad</TableCell>
+                      <TableCell className="text-right whitespace-nowrap font-medium">Uso</TableCell>
                       {processedData && (
-                        <TableCell className="text-right">
-                          <span className="px-2 py-1 rounded-full text-sm bg-green-100 text-green-800">
-                            Entregado
-                          </span>
-                        </TableCell>
+                        <TableCell className="text-right whitespace-nowrap font-medium">Estado</TableCell>
                       )}
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHead>
+                  <TableBody>
+                    {insumosList?.map((insumo) => (
+                      <TableRow key={insumo.id}>
+                        <TableCell className="font-medium w-full">{insumo.nombre}</TableCell>
+                        <TableCell className="text-right w-[100px]">{insumo.cantidad}</TableCell>
+                        <TableCell className="text-right">{insumo.uso}</TableCell>
+                        {processedData && (
+                          <TableCell className="text-right">
+                            <span className="inline-flex px-2 py-1 rounded-full text-sm bg-green-100 text-green-800 whitespace-nowrap">
+                              Entregado
+                            </span>
+                          </TableCell>
+                        )}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
             </div>
           </>
         )}
