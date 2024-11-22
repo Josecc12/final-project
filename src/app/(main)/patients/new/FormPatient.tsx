@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import schema from "./schema";
 import { z } from "zod";
@@ -49,11 +49,16 @@ const sexos = [
 export default function FormPatient() {
   const {
     control,
+    watch,
     formState: { errors },
   } = useFormContext<UserFormInputs>();
   const router = useRouter();
   const [isFemale, setIsFemale] = useState(false);
+  const currentSex = watch("sexo");
 
+  useEffect(() => {
+    setIsFemale(currentSex === "Femenino");
+  }, [currentSex]);
   const handleCancel = () => {
     router.push("/patients"); // Redirige a la lista de pacientes.
   };
@@ -61,6 +66,9 @@ export default function FormPatient() {
   const handleSexChange = (value: string) => {
     setIsFemale(value === "Femenino");
   };
+
+  
+
 
   return (
     <Card className="w-full max-w-[600px]">
@@ -307,236 +315,231 @@ export default function FormPatient() {
 
         {/* Mostrar campos adicionales si el sexo es Femenino */}
         {isFemale && (
-          <div className="mt-4">
-            <FormField
-              control={control}
-              name="antecedentes.0.gestas"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Gestas:</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      inputMode="numeric"
-                      min="0"
-                      step="1"
-                      placeholder="Gestas realizadas:"
-                      {...field}
-                      value={field.value || 0} // Asigna 0 si el valor es undefined o vacío
-                      onChange={(e) => {
-                        const value = e.target.value ? parseInt(e.target.value, 10) : 0;
-                        field.onChange(value); // Asegura que el valor sea un número
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage>{errors.antecedentes?.[0]?.gestas?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-
-
-             <FormField
-                  control={control}
-              name="antecedentes.0.hijos_vivos"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Hijos Vivos:</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      inputMode="numeric"
-                      min="0"
-                      step="1"
-                      placeholder="Hijos vivos:"
-                      {...field}
-                      value={field.value || 0} 
-                      onChange={(e) => {
-                        const value = e.target.value ? parseInt(e.target.value, 10) : 0;
-                        field.onChange(value); 
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage>{errors.antecedentes?.[0]?.hijos_vivos?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-                  control={control}
-              name="antecedentes.0.hijos_muertos"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Hijos fallecidos:</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      inputMode="numeric"
-                      min="0"
-                      step="1"
-                      placeholder="Hijos fallecidos:"
-                      {...field}
-                      value={field.value || 0} 
-                      onChange={(e) => {
-                        const value = e.target.value ? parseInt(e.target.value, 10) : 0;
-                        field.onChange(value); 
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage>{errors.antecedentes?.[0]?.hijos_muertos?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={control}
-              name="antecedentes.0.abortos"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Abortos:</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      inputMode="numeric"
-                      min="0"
-                      step="1"
-                      placeholder="Abortos Realizados:"
-                      {...field}
-                      value={field.value || 0} // Asigna 0 si el valor es undefined o vacío
-                      onChange={(e) => {
-                        const value = e.target.value ? parseInt(e.target.value, 10) : 0;
-                        field.onChange(value); // Asegura que el valor sea un número
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage>{errors.antecedentes?.[0]?.abortos?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-
-
-            <FormField
-          control={control}
-          name="antecedentes.0.ultima_regla"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Fecha de la ultima Menstrución:</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl className="w-full">
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP", { locale: es })
-                      ) : (
-                        <span>Selecciona una fecha</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent
-                  className="w-full min-w-full p-0 relative"
-                  align="start"
-                >
-                  <Calendar
-                    className="!w-full min-w-full"
-                    mode="single"
-                    selected={field.value ? new Date(field.value) : undefined}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </FormItem>
-          )}
-        />
-
-            <FormField
-                  control={control}
-                  name="antecedentes.0.planificacion_familiar"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>¿Usa Planificación Familiar?</FormLabel>
-                      <FormControl>
-                        <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Selecciona una opción" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="Sí">Sí</SelectItem>
-                            <SelectItem value="No">No</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage>{errors.antecedentes?.[0]?.planificacion_familiar?.message}</FormMessage>
-                    </FormItem>
-                  )}
+    <div className="mt-4">
+      <FormField
+        control={control}
+        name="antecedentes.0.gestas"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Gestas:</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                inputMode="numeric"
+                min="0"
+                step="1"
+                placeholder="Gestas realizadas:"
+                {...field}
+                value={field.value ?? 0}
+                onChange={(e) => {
+                  const value = e.target.value ? parseInt(e.target.value, 10) : 0;
+                  field.onChange(value);
+                }}
               />
-
-            <FormField
-                  control={control}
-              name="antecedentes.0.partos"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Partos:</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      inputMode="numeric"
-                      min="0"
-                      step="1"
-                      placeholder="Partos realizados:"
-                      {...field}
-                      value={field.value || 0} 
-                      onChange={(e) => {
-                        const value = e.target.value ? parseInt(e.target.value, 10) : 0;
-                        field.onChange(value); 
-                      }}
-                 />
-
-                  </FormControl>
-                  <FormMessage>{errors.antecedentes?.[0]?.partos?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-
-             <FormField
-                  control={control}
-              name="antecedentes.0.cesareas"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cesareas:</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      inputMode="numeric"
-                      min="0"
-                      step="1"
-                      placeholder="Cesareas realizadas:"
-                      {...field}
-                      value={field.value || 0} 
-                      onChange={(e) => {
-                        const value = e.target.value ? parseInt(e.target.value, 10) : 0;
-                        field.onChange(value); 
-                      }}
-                 />
-
-                  </FormControl>
-                  <FormMessage>{errors.antecedentes?.[0]?.cesareas?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-
-          </div>
+            </FormControl>
+            <FormMessage>{errors.antecedentes?.[0]?.gestas?.message}</FormMessage>
+          </FormItem>
         )}
+      />
+
+      <FormField
+        control={control}
+        name="antecedentes.0.hijos_vivos"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Hijos Vivos:</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                inputMode="numeric"
+                min="0"
+                step="1"
+                placeholder="Hijos vivos:"
+                {...field}
+                value={field.value ?? 0}
+                onChange={(e) => {
+                  const value = e.target.value ? parseInt(e.target.value, 10) : 0;
+                  field.onChange(value);
+                }}
+              />
+            </FormControl>
+            <FormMessage>{errors.antecedentes?.[0]?.hijos_vivos?.message}</FormMessage>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="antecedentes.0.hijos_muertos"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Hijos fallecidos:</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                inputMode="numeric"
+                min="0"
+                step="1"
+                placeholder="Hijos fallecidos:"
+                {...field}
+                value={field.value ?? 0}
+                onChange={(e) => {
+                  const value = e.target.value ? parseInt(e.target.value, 10) : 0;
+                  field.onChange(value);
+                }}
+              />
+            </FormControl>
+            <FormMessage>{errors.antecedentes?.[0]?.hijos_muertos?.message}</FormMessage>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="antecedentes.0.abortos"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Abortos:</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                inputMode="numeric"
+                min="0"
+                step="1"
+                placeholder="Abortos Realizados:"
+                {...field}
+                value={field.value ?? 0}
+                onChange={(e) => {
+                  const value = e.target.value ? parseInt(e.target.value, 10) : 0;
+                  field.onChange(value);
+                }}
+              />
+            </FormControl>
+            <FormMessage>{errors.antecedentes?.[0]?.abortos?.message}</FormMessage>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="antecedentes.0.ultima_regla"
+        render={({ field }) => (
+          <FormItem className="flex flex-col">
+            <FormLabel>Fecha de la última Menstruación:</FormLabel>
+            <Popover>
+              <PopoverTrigger asChild>
+                <FormControl className="w-full">
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full pl-3 text-left font-normal",
+                      !field.value && "text-muted-foreground"
+                    )}
+                  >
+                    {field.value ? (
+                      format(new Date(field.value), "PPP", { locale: es })
+                    ) : (
+                      <span>Selecciona una fecha</span>
+                    )}
+                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  </Button>
+                </FormControl>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-full min-w-full p-0 relative"
+                align="start"
+              >
+                <Calendar
+                  className="!w-full min-w-full"
+                  mode="single"
+                  selected={field.value ? new Date(field.value) : undefined}
+                  onSelect={field.onChange}
+                  disabled={(date) =>
+                    date > new Date() || date < new Date("1900-01-01")
+                  }
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="antecedentes.0.planificacion_familiar"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>¿Usa Planificación Familiar?</FormLabel>
+            <FormControl>
+              <Select onValueChange={field.onChange} value={field.value ?? ""}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona una opción" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Sí">Sí</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormMessage>{errors.antecedentes?.[0]?.planificacion_familiar?.message}</FormMessage>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="antecedentes.0.partos"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Partos:</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                inputMode="numeric"
+                min="0"
+                step="1"
+                placeholder="Partos realizados:"
+                {...field}
+                value={field.value ?? 0}
+                onChange={(e) => {
+                  const value = e.target.value ? parseInt(e.target.value, 10) : 0;
+                  field.onChange(value);
+                }}
+              />
+            </FormControl>
+            <FormMessage>{errors.antecedentes?.[0]?.partos?.message}</FormMessage>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="antecedentes.0.cesareas"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Cesáreas:</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                inputMode="numeric"
+                min="0"
+                step="1"
+                placeholder="Cesáreas realizadas:"
+                {...field}
+                value={field.value ?? 0}
+                onChange={(e) => {
+                  const value = e.target.value ? parseInt(e.target.value, 10) : 0;
+                  field.onChange(value);
+                }}
+              />
+            </FormControl>
+            <FormMessage>{errors.antecedentes?.[0]?.cesareas?.message}</FormMessage>
+          </FormItem>
+        )}
+      />
+    </div>
+  )}
 
       </CardContent>
       <CardFooter className="flex justify-end">

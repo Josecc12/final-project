@@ -23,8 +23,7 @@ export default async function update({
     traumaticos,
     alergias,
     vicios,
-
-
+    antecedentes,
 }: PatientDto): Promise<SuccessReponse<Patient> | ErrorResponse> {
     try {
         const url = `${parsedEnv.API_URL}/pacientes/${id}`;
@@ -33,22 +32,51 @@ export default async function update({
         const date = new Date(nacimiento);
         const formattedDate = date.toISOString().split('T')[0];
 
-        const body = {
-            nombre,
-            sexo,
-            cui,
-            telefono,
-            comunidad,
-            municipio,
-            nacimiento: formattedDate,
-            familiares,
-            quirurgicos,
-            traumaticos,
-            alergias,
-            vicios,
+        // Preparar el body según el sexo del paciente
+        var body = {};
+        if (sexo === "Masculino") {
+            body = {
+                nombre,
+                sexo,
+                cui,
+                telefono,
+                comunidad,
+                municipio,
+                nacimiento: formattedDate,
+                familiares,
+                quirurgicos,
+                traumaticos,
+                alergias,
+                vicios,
+            };
+        } else {
+            // Si hay antecedentes y hay una fecha de última regla, formatearla
+            const formattedAntecedente = antecedentes?.[0] ? {
+                ...antecedentes[0],
+                ultima_regla: antecedentes[0].ultima_regla 
+                    ? new Date(antecedentes[0].ultima_regla).toISOString().split('T')[0]
+                    : null
+            } : undefined;
 
-        };
-
+            body = {
+                nombre,
+                sexo,
+                cui,
+                telefono,
+                comunidad,
+                municipio,
+                nacimiento: formattedDate,
+                familiares,
+                quirurgicos,
+                traumaticos,
+                alergias,
+                vicios,
+                antecedente: formattedAntecedente,
+            };
+        }
+        
+        console.log('Updating patient with:', body);
+        
         const response = await axios.patch<Patient>(url, body, {
             headers: {
                 Authorization: `Bearer ${session}`,
