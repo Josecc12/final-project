@@ -8,6 +8,7 @@ type Insumo = {
     nombre: string;
     categoria: Category;
     departamentos: Department[];
+    cantidadActual: number;
     status: "red" | "yellow" | "green" | "out-of-stock";
 }
 

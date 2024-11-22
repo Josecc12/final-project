@@ -36,8 +36,7 @@ import {
 } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils"
-import { Card, CardContent } from "@/components/ui/card";
-
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 type Props = {
     retiros: departure[];
     departments: Department[];
@@ -102,12 +101,23 @@ export default function PageClient(
 
     router.push(`?${queryParams.toString()}`);
   }
-
+  const handleNewDeparture = () => {
+    router.push('/departures/new');
+  };
+  
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Resumen de Retiros</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Resumen de Retiros</h1>
+        <Button onClick={handleNewDeparture}>
+          Nuevo Retiro
+        </Button>
+      </div>
       
       {/* Filter Section */}
+      <Card>
+
+      <CardHeader>
       <div className="mb-4 flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
         <Select 
           onValueChange={(value) => setFilters(prev => ({ ...prev, department: value }))}
@@ -185,7 +195,7 @@ export default function PageClient(
 
         <Button onClick={handleFilterSubmit}>Filtrar</Button>
       </div>
-
+      </CardHeader>       
       {/* Desktop Table View */}
       <div className="hidden md:block">
         <Card>
@@ -290,6 +300,7 @@ export default function PageClient(
           </Card>
         ))}
       </div>
+      </Card>
     </div>
   )
 }
