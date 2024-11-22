@@ -27,16 +27,23 @@ const schema = z.object({
     traumaticos: z.string(),
     alergias: z.string(),
     vicios: z.string(),
-
+    antecedentes: z.array(z.object({
+        gestas: z.number().optional(),
+        partos: z.number().optional(),
+        cesareas: z.number().optional(),
+        abortos: z.number().optional(),
+        hijos_vivos: z.number().optional(),
+        hijos_muertos: z.number().optional(),
+        planificacion_familiar: z.string().optional(),
+        ultima_regla: z.date().optional().nullable(),
+    })).optional(),
 });
-
 
 type UserFormInputs = z.infer<typeof schema>;
 
 type Props = {
     patient: Patient;
 };
-
 
 export default function Page({ patient }: Props) {
     const methods = useForm<UserFormInputs>({
@@ -55,7 +62,19 @@ export default function Page({ patient }: Props) {
             quirurgicos: patient.quirurgicos,
             traumaticos: patient.traumaticos,
             alergias: patient.alergias,
-            vicios: patient.vicios
+            vicios: patient.vicios,
+            antecedentes: patient.antecedente ? [
+                {
+                    gestas: patient.antecedente?.gestas ?? 0,
+                    partos: patient.antecedente?.partos ?? 0,
+                    cesareas: patient.antecedente?.cesareas ?? 0,
+                    abortos: patient.antecedente?.abortos ?? 0,
+                    hijos_vivos: patient.antecedente?.hijos_vivos ?? 0,
+                    hijos_muertos: patient.antecedente?.hijos_muertos ?? 0,
+                    planificacion_familiar: patient.antecedente?.planificacion_familiar ?? "",
+                    ultima_regla: patient.antecedente?.ultima_regla ? new Date(patient.antecedente.ultima_regla) : null,
+                }
+            ] : patient.antecedente,
         },
     });
 
@@ -63,8 +82,6 @@ export default function Page({ patient }: Props) {
     const router = useRouter();
 
     const onSubmit = async (data: UserFormInputs) => {
-
-
         console.log(data);
         const response = await update(data);
 
