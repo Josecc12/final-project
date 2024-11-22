@@ -18,6 +18,7 @@ const schema = z.object({
         z.object({
             cantidad: z.string().min(1, "La cantidad mínima es 1"),
             insumo: z.string().min(1, 'Selecciona un insumo'),
+            uso: z.string()
         })
     ),
 })
@@ -43,18 +44,19 @@ export default function PageClient() {
     const onSubmit = async (data: FormInputs) => {
         const response = await create({
             ...data,
-            pacienteId: params.id, 
-            estado: "Pendiente", 
+            pacienteId: params.id,
+            estado: "Pendiente",
             insumos: data.insumos.map(
-                ({ cantidad, insumo }) => ({
+                ({ cantidad, insumo, uso }) => ({
                     cantidad: parseInt(cantidad),
                     insumoId: insumo,
+                    uso: uso
 
                 })
             )
         });
 
-        if(response.status === 201 || response.status === 200){
+        if (response.status === 201 || response.status === 200) {
             toast({
                 title: "Receta creada",
                 description: "La receta se ha creado correctamente",
@@ -62,7 +64,7 @@ export default function PageClient() {
             });
             router.push(`/patients/${params.id}`);
         }
-        
+
     }
 
 

@@ -14,11 +14,13 @@ import Patient from "./Patient";
         id: string;
         nombre: string;
         cantidad: number;
+        uso: string;
     }[];
     insumosRetirados: {
         id: string;
         nombre: string;
         cantidad: number;
+        uso: string;
     }[];
 
   };
