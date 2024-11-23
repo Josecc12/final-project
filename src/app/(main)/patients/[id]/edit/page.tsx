@@ -2,11 +2,6 @@
 
 import findOne from "@/actions/patient/findOne";
 import PageClient from "./page.client";
-
-
-
-
-
 type Props={
   params:{
     id: string;

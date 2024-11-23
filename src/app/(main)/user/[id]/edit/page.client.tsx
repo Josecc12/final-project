@@ -4,8 +4,6 @@ import LayoutSection from "@/components/LayoutSection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
-
-
 import update from "@/actions/user/update";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
@@ -13,7 +11,6 @@ import { useRouter } from "next/navigation";
 import FormUser from "../../new/FormUser";
 import Role from "@/app/types/models/Role";
 import { Department, User } from "@/app/types/models";
-import { de } from "date-fns/locale";
 
 const schema = z.object({
   firstName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),

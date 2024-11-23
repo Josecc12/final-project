@@ -1,6 +1,4 @@
 'use client';
-
-import LayoutSection from "@/components/LayoutSection";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Typography } from "@/components/ui/Typography";
@@ -12,11 +10,6 @@ import Delete from "@/components/ui/delete";
 import deleteDepartment from "@/actions/department/delete";
 import { Department } from "@/app/types/models"; 
 import { useRouter } from "next/navigation";
-import { MessageSquare, Notebook } from "lucide-react";
-import { FaProductHunt } from "react-icons/fa";
-
-
-
 
 type Props = {
   department: Department;
@@ -76,9 +69,7 @@ export default function PageClient({ department }: Props) {
                   <PackageIcon className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="destructive" size="icon" onClick={onDelete}>
-                <Trash2 className="h-4 w-4" />
-              </Button>
+              <Delete onDelete={onDelete} />
             </div>
           </div>
 

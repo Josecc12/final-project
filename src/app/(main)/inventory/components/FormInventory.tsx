@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
@@ -16,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useFormContext, Controller } from "react-hook-form";
+import { useFormContext} from "react-hook-form";
 import Category from "@/app/types/models/Category";
 import Department from "@/app/types/models/Department";
 import { Checkbox } from "@/components/ui/checkbox";

@@ -1,4 +1,3 @@
-import { ReadonlyURLSearchParams } from "next/navigation";
 import PageClient from "./page.client";
 import findMedicalHistory from "@/actions/patient/findMedicalHistory";
 

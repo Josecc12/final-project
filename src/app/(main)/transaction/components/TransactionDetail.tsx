@@ -10,8 +10,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Transaction } from '@/app/types/models';
-import { Button } from 'react-day-picker';
-import Link from "next/link";
 
 interface TransactionDetailProps {
   transaction: Transaction;

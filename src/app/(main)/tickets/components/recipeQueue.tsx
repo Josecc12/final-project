@@ -10,7 +10,7 @@ import type { Recipe } from '@/app/types/models'
 import deleteRecipe from '@/actions/recipe/delete'
 import confirm from '@/actions/recipe/confirm'
 import { ErrorResponse } from "@/app/types/api";
-
+import Delete from "@/components/ui/delete";
 interface RecipeQueueProps {
   initialRecipes: Recipe[]
 }
@@ -129,13 +129,7 @@ export function RecipeQueue({ initialRecipes }: RecipeQueueProps) {
                   <Button onClick={() => processRecipe(recipe)} className="mt-2">
                     Procesar
                   </Button>
-                  <Button
-                    variant="destructive"
-                    onClick={() => handleDelete(recipe.id)}
-                    className="mt-2"
-                  >
-                    Eliminar
-                  </Button>
+                  <Delete onDelete={() => handleDelete(recipe.id)} />
                 </div>
               </CardContent>
             </Card>

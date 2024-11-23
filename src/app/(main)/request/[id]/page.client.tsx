@@ -1,7 +1,7 @@
 'use client';
 
-import { Order, User } from "@/app/types/models";
-import LayoutSection from "@/components/LayoutSection";
+import { Order } from "@/app/types/models";
+
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/Typography";
 import Link from "next/link";
@@ -10,9 +10,8 @@ import deleteLaboratoryOrder from "@/actions/order/delete";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import { ErrorResponse } from "@/app/types/api";
-import { Users2, Mail, Briefcase, Building2, MessagesSquare, Badge, Edit, Trash2, Paperclip, Sheet, CheckCircle, Clock, FileText } from "lucide-react"
+import { Users2, Edit,Sheet, Clock, FileText } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import page from "../../acquisitions/new/page";
 
 type Props = {
   order: Order;
@@ -61,9 +60,7 @@ export default function PageClient({ order }: Props) {
                   <Edit className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="destructive" size="icon" onClick={onDelete}>
-                <Trash2 className="h-4 w-4" />
-              </Button>
+              <Delete onDelete={onDelete}/>
             </div>
           </div>
 

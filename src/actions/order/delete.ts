@@ -4,7 +4,7 @@ import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Department, Order, Test } from "@/app/types/models";
+import { Order } from "@/app/types/models";
 
 type DeleteLaboratoryOrder = {
   id: string;

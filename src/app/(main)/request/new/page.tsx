@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import laboratory from "@/actions/laboratory"
 import DropdownLaboratory from "@/components/DropdownLaboratory"
 import LayoutSection from "@/components/LayoutSection"
 import { Button } from "@/components/ui/button"

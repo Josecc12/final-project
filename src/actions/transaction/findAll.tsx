@@ -2,7 +2,6 @@
 
 import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-
 import { parsedEnv } from "@/app/env";
 import parsePaginationParams from "@/utils/functions/parsePaginationParams";
 import { cookies } from "next/headers";

@@ -3,8 +3,7 @@
 import { parsedEnv } from "@/app/env";
 import axios, { isAxiosError } from "axios";
 import { cookies } from "next/headers";
-import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-import { revalidatePath } from "next/cache";
+import { ErrorResponse, SuccessReponse } from "../../app/types/api";;
 import { getSession } from "../auth";
 
 interface UpdateLaboratoryOrderDto {

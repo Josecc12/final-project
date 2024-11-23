@@ -12,19 +12,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import SearchBar from "../../../components/navigation/SearchBar";
 
 import { Pagination } from "@/app/types/api";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Category } from "@/app/types/models";
-
-const categories = [
-  {
-    
-  },
-];
 
 type Props = {
   categories: Category[];

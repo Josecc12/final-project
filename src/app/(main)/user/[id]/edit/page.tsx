@@ -4,8 +4,6 @@ import { findAll  as findAllRoles} from "@/actions/role";
 import {findAll} from "@/actions/department";
 import PageClient from "./page.client";
 import findOne from "@/actions/user/findOne";
-
-
 type Props={
   params:{
     id: number

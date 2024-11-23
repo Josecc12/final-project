@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import LayoutSection from "@/components/LayoutSection";
 import SearchBar from "../../../components/navigation/SearchBar";
 import { Button } from "@/components/ui/button";
@@ -16,10 +15,6 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Pagination as PaginationType } from "@/app/types/api";
-import { Insumo } from "@/app/types/models";
-
-
 
 export default function PageClient({
     insumos, 

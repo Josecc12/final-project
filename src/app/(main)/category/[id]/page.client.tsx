@@ -1,7 +1,7 @@
 'use client';
 
-import { Category, Department } from "@/app/types/models";
-import LayoutSection from "@/components/LayoutSection";
+import { Category} from "@/app/types/models";
+
 
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/Typography";
@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "@/components/ui/use-toast";
 import { ErrorResponse } from "@/app/types/api";
-import { Building2, ClipboardList, Edit, MessageSquare, Notebook, Tag, Trash2, Warehouse } from "lucide-react";
+import { ClipboardList, Edit, Tag } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -64,9 +64,7 @@ export default function PageClient({ category }: Props) {
                   <Edit className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="destructive" size="icon" onClick={onDelete}>
-                <Trash2 className="h-4 w-4" />
-              </Button>
+              <Delete onDelete={onDelete} />
             </div>
           </div>
 

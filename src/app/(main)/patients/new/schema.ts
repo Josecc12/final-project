@@ -1,4 +1,4 @@
-import { object, z } from "zod";
+import { z } from "zod";
 
 const schema = z.object({
     nombre: z.string().min(1, "El nombre es requerido"),

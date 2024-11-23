@@ -4,7 +4,7 @@ import LayoutSection from "@/components/LayoutSection";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import { any, z } from "zod";
+import { z } from "zod";
 import schema from "./schema";
 import FormPatient from "./FormPatient";
 import { useToast } from "@/components/ui/use-toast";
