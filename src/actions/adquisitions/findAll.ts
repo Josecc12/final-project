@@ -2,14 +2,10 @@
 
 import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-
 import parsePaginationParams from "@/utils/functions/parsePaginationParams";
-import { Test } from "@/app/types/models";
 import adquisition from "@/app/types/models/adquisicion";
-
 
 type Props = {
   searchParams?: URLSearchParams;

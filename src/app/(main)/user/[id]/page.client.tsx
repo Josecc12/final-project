@@ -60,9 +60,7 @@ export default function PageClient({ user }: Props) {
                   <Edit className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="destructive" size="icon" onClick={onDelete}>
-                <Trash2 className="h-4 w-4" />
-              </Button>
+              <Delete onDelete={onDelete} />
             </div>
           </div>
 

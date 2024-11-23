@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import LayoutSection from "@/components/LayoutSection";
 import SearchBar from "../../../components/navigation/SearchBar";
 import { Button } from "@/components/ui/button";
@@ -13,7 +11,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import clsx from "clsx";
 import { FaCircle, FaExclamationTriangle } from "react-icons/fa";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -47,21 +44,27 @@ export default function PageClient({
   pagination = { totalItems: 1, totalPages: 1, page: 1 },
 }: Props) {
   const router = useRouter();
+
   const onPageChange = (page: number) => {
-    router.push("inventory/?page=" + page);
-  };
-  const onRow = (id: string) => {
-    router.push(`inventory/${id}`);
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    params.set("page", page.toString());
+    router.push(`${url.pathname}?${params.toString()}`);
   };
 
   const onSearch = (value: string) => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     params.set("query", value);
+    params.delete("page"); // Reset page when searching
     router.push(`${url.pathname}?${params.toString()}`);
     if (value === "") {
       router.push(`${url.pathname}`);
     }
+  };
+
+  const onRow = (id: string) => {
+    router.push(`inventory/${id}`);
   };
 
   return (

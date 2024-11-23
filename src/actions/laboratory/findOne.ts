@@ -5,7 +5,7 @@ import { ErrorResponse, SuccessReponse } from "../../app/types/api";
 
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Category, Insumo, Test } from "@/app/types/models";
+import { Test } from "@/app/types/models";
 
 export default async function findOne(
   id: string

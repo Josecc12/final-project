@@ -11,7 +11,6 @@ import adquisition from "@/app/types/models/adquisicion";
 import { getSession } from "../auth";
 
 export default async function create({
-    usuarioId,
     descripcion,
     lotes
     

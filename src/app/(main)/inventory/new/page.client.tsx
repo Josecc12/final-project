@@ -13,7 +13,6 @@ import Category from '@/app/types/models/Category';
 import Department  from "@/app/types/models/Department";
 import FormInventory from '../components/FormInventory'
 import InventoryDto from '@/app/types/dto/inventory/InventoryDto'
-import { de } from "date-fns/locale";
 
 const schema = z.object({
     nombre: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),

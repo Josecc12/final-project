@@ -5,10 +5,12 @@ import { ErrorResponse } from "@/app/types/api";
 import { Patient } from "@/app/types/models";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Delete from "@/components/ui/delete";
 import { Typography } from "@/components/ui/Typography";
 import { toast } from "@/components/ui/use-toast";
 import { differenceInYears } from 'date-fns';
-import { Activity, Calendar, ContactRound, Edit, IdCard, MicroscopeIcon, Milk, Plus, Shell, Siren, Trash2, Users2, FileClock, Phone, MapIcon, MapPin, Building2, Landmark, Flag, MapPinned, Map } from "lucide-react";
+import { Activity, Calendar, ContactRound, Edit, IdCard, MicroscopeIcon, Milk, 
+          Plus, Shell, Siren, Trash2, Users2, FileClock, Phone, MapPin,MapPinned } from "lucide-react";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -74,9 +76,7 @@ export default function PageClient({ patient }: Props) {
                   <Edit className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="destructive" size="icon" onClick={onDelete}>
-                <Trash2 className="h-4 w-4" />
-              </Button>
+              <Delete onDelete={onDelete}/>
             </div>
           </div>
 

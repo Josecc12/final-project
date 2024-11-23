@@ -1,4 +1,3 @@
-import Insumo from "./Insumo";
 import User from "./User";
 import Patient from "./Patient";
 // types/models/Receta.ts

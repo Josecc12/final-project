@@ -5,8 +5,6 @@ import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
-
-import create from "@/actions/department/create";
 import { ErrorResponse } from "@/app/types/api";
 import { Department } from "@/app/types/models";
 import { useToast } from "@/components/ui/use-toast";

@@ -2,11 +2,9 @@
 
 import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-import CategoryDto from '../../app/types/dto/category/CategoryDto';
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
 import { Category } from "@/app/types/models";
-
 type DeleteCategoryRequest = {
   id: string;
 };

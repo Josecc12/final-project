@@ -1,8 +1,5 @@
 "use client";
-
-import { useState } from "react";
 import LayoutSection from "@/components/LayoutSection";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
     Table,
@@ -12,35 +9,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import clsx from "clsx";
-import { FaCircle, FaExclamationTriangle } from "react-icons/fa";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Pagination } from "@/app/types/api";
-import { Department, Insumo } from "@/app/types/models";
+
 import { PaginationComponent } from "@/components/ui/pagination";
 import SearchBar from "@/components/navigation/SearchBar";
-
-// Función para seleccionar el ícono y el color según el estado del inventario
-function getSemaphoreIcon(status: string) {
-  switch (status) {
-    case "red":
-      return <FaCircle className="text-red-500" />;
-    case "yellow":
-      return <FaCircle className="text-yellow-500" />;
-    case "green":
-      return <FaCircle className="text-green-500" />;
-    case "out-of-stock":
-      return <FaExclamationTriangle className="text-red-500" />;
-    default:
-      return <FaExclamationTriangle className="text-gray-400" />;
-  }
-}
-
-type Props = {
-  department: Department;
-  pagination?: Pagination;
-};
 
 export default function PageClient({
     department,

@@ -1,4 +1,3 @@
-import user from "@/actions/user"
 
 type LaboratoryOrderDto = {
     descripcion: string;

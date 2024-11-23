@@ -2,10 +2,8 @@
 
 import axios, { isAxiosError } from "axios";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-
 import { cookies } from "next/headers";
 import { parsedEnv } from "@/app/env";
-import { Category, Insumo } from "@/app/types/models";
 
 export default async function findOne(
   id: string

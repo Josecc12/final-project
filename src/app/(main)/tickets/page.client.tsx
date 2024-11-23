@@ -2,7 +2,7 @@
 import SearchBar from "../../../components/navigation/SearchBar";
 import { RecipeQueue } from './components/recipeQueue'
 import type { Recipe } from '@/app/types/models'
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface RecipeQueueClientProps {
   initialRecipes: Recipe[]

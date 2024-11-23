@@ -4,8 +4,6 @@ import { parsedEnv } from "@/app/env";
 import axios, { isAxiosError } from "axios";
 import { cookies } from "next/headers";
 import { ErrorResponse, SuccessReponse } from "../../app/types/api";
-
-
 import { revalidatePath } from "next/cache";
 import CategoryDto from "@/app/types/dto/category/CategoryDto";
 import { Category } from "@/app/types/models";

@@ -1,14 +1,13 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-import LayoutSection from "@/components/LayoutSection";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/Typography";
 import Delete from "@/components/ui/delete";
 import { toast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ClipboardList, Tag, Warehouse, Building2, Trash2,Edit, } from "lucide-react";
+import { ClipboardList, Tag, Warehouse, Building2, Edit, } from "lucide-react";
 import deleteInsumo from "@/actions/inventory/delete";
 import Insumo from "@/app/types/models/Insumo";
 import { ErrorResponse } from "@/app/types/api";
@@ -65,9 +64,7 @@ export default function PageClient({ insumo }: Props) {
                     <Edit className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button variant="destructive" size="icon" onClick={onDelete}>
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+                <Delete onDelete={onDelete} />
               </div>
             </div>
           </CardHeader>

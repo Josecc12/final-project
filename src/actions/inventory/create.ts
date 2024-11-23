@@ -8,7 +8,6 @@ import InventoryDto from '../../app/types/dto/inventory/InventoryDto';
 
 import { revalidatePath } from "next/cache";
 import Inventory from '@/app/types/models/Inventario'
-import { de } from "date-fns/locale";
 
 export default async function create({
     codigo,

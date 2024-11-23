@@ -2,7 +2,6 @@
 
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -12,7 +11,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-
+import { Trash2 } from "lucide-react";
 type Props = {
   onDelete: () => void; 
 };
@@ -21,7 +20,9 @@ export default function Delete({ onDelete }: Props) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">Eliminar</Button>
+        <Button variant="destructive">
+          <Trash2 size={16} />
+        </Button>
       </AlertDialogTrigger>
 
       <AlertDialogContent>

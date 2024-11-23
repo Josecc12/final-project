@@ -1,6 +1,4 @@
-
 import { ReadonlyURLSearchParams } from "next/navigation";
-
 import findAll from "@/actions/inventory/findAll";
 import PageClient from "./page.client";
 
@@ -20,5 +18,5 @@ export default async function Page({ searchParams }: Props) {
     throw new Error("Failed to fetch user data");
   }
 
-  return <PageClient insumos={response.data} />;
+  return <PageClient insumos={response.data} pagination={response.meta} />;
 }
