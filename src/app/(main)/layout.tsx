@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import { getSession } from "../../actions/auth";
 import { redirect } from "next/navigation";
+type Role = 'SuperAdmin' | 'Farmacia' | 'Bodega' | 'Odontologia' | 'Nutricion' | 'Medicos' | 'Enfermeria' | 'Laboratorio' | 'Direccion';
 
 type Props = {
   children: ReactNode;
@@ -25,7 +26,7 @@ export default async function Dashboard({ children }: Props) {
       <div className="hidden lg:block lg:w-64 lg:shrink-0 lg:border-r lg:bg-gray-50/40 dark:lg:bg-gray-800 max-h-screen sticky top-0">
         <div className="flex h-full flex-col justify-between py-6 px-4">
           <div className="space-y-6 h-full flex flex-col justify-between ">
-            <MainNav />
+            <MainNav role = {session.role as Role}/>
           </div>
         </div>
       </div>
@@ -48,7 +49,7 @@ export default async function Dashboard({ children }: Props) {
               </SheetTrigger>
               <SheetContent side="left" className="w-64">
                 <div className="flex h-full flex-col justify-between pt-5">
-                  <MainNav />
+                  <MainNav role = {session.role as Role}/>
                 </div>
               </SheetContent>
             </Sheet>
