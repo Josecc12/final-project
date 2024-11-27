@@ -55,9 +55,6 @@ export default function RequestForm({
 }: RequestFormProps) {
   const [selectedExamen, setSelectedExamen] = useState<Test | null>(null);
 
-  // Añadimos console.log para ver los valores iniciales
-  console.log("RequestForm initialData:", initialData);
-
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,11 +63,7 @@ export default function RequestForm({
     },
   });
 
-  // Añadimos console.log para ver los valores del formulario
-  console.log("Form values:", form.getValues());
-
   useEffect(() => {
-    console.log("useEffect initialData:", initialData);
     if (initialData) {
       // Establecemos los valores manualmente
       form.setValue("examenId", initialData.examenId);

@@ -22,8 +22,6 @@ export default async function create({
         const url = `${parsedEnv.API_URL}/recetas`;
         const session = cookies().get("session")?.value;
         const sess = await getSession();
-
-        console.log("session", sess);
         const body = {
             descripcion,
             pacienteId,
@@ -31,8 +29,6 @@ export default async function create({
             insumos,
             userId: sess?.sub,
         };
-
-        console.log("body", body);
 
         const response = await axios.post<Patient>(url, body, {
             headers: {

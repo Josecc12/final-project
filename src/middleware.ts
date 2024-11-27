@@ -16,16 +16,9 @@ const permissions: Record<Role, string[]> = {
 };
 
 export async function middleware(request: NextRequest) {
-    console.log('middleware', request.url);
-
-
     if (request.url === new URL('/', request.url).toString()) {
         return NextResponse.next();
     }
-
-
-
-
     const session = await getSession();
 
 

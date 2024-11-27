@@ -44,7 +44,6 @@ export default async function create(orderData: CreateLaboratoryOrderDto): Promi
                 'Content-Type': 'application/json'
             },
         });
-        console.log("response", response);
         revalidatePath("/laboratory");
         revalidatePath(`/patients/${orderData.pacienteId}`);
 

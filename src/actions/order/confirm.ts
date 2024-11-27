@@ -18,8 +18,6 @@ export default async function confirm(id: string): Promise<SuccessReponse<string
         const body = {
             userId: sess?.sub,
         };
-
-        console.log("body", body);
         const response = await axios.post(url, body, {
             headers: {
                 Authorization: `Bearer ${session}`,

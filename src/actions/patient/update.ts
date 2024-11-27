@@ -74,7 +74,6 @@ export default async function update({
             };
         }
         
-        console.log('Updating patient with:', body);
         
         const response = await axios.patch<Patient>(url, body, {
             headers: {

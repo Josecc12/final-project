@@ -46,9 +46,7 @@ export default function PageClient({ insumo, categorias, departamentos }: Props)
 
   const onSubmit = async (data: InsumoFormInputs) => {
     try {
-      console.log(data);
       const response = await update(data);
-      console.log(response);
 
       if (response.status === 201 || response.status === 200) {
         toast({
