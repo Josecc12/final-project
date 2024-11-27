@@ -44,8 +44,6 @@ export default async function update(orderId: string, orderData: UpdateLaborator
             },
         });
 
-        console.log("response", response);
-
         return {
             message: "Orden de laboratorio actualizada con éxito",
             status: 200,

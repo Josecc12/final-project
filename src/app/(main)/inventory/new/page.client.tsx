@@ -50,7 +50,6 @@ export default function PageClient({ categorias, departamentos }: Props) {
             categoriaId: data.categoriaId,
             trazador: data.trazador,
         };
-        console.log(inventoryDto);
         const response = await create(inventoryDto);
 
         if (response.status === 201 || response.status === 200) {

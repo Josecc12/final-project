@@ -44,7 +44,6 @@ export default function InsumoForm() {
   })
 
   const onSubmit = (data: FormInputs) => {
-    console.log(data)
     // Aquí puedes manejar el envío del formulario
   }
 

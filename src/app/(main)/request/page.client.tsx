@@ -62,7 +62,6 @@ export default function PageClient({
     e.stopPropagation(); // Prevent row click event
     try {
       const response = await confirm(orderId);
-      console.log(response);
       if (response.status == 201) {
         toast({
           title: "Confirmada",

@@ -29,7 +29,6 @@ export default async function create({
             descripcion,
             detalles,
         };
-        console.log(body);
         const response = await axios.post(url, body, {
             headers: {
                 Authorization: `Bearer ${session}`,
