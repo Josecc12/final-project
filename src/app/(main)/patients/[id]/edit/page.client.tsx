@@ -23,6 +23,7 @@ const schema = z.object({
     municipio: z.string(),
     nacimiento: z.date({ required_error: "La fecha de nacimiento es requerida" }),
     familiares: z.string(),
+    medicos: z.string(),
     quirurgicos: z.string(),
     traumaticos: z.string(),
     alergias: z.string(),
@@ -53,28 +54,29 @@ export default function Page({ patient }: Props) {
             id: patient.id,
             nombre: patient.nombre,
             sexo: patient.sexo,
-            cui: patient.cui,
-            telefono: patient.telefono,
-            comunidad: patient.comunidad,
-            municipio: patient.municipio,
+            cui: patient.cui || "",
+            telefono: patient.telefono || "",
+            comunidad: patient.comunidad || "",
+            municipio: patient.municipio || "",
             nacimiento: new Date(patient.nacimiento),
-            familiares: patient.familiares,
-            quirurgicos: patient.quirurgicos,
-            traumaticos: patient.traumaticos,
-            alergias: patient.alergias,
-            vicios: patient.vicios,
+            familiares: patient.familiares || "",
+            medicos: patient.medicos || "",
+            quirurgicos: patient.quirurgicos || "",
+            traumaticos: patient.traumaticos || "",
+            alergias: patient.alergias || "",
+            vicios: patient.vicios || "",
             antecedentes: patient.antecedente ? [
                 {
-                    gestas: patient.antecedente?.gestas ?? 0,
-                    partos: patient.antecedente?.partos ?? 0,
-                    cesareas: patient.antecedente?.cesareas ?? 0,
-                    abortos: patient.antecedente?.abortos ?? 0,
-                    hijos_vivos: patient.antecedente?.hijos_vivos ?? 0,
-                    hijos_muertos: patient.antecedente?.hijos_muertos ?? 0,
-                    planificacion_familiar: patient.antecedente?.planificacion_familiar ?? "",
-                    ultima_regla: patient.antecedente?.ultima_regla ? new Date(patient.antecedente.ultima_regla) : null,
+                    gestas: patient.antecedente.gestas ?? 0,
+                    partos: patient.antecedente.partos ?? 0,
+                    cesareas: patient.antecedente.cesareas ?? 0,
+                    abortos: patient.antecedente.abortos ?? 0,
+                    hijos_vivos: patient.antecedente.hijos_vivos ?? 0,
+                    hijos_muertos: patient.antecedente.hijos_muertos ?? 0,
+                    planificacion_familiar: patient.antecedente.planificacion_familiar ?? "",
+                    ultima_regla: patient.antecedente.ultima_regla ? new Date(patient.antecedente.ultima_regla) : null,
                 }
-            ] : patient.antecedente,
+            ] : undefined,
         },
     });
 
@@ -82,19 +84,29 @@ export default function Page({ patient }: Props) {
     const router = useRouter();
 
     const onSubmit = async (data: UserFormInputs) => {
-        const response = await update(data);
+        try {
+            const response = await update(data);
 
-        if (response.status === 201 || response.status === 200) {
+            if (response.status === 201 || response.status === 200) {
+                toast({
+                    title: "Paciente actualizado exitosamente",
+                    description: `El Paciente ${data.nombre} ha sido actualizado`,
+                    duration: 3000,
+                });
+                router.push("/patients");
+                router.refresh();
+            } else {
+                toast({
+                    title: `Error ${response.status}`,
+                    description: (response as ErrorResponse).message,
+                    duration: 3000,
+                    variant: "destructive",
+                });
+            }
+        } catch (error) {
             toast({
-                title: "Paciente actualizado exitosamente",
-                description: `El Paciente ${data.nombre} ha sido actualizado`,
-                duration: 3000,
-            });
-            router.push("/patients");
-        } else {
-            toast({
-                title: `Error ${response.status}`,
-                description: (response as ErrorResponse).message,
+                title: "Error",
+                description: "Hubo un error al actualizar el paciente",
                 duration: 3000,
                 variant: "destructive",
             });
@@ -103,12 +115,12 @@ export default function Page({ patient }: Props) {
 
     return (
         <LayoutSection
-            title="Crear paciente"
-            description="Agrega un nuevo paciente a el centro de salud"
+            title="Editar paciente"
+            description="Modifica los datos del paciente"
         >
             <FormProvider {...methods}>
                 <Form {...methods}>
-                    <form onSubmit={methods.handleSubmit(onSubmit)}>
+                    <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full">
                         <FormPatient />
                     </form>
                 </Form>

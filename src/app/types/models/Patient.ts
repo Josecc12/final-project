@@ -27,6 +27,7 @@ type Patient = {
     quirurgicos: string
     traumaticos: string
     alergias: string
+    medicos: string
     vicios: string
     antecedente?:Antecedente
 
